@@ -70,6 +70,21 @@ app.post(main_config.preUrl+"/apluscontent/userspermission", (req, res, next) =>
         });
 });
 
+app.get(main_config.preUrl+"/health-fe", (req, res) => {
+    request
+    .get(main_config.backend_host + '/health-check')
+    .on('response', function (response) {
+        console.log("Success!!");
+        res.status(200).send({
+            data: "Success"
+        });
+    })
+    .on('error', function (err) {
+        console.log("Backend is down! ", err);
+        res.status(400).send();
+    });
+});
+
 app.on('ready', function () {
     app.listen(main_config.clientPort, function () {
         console.log("Frontend Serter Started on port " + main_config.clientPort);
