@@ -7,10 +7,10 @@ RUN groupadd -r bbadmin && useradd -r -g bbadmin bbadmin
 # Creating working directory
 RUN mkdir -p /app/
 RUN chown -R bbadmin:bbadmin /app/
-WORKDIR /home/bbadmin/app
+WORKDIR /app
 
 #Giving Permissions
-RUN chmod 755 /home/bbadmin
+RUN chmod 755 /app
 
 # Installing Packages
 COPY package*.json ./
