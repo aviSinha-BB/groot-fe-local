@@ -1001,7 +1001,7 @@ class SaveTempNameTwo extends Component {
 
     handleChangeId = pids => e => {
         this.setState({ [pids]: e.target.value });
-        if (RegExp(/^(\d+(\d+)?)(,\s*(\d+(\d+)?))*$/g).test(e.target.value)) {
+        if (RegExp(/^((\d+)?)(,\s*((\d+)?))*$/g).test(e.target.value)) {
             this.setState({ togglePid: true });
         }
         else {
