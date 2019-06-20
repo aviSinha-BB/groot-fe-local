@@ -76,10 +76,16 @@ app.get(main_config.preUrl+"/health-fe", (req, res) => {
     request
     .get(main_config.backend_host + '/health-check')
     .on('response', function (response) {
-        console.log("Content Frontend Health Success!");
-        res.status(200).send({
-            data: "Success"
-        });
+        if(response.statusCode == 200) {
+            console.log("Content Frontend Health Success!");
+            res.status(200).send({
+                data: "Success"
+            });
+        }
+        else {
+            console.log("Content Frontend Health Failed! ", response.statusMessage);
+            res.status(400).send();
+        }       
     })
     .on('error', function (err) {
         console.log("Content Frontend Health Failed!");
@@ -88,19 +94,6 @@ app.get(main_config.preUrl+"/health-fe", (req, res) => {
     });
 });
 
-app.on('ready', function () {
-    app.listen(main_config.clientPort, function () {
-        console.log("Content Frontend Serter Started on port " + main_config.clientPort);
-    });
+app.listen(main_config.clientPort, function () {
+    console.log("Content Frontend Serter Started on port " + main_config.clientPort);
 });
-
-request
-    .get(main_config.backend_host + '/health-check')
-    .on('response', function (response) {
-        console.log("Content Backend Server Started!");
-        app.emit('ready');
-    })
-    .on('error', function (err) {
-        console.log("Got Error from Content Backend Server!");
-        console.log(err);
-    });
