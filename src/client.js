@@ -54,7 +54,8 @@ app.post(main_config.preUrl+"/apluscontent/userspermission", (req, res, next) =>
                         permissionUsers[groups].push(element.user_email);
                     }
                 });
-                console.log("Permissions Sent!");
+                console.log("Users Sent to Workflow!");
+                console.log("Response Sent: ", permissionUsers)
                 res.status(200).send({
                     data: permissionUsers
                 })
@@ -65,7 +66,8 @@ app.post(main_config.preUrl+"/apluscontent/userspermission", (req, res, next) =>
             }
         })
         .catch(function (error) {
-            console.log("Error call from Workflow! ", error);
+            console.log("Error call from Workflow!");
+            console.log(error)
             res.status(400).send();
         });
 });
@@ -74,29 +76,31 @@ app.get(main_config.preUrl+"/health-fe", (req, res) => {
     request
     .get(main_config.backend_host + '/health-check')
     .on('response', function (response) {
-        console.log("Success!!");
+        console.log("Content Frontend Health Success!");
         res.status(200).send({
             data: "Success"
         });
     })
     .on('error', function (err) {
-        console.log("Backend is down! ", err);
+        console.log("Content Frontend Health Failed!");
+        console.log(err);
         res.status(400).send();
     });
 });
 
 app.on('ready', function () {
     app.listen(main_config.clientPort, function () {
-        console.log("Frontend Serter Started on port " + main_config.clientPort);
+        console.log("Content Frontend Serter Started on port " + main_config.clientPort);
     });
 });
 
 request
     .get(main_config.backend_host + '/health-check')
     .on('response', function (response) {
-        console.log("Backend Server Started!");
+        console.log("Content Backend Server Started!");
         app.emit('ready');
     })
     .on('error', function (err) {
-        console.log("Got error from Backend Server: " + err);
+        console.log("Got Error from Content Backend Server!");
+        console.log(err);
     });
