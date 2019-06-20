@@ -16,6 +16,7 @@ RUN chmod 755 /app
 COPY package*.json ./
 RUN npm install
 COPY . /app
+RUN npm run build:prod
 
 USER bbadmin
 
@@ -23,4 +24,4 @@ USER bbadmin
 EXPOSE 8080
 
 # Running the server
-CMD ["npm","run","start:prod"]
+CMD ["npm","run","start"]

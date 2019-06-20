@@ -8,6 +8,7 @@
     "build:dev": "webpack --config webpack.config.dev.js --mode=development",
     "start:prod": "npm run build:prod && NODE_ENV=production && node ./src/client.js",
     "build:prod": "webpack --config webpack.config.prod.js --mode=production",
+    "start":"NODE_ENV=production && node ./src/client.js",
     "clean": "rimraf build dev"
   },
   "keywords": [
