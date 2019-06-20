@@ -1101,6 +1101,9 @@ class SaveTempName extends Component {
                             input: classes.inputStyle
                         }
                     }}
+                    inputProps={{
+                        maxLength: 50
+                    }}
                     required
                 />
                 <TextField
@@ -1117,6 +1120,9 @@ class SaveTempName extends Component {
                             root: classes.inputContainer,
                             input: classes.inputStyle
                         }
+                    }}
+                    inputProps={{
+                        maxLength: 500
                     }}
                     variant="outlined"
                 />
