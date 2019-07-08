@@ -54,7 +54,7 @@ var promiseOptions = inputValue =>
             })
             .then(result => {
                 var prodArr = result.results.data;
-                if(prodArr) {
+                if(prodArr.length != 0) {
                     prodArr.forEach(function (arrayItem) {
                         var prodName = arrayItem.name;
                         var prodId = arrayItem.pid;

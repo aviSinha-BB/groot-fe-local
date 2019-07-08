@@ -76,6 +76,7 @@ class TableGrid extends Component {
             errorUnpublishSnack: false,
             successUpload: false,
             errorUpload: false,
+            errorDownload: false,
             overallErrorThree: false,
             overallErrorFour: false,
             overallErrorFive: false,
@@ -132,7 +133,7 @@ class TableGrid extends Component {
                         overallErrorFive: false
                     })
                 }, timeout)
-                console.log('Looks like there was a problem in finding table data \n', error);
+                console.log('Looks like there was a problem in finding table data \n');
             });
     };
 
@@ -207,7 +208,7 @@ class TableGrid extends Component {
                         errorUnpublishSnack: false
                     })
                 }, timeout);
-                console.log('Looks like there was a problem in Deactivating \n', error);
+                console.log('Looks like there was a problem in Deactivating \n');
             });
     }
 
@@ -253,7 +254,7 @@ class TableGrid extends Component {
                             errorUpload: false
                         })
                     }, timeout);
-                    console.log('Looks like there was a problem in uploading excel file \n', error);
+                    console.log('Looks like there was a problem in uploading excel file \n');
                 });
         }
         else {
@@ -264,6 +265,46 @@ class TableGrid extends Component {
                 })
             }, timeout);
         }
+    }
+
+    handleUploadedExcelDownload = () => {
+        var url = window.location.href;
+        var tempid = url.split("#")[1];
+        this.setState({ loading: true, errorDownload: false });
+        apitimeout(pendingTimeout, fetch(templateAPI + "/download/" + tempid, {
+            method: "GET",
+            headers: {
+                [AuthKey]: localStorage.getItem('token')
+            }
+        })).
+            then(res => {
+                if (res.status == 200) {
+                    return res.blob();
+                }
+                else {
+                    throw Error(res.statusText);
+                }
+            })
+            .then(result => {
+                const url = window.URL.createObjectURL(new Blob([result]));
+                const link = document.createElement('a');
+                link.href = url;
+                link.setAttribute('download', `uploaded_sku.xlsx`);
+                document.body.appendChild(link);
+                link.click();
+                link.parentNode.removeChild(link);
+                this.setState({ loading: false });
+            })
+            .catch((error) => {
+                this.setState({ loading: false });
+                this.setState({ errorDownload: true });
+                setTimeout(() => {
+                    this.setState({
+                        errorDownload: false
+                    })
+                }, timeout);
+                console.log('Looks like there was a problem in downloading excel file \n');
+            });
     }
 
     handleClose = () => {
@@ -351,7 +392,7 @@ class TableGrid extends Component {
                                     overallErrorThree: false
                                 })
                             }, timeout)
-                            console.log('Looks like there was a problem in cloning \n', error);
+                            console.log('Looks like there was a problem in cloning \n');
                         });
                 }
                 else if (valid == false) {
@@ -370,7 +411,7 @@ class TableGrid extends Component {
                             overallErrorFour: false
                         })
                     }, timeout)
-                    console.log('Looks like there was a problem in finding unique name \n', error);
+                    console.log('Looks like there was a problem in finding unique name \n');
                 });
         }
         else {
@@ -496,10 +537,15 @@ class TableGrid extends Component {
                                 render: rowData => {
                                     const app = "App";
                                     const web = "Web";
+                                    const dwnld = "Download SKU";
                                     const htmlloc = rowData.location;
+                                    const statusname = rowData.status.name;
                                     let block = false;
                                     if (!htmlloc) {
                                         block = '';
+                                    }
+                                    else if (statusname === statusActive) {
+                                        block = <span><a href='#' onClick={() => this.handleMobileOpen(htmlloc)}>{app}</a>/<a href={imageHost + htmlloc} target="_blank">{web}</a>/<a href={'#' + rowData.id} onClick={() => this.handleUploadedExcelDownload()}>{dwnld}</a></span>;
                                     }
                                     else {
                                         block = <span><a href='#' onClick={() => this.handleMobileOpen(htmlloc)}>{app}</a>/<a href={imageHost + htmlloc} target="_blank">{web}</a></span>;
@@ -648,6 +694,7 @@ class TableGrid extends Component {
                 {this.state.warningCloneSnack && <WarningToast message="The AplusTemplate Name Exists" />}
                 {this.state.warningCloneSnackTwo && <WarningToast message="The Name Contains Capital Letters" />}
                 {this.state.warningCloneSnackThree && <WarningToast message="The Name Cannot be Empty" />}
+                {this.state.errorDownload && <ErrorToast message="Error while downloading" />}
             </div>
         );
     }
