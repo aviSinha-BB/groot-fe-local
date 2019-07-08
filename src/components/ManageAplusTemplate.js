@@ -59,7 +59,7 @@ class ManageAplusTemplate extends Component {
         var url = window.location.href;
         var url_get = url.split("apluscontent/")[1];
 
-        if (url_get.includes('all')) 
+        if (url_get.includes('all'))
             this.setState({ tabValue: 1 });
         else
             this.setState({ tabValue: 0 });
@@ -83,12 +83,12 @@ class ManageAplusTemplate extends Component {
                         <Tabs value={this.state.tabValue} onChange={this.handleChangeTab}>
                             <Tab
                                 component={NavLink}
-                                to={preUrl+"/apluscontent/"}
+                                to={preUrl + "/apluscontent/"}
                                 disableRipple
                                 label={<span className={classes.tabNameStyle}>On-Going AplusContent</span>}
                             />
                             <Tab component={NavLink}
-                                to={preUrl+"/apluscontent/all"}
+                                to={preUrl + "/apluscontent/all"}
                                 disableRipple
                                 label={<span className={classes.tabNameStyle}>All AplusContent</span>}
                             />

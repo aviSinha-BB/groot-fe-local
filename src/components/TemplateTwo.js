@@ -5,6 +5,8 @@ import styled from 'styled-components';
 import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
 import { withStyles } from '@material-ui/core/styles';
+import { styles } from './ComponentStyle/TemplateStyle';
+import { apitimeout } from './api_timeout';
 import 'froala-editor/css/froala_editor.min.css';
 import 'froala-editor/css/froala_editor.pkgd.min.css';
 import 'froala-editor/js/froala_editor.pkgd.min.js';
@@ -14,51 +16,8 @@ import placeholderTwo from '../assets/images/placeholder-600x300.png';
 import placeholderThree from '../assets/images/placeholder-350x350.jpg';
 import FroalaEditorView from "react-froala-wysiwyg/FroalaEditorView";
 import ErrorToast from './ErrorToast';
+import DOMPurify from 'dompurify';
 const ToolsPanel = React.lazy(() => import(/* webpackChunkName: "ToolsPanel" */"./ToolsPanel"));
-
-const styles = theme => ({
-    root: {
-        display: 'flex',
-        flexWrap: 'wrap',
-        paddingTop: '61px'
-    },
-
-    paper: {
-        height: '2400px',
-        width: '1286px',
-        overflowX: "scroll"
-    },
-
-    gridStyle: {
-        overflowX: "scroll"
-    },
-
-    buttonEditStyle: {
-        height: '40px',
-        border: '1px solid #ea3a2a',
-        borderRadius: '3px',
-        color: '#ea3a2a',
-        textTransform: 'none',
-        fontFamily: 'ProximaNova-SemiBold',
-        margin: theme.spacing.unit,
-    },
-
-    toolspaper: {
-        maxHeight: '600px',
-        minHeight: '600px',
-        position: 'fixed',
-        overflow: 'auto',
-        [theme.breakpoints.down('sm')]: {
-            maxWidth: '217px'
-        },
-        [theme.breakpoints.up('md')]: {
-            maxWidth: '230px'
-        },
-        [theme.breakpoints.up('lg')]: {
-            maxWidth: '300px'
-        }
-    }
-});
 
 const ActiveHeader = styled.div`
     box-sizing:${props => props.activeHead ? `border-box` : 'border-box'};
@@ -287,24 +246,6 @@ class TemplateTwo extends Component {
         };
     }
 
-    timeout = (ms, promise) => {
-        return new Promise((resolve, reject) => {
-            const timeoutId = setTimeout(() => {
-                reject(new Error("promise timeout"))
-            }, ms);
-            promise.then(
-                (res) => {
-                    clearTimeout(timeoutId);
-                    resolve(res);
-                },
-                (err) => {
-                    clearTimeout(timeoutId);
-                    reject(err);
-                }
-            );
-        })
-    }
-
     componentDidMount() {
 
         var url = window.location.href;
@@ -317,7 +258,7 @@ class TemplateTwo extends Component {
             var getSid = url_sid.split("=")[1];
             var getTid = url_tid.split("=")[1];
 
-            this.timeout(pendingTimeout, fetch(templateAPI + '/' + getTid + '/' + getSid, {
+            apitimeout(pendingTimeout, fetch(templateAPI + '/' + getTid + '/' + getSid, {
                 method: "GET",
                 headers: {
                     "Content-Type": "application/json",
@@ -330,7 +271,7 @@ class TemplateTwo extends Component {
                 }
                 else {
                     this.setState({ loading: false });
-                    throw Error(response.statusText);
+                    throw Error(res.statusText);
                 }
             })
                 .then(result => {
@@ -528,65 +469,73 @@ class TemplateTwo extends Component {
 
     dropTwo = (e) => {
         e.preventDefault();
-        var data = e.dataTransfer.getData("text");
+        var data = e.dataTransfer.getData("bmd");
         var source = document.getElementById(data).src;
         document.getElementById("placedImageTwo").src = source;
+        document.getElementById("yourImg").src = '';
         this.updateBannerTwo(source);
     }
 
     dropThree = (e) => {
         e.preventDefault();
-        var data = e.dataTransfer.getData("text");
+        var data = e.dataTransfer.getData("bmd");
         var source = document.getElementById(data).src;
         document.getElementById("placedImageThree").src = source;
+        document.getElementById("yourImg").src = '';
         this.updateBannerThree(source);
     }
 
     dropFour = (e) => {
         e.preventDefault();
-        var data = e.dataTransfer.getData("text");
+        var data = e.dataTransfer.getData("bsm");
         var source = document.getElementById(data).src;
         document.getElementById("placedImageFour").src = source;
+        document.getElementById("yourImg").src = '';
         this.updateBannerFour(source);
     }
 
     dropFive = (e) => {
         e.preventDefault();
-        var data = e.dataTransfer.getData("text");
+        var data = e.dataTransfer.getData("bsm");
         var source = document.getElementById(data).src;
         document.getElementById("placedImageFive").src = source;
+        document.getElementById("yourImg").src = '';
         this.updateBannerFive(source);
     }
 
     dropSix = (e) => {
         e.preventDefault();
-        var data = e.dataTransfer.getData("text");
+        var data = e.dataTransfer.getData("bsm");
         var source = document.getElementById(data).src;
         document.getElementById("placedImageSix").src = source;
+        document.getElementById("yourImg").src = '';
         this.updateBannerSix(source);
     }
 
     dropSeven = (e) => {
         e.preventDefault();
-        var data = e.dataTransfer.getData("text");
+        var data = e.dataTransfer.getData("bsm");
         var source = document.getElementById(data).src;
         document.getElementById("placedImageSeven").src = source;
+        document.getElementById("yourImg").src = '';
         this.updateBannerSeven(source);
     }
 
     dropEight = (e) => {
         e.preventDefault();
-        var data = e.dataTransfer.getData("text");
+        var data = e.dataTransfer.getData("bsm");
         var source = document.getElementById(data).src;
         document.getElementById("placedImageEight").src = source;
+        document.getElementById("yourImg").src = '';
         this.updateBannerEight(source);
     }
 
     dropNine = (e) => {
         e.preventDefault();
-        var data = e.dataTransfer.getData("text");
+        var data = e.dataTransfer.getData("bsm");
         var source = document.getElementById(data).src;
         document.getElementById("placedImageNine").src = source;
+        document.getElementById("yourImg").src = '';
         this.updateBannerNine(source);
     }
 
@@ -1675,45 +1624,47 @@ class TemplateTwo extends Component {
     }
 
     handleDefault = () => {
-        this.setState({ activeHead: false });
-        this.setState({ activeHeadTwo: false });
-        this.setState({ activeHeadThree: false });
-        this.setState({ activeanotherHead: false });
-        this.setState({ activeanotherHeadTwo: false });
-        this.setState({ activeVideo: false });
-        this.setState({ activeBannerTwo: false });
-        this.setState({ activeBannerThree: false });
-        this.setState({ activeBannerFour: false });
-        this.setState({ activeBannerFive: false });
-        this.setState({ activeBannerSix: false });
-        this.setState({ activeBannerSeven: false });
-        this.setState({ activeBannerEight: false });
-        this.setState({ activeBannerNine: false });
-        this.setState({ activeSubHead: false });
-        this.setState({ activeSubHeadTwo: false });
-        this.setState({ activeSubHeadThree: false });
-        this.setState({ activeSubHeadFour: false });
-        this.setState({ activeSubHeadFive: false });
-        this.setState({ activeSubHeadSix: false });
-        this.setState({ activeSubHeadSeven: false });
-        this.setState({ activeSubHeadEight: false });
-        this.setState({ activeParagraph: false });
-        this.setState({ activeParagraphTwo: false });
-        this.setState({ activeParagraphThree: false });
-        this.setState({ activeParagraphFour: false });
-        this.setState({ activeParagraphFive: false });
-        this.setState({ activeParagraphSix: false });
-        this.setState({ activeParagraphSeven: false });
-        this.setState({ activeParagraphEight: false });
+        setTimeout(() => {
+            this.setState({ activeHead: false });
+            this.setState({ activeHeadTwo: false });
+            this.setState({ activeHeadThree: false });
+            this.setState({ activeanotherHead: false });
+            this.setState({ activeanotherHeadTwo: false });
+            this.setState({ activeVideo: false });
+            this.setState({ activeBannerTwo: false });
+            this.setState({ activeBannerThree: false });
+            this.setState({ activeBannerFour: false });
+            this.setState({ activeBannerFive: false });
+            this.setState({ activeBannerSix: false });
+            this.setState({ activeBannerSeven: false });
+            this.setState({ activeBannerEight: false });
+            this.setState({ activeBannerNine: false });
+            this.setState({ activeSubHead: false });
+            this.setState({ activeSubHeadTwo: false });
+            this.setState({ activeSubHeadThree: false });
+            this.setState({ activeSubHeadFour: false });
+            this.setState({ activeSubHeadFive: false });
+            this.setState({ activeSubHeadSix: false });
+            this.setState({ activeSubHeadSeven: false });
+            this.setState({ activeSubHeadEight: false });
+            this.setState({ activeParagraph: false });
+            this.setState({ activeParagraphTwo: false });
+            this.setState({ activeParagraphThree: false });
+            this.setState({ activeParagraphFour: false });
+            this.setState({ activeParagraphFive: false });
+            this.setState({ activeParagraphSix: false });
+            this.setState({ activeParagraphSeven: false });
+            this.setState({ activeParagraphEight: false });
+        }, 20000);
     }
 
     render() {
         const { classes } = this.props;
         return (
             <div className={classes.root} >
-            {this.state.errorSnack && <ErrorToast message="Error in Processing" />}
-            {this.state.errorSnackTwo && <ErrorToast message="Error in Processing" />}
-            {this.state.loading && <Loader />}
+                {this.state.errorSnack && <ErrorToast message="Error in Processing" />}
+                {this.state.errorSnackTwo && <ErrorToast message="Error in Processing" />}
+                {this.state.loading && <Loader />}
                 <Grid container >
                     <Grid item xs={3}>
                         <Paper className={classes.toolspaper} onClick={this.handleDefault} >
@@ -1790,7 +1741,7 @@ class TemplateTwo extends Component {
                     <Grid item xs={9} className={classes.gridStyle}>
                         <div id="template" className={classes.paper}>
                             <Paper >
-                                <style dangerouslySetInnerHTML={{ __html: "\n      * {\n        box-sizing: border-box;\n      }\n      .main-template {\n        line-height: 20px;\n        font-size: 20px;\n      }\n           .main-video {\n        width: 1200px;\n        height: 300px;\n       text-align: center;\n      }\n      img {\n        max-width: 100%;\n        max-height: 100%;\n      }\n           .main-heading {\n        font-family: ProximaNova-Semibold;\n        color: #110f0f;\n        margin: 10px 0 20px;\n      }\n      .feature-heading,\n      .feature-sub-heading,\n      p {\n        margin: 10px 0;\n        line-height: 20px;\n      }\n      .feature-heading {\n        color: #222222;\n        font-size: 18px;\n        font-family: ProximaNova-Semibold;\n      }\n      .feature-sub-heading {\n        font-size: 16px;\n        font-family: ProximaNova-Semibold;\n        color: #444444;\n      }\n      .para-1 {\n        color: #666666;\n        font-size: 14px;\n         font-family: ProximaNova-Regular;\n      }\n\n      .full-view-img,\n      .half-view-img,\n      .small-view-img {\n        display: block;\n      }\n      .full-view-img,\n      .half-view-img {\n        margin: 0 auto;\n        height: 300px;\n      }\n      .small-view-img {\n        height: 350px;\n      }\n      .flex-block-2 {\n        display: flex;\n        margin: 20px 0;\n        align-items: flex-start;\n        justify-content: space-evenly;\n      }\n      .flex-block-2 div {\n        flex-basis: 50%;\n        flex-grow: 0;\n        flex-shrink: 0;\n      }\n      .flex-block-3 {\n        display: flex;\n        margin: 20px 0;\n        align-items: flex-start;\n        justify-content: space-between;\n      }\n      .flex-block-3 div {\n        flex-basis: 30%;\n      }\n      .flex-block div.mar-20-left {\n        margin-left: 20px;\n      }\n      .flex-block div.mar-20-right {\n        margin-right: 20px;\n      }\n      ul {\n        padding-left: 18px;\n      }\n     @media (max-width: 700px) {\n        .main-template {\n          margin: 0 20px;\n        }\n        .flex-block-2 {\n          display: block;\n        }\n        .flex-block-3 {\n          display: block;\n        }\n        .reverse {\n          flex-direction: row-reverse;\n        }\n        .half-view-img {\n          margin: 0 auto;\n        }\n        .flex-block-3 img {\n          margin: 0 auto;\n        }\n        .full-view-img {\n          max-height: 85px;\n        }\n        .half-view-img {\n          margin: 0 auto;\n          max-height: 170px;\n        }\n        .small-view-img {\n          max-height: 200px;\n        } \n      }\n    " }} />
+                                <style dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize("\n      * {\n        box-sizing: border-box;\n      }\n      .main-template {\n        line-height: 20px;\n        font-size: 20px;\n      }\n           .main-video {\n       text-align: center;\n    }\n    .video-style {\n    display: flex;\n    justify-content: center;\n    }\n      img {\n        max-width: 100%;\n        max-height: 100%;\n      }\n           .main-heading {\n        font-family: ProximaNova-Semibold;\n        color: #110f0f;\n        margin: 10px 0 20px;\n      }\n      .feature-heading,\n      .feature-sub-heading,\n      p {\n        margin: 10px 0;\n        line-height: 20px;\n      }\n      .feature-heading {\n        color: #222222;\n        font-size: 18px;\n        font-family: ProximaNova-Semibold;\n      }\n      .feature-sub-heading {\n        font-size: 16px;\n        font-family: ProximaNova-Semibold;\n        color: #444444;\n      }\n      .para-1 {\n        color: #666666;\n        font-size: 14px;\n         font-family: ProximaNova-Regular;\n      }\n\n      .full-view-img,\n      .half-view-img,\n      .small-view-img {\n        display: block;\n      }\n      .full-view-img,\n      .half-view-img {\n        margin: 0 auto;\n        height: 300px;\n      }\n      .small-view-img {\n        height: 350px;\n      }\n      .flex-block-2 {\n        display: flex;\n        margin: 20px 0;\n        align-items: flex-start;\n        justify-content: space-evenly;\n      }\n      .flex-block-2 div {\n        flex-basis: 50%;\n        flex-grow: 0;\n        flex-shrink: 0;\n      }\n      .flex-block-3 {\n        display: flex;\n        margin: 20px 0;\n        align-items: flex-start;\n        justify-content: space-between;\n      }\n      .flex-block-3 div {\n        flex-basis: 30%;\n      }\n      .flex-block div.mar-20-left {\n        margin-left: 20px;\n      }\n      .flex-block div.mar-20-right {\n        margin-right: 20px;\n      }\n      ul {\n        padding-left: 18px;\n      }\n     @media (max-width: 700px) {\n        .flex-block-2 {\n          display: block;\n        }\n        .flex-block-3 {\n          display: block;\n        }\n        .reverse {\n          flex-direction: row-reverse;\n        }\n        .half-view-img {\n          margin: 0 auto;\n        }\n        .flex-block-3 img {\n          margin: 0 auto;\n        }\n        .full-view-img {\n          max-height: 85px;\n        }\n        .half-view-img {\n          margin: 0 auto;\n          max-height: 170px;\n        }\n        .small-view-img {\n          max-height: 200px;\n        } \n      }\n    ") }} />
                                 <div className="main-template">
                                     <ActiveHeader
                                         className="main-heading"
@@ -1809,7 +1760,7 @@ class TemplateTwo extends Component {
                                         activeVideo={this.state.activeVideo}
                                         onClick={this.editVideo}
                                     >
-                                        {this.state.videoStr ? <div dangerouslySetInnerHTML={{ __html: this.state.videoStr }} /> : <img src={this.state.videoSrcPlaceholder} />}
+                                        {this.state.videoStr ? <div className="video-style" dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(this.state.videoStr,{ALLOWED_TAGS: ['iframe'], ALLOWED_ATTR: ['width','height','src']})}} /> : <img src={this.state.videoSrcPlaceholder} />}
                                     </ActiveVideo>
 
                                     <ActiveHeaderTwo

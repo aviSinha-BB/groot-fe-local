@@ -38,7 +38,7 @@ class SuccessToast extends Component {
         if (reason == 'clickaway')
             return;
             
-        this.state.snackOpen = false;
+        this.setState({snackOpen: false});
     }
 
     render() {

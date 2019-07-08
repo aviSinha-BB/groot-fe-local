@@ -56,7 +56,7 @@ module.exports = {
         test: /\.eot(\?v=\d+\.\d+\.\d+)?$/,
         use: "file-loader?name=[name].[contenthash].[ext]"
       }, {
-        test: /\.(svg|gif|jpg|png)(\?v=\d+\.\d+\.\d+)?$/,
+        test: /\.(svg|gif|jpg|png|ico)(\?v=\d+\.\d+\.\d+)?$/,
         use: "url-loader?limit=1000&mimetype=image/svg+xml&name=images/[name].[contenthash].[ext]"
       }
     ]
@@ -74,6 +74,9 @@ module.exports = {
       "catalogHost": JSON.stringify(process.env.CATALOG_HOST),
       "imageHost": JSON.stringify(process.env.IMAGE_HOST),
       "AuthKey": JSON.stringify(process.env.AUTH_KEY),
+      "ttl": JSON.stringify(process.env.TTL),
+      "debug": JSON.stringify(process.env.DEBUG),
+      "BasicAuthVal": JSON.stringify(process.env.BASIC_AUTH),
       "statusDraft": JSON.stringify(process.env.STATUS_DRAFT),
       "statusRevision": JSON.stringify(process.env.STATUS_REVISION),
       "statusReview": JSON.stringify(process.env.STATUS_REVIEW),
@@ -90,13 +93,12 @@ module.exports = {
       "pendingTimeout": JSON.stringify(process.env.PENDING_TIMEOUT),
       "pageListSize": JSON.stringify(process.env.PAGE_LIST_SIZE),
       "templateAPI": JSON.stringify(process.env.TEMPLATE_API),
-      "getGroupUserUrl": JSON.stringify(process.env.GET_GROUP_USER_URL),
-      "backend_host": JSON.stringify(process.env.BACKEND_HOST),
+      "productSearchAPI": JSON.stringify(process.env.PRODUCT_SEARCH_API),
+      "getGroupUserUrl": JSON.stringify(process.env.GET_GROUP_USER_URL)
     }),
 
     new HtmlWebpackPlugin({
       template: './public/index.html',
-      favicon: './public/favicon.ico',
       filename: './index.html'
     }),
 

@@ -1,14 +1,14 @@
-const crypto = require('crypto')
-const base64 = require('base-64')
+const crypto = require('crypto');
+const base64 = require('base-64');
 var exports = module.exports = {};
 
-const FULL_SIGN = 1
-const LEFT_SIGN_ONLY = 2
-const RIGHT_SIGN_ONLY = 3
+const FULL_SIGN = 1;
+const LEFT_SIGN_ONLY = 2;
+const RIGHT_SIGN_ONLY = 3;
 
-module.exports.FULL_SIGN = FULL_SIGN
-module.exports.LEFT_SIGN_ONLY = LEFT_SIGN_ONLY
-module.exports.RIGHT_SIGN_ONLY = RIGHT_SIGN_ONLY
+module.exports.FULL_SIGN = FULL_SIGN;
+module.exports.LEFT_SIGN_ONLY = LEFT_SIGN_ONLY;
+module.exports.RIGHT_SIGN_ONLY = RIGHT_SIGN_ONLY;
 
 get_left_sign = function (key, param_value) {
 	return crypto.createHmac('sha256', key).update(param_value).digest('hex');

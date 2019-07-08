@@ -8,7 +8,7 @@
     "build:dev": "webpack --config webpack.config.dev.js --mode=development",
     "start:prod": "npm run build:prod && NODE_ENV=production && node ./src/client.js",
     "build:prod": "webpack --config webpack.config.prod.js --mode=production",
-    "start":"NODE_ENV=production && node ./src/client.js",
+    "start": "NODE_ENV=production && node ./src/client.js",
     "clean": "rimraf build dev"
   },
   "keywords": [
@@ -32,6 +32,7 @@
     "body-parser": "1.19.0",
     "cors": "2.8.5",
     "css-loader": "2.1.1",
+    "dompurify": "1.0.11",
     "express": "4.17.0",
     "extract-css-chunks-webpack-plugin": "4.3.0",
     "file-loader": "3.0.1",
@@ -49,8 +50,8 @@
     "webpack": "4.29.6",
     "webpack-bundle-analyzer": "3.2.0",
     "webpack-cli": "3.3.0",
-    "webpack-dev-middleware": "^3.7.0",
-    "webpack-hot-middleware": "^2.25.0"
+    "webpack-dev-middleware": "3.7.0",
+    "webpack-hot-middleware": "2.25.0"
   },
   "dependencies": {
     "@material-ui/core": "3.9.3",
@@ -60,6 +61,6 @@
     "react-jss": "8.6.1",
     "react-redux": "7.0.3",
     "react-router-dom": "5.0.0",
-    "redux": "4.0.1"
+    "react-select": "3.0.4"
   }
 }

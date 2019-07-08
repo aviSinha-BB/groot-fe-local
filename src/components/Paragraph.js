@@ -13,13 +13,13 @@ class Paragraph extends Component {
 
   //sending paragraph value to App
   setPara = (model) => {
-    const parag = model;
+    let parag = model;
     this.props.updatePara(parag);
   }
 
   render() {
     return (
-      <div>
+      <div style={{paddingTop: 10}}>
         <FroalaEditor tag='textarea'
           config={{
             placeholderText: 'Edit Your Content Here!',
@@ -28,6 +28,10 @@ class Paragraph extends Component {
             height: 200,
             width: 300,
             enter: $.FroalaEditor.ENTER_BR,
+            pastePlain: true,
+            quickInsertEnabled: false,
+            wordPasteModal: false,
+            wordPasteKeepFormatting: false,
             key: FroalaKey,
             toolbarButtons: ['bold', 'italic', 'underline', '|', 'color', 'formatOL', 'formatUL'],
             colorsDefaultTab: 'text',

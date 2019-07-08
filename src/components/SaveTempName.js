@@ -1,14 +1,12 @@
 import React, { Component } from "react";
 import ReactDOM from 'react-dom';
+import AsyncSelect from 'react-select/async';
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
+import { styles } from './ComponentStyle/SaveTempStyle';
+import { apitimeout } from './api_timeout';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
-import Dialog from '@material-ui/core/Dialog';
-import DialogActions from '@material-ui/core/DialogActions';
-import DialogContent from '@material-ui/core/DialogContent';
-import DialogTitle from '@material-ui/core/DialogTitle';
-import { Tooltip } from "@material-ui/core";
 import InputLabel from '@material-ui/core/InputLabel';
 import MenuItem from '@material-ui/core/MenuItem';
 import FormControl from '@material-ui/core/FormControl';
@@ -20,112 +18,69 @@ import WarningToast from './WarningToast';
 
 const modalRoot = document.getElementById('modal-root');
 
-const styles = theme => ({
-    container: {
-        display: 'flex',
-        flexWrap: 'wrap',
-    },
-    root: {
-        display: 'flex',
-        flexWrap: 'wrap',
-        opacity: '0.5',
-        backgroundColor: '#EFEFEF',
-        pointerEvents: 'none'
-    },
-    textField: {
-        marginLeft: theme.spacing.unit,
-        marginRight: theme.spacing.unit,
-        [theme.breakpoints.down('sm')]: {
-            width: '197px'
-        },
-        [theme.breakpoints.up('md')]: {
-            width: '210px'
-        },
-        [theme.breakpoints.up('lg')]: {
-            width: '280px'
-        }
-    },
-    buttonSaveStyle: {
-        height: '40px',
-        border: '1px solid #009c50',
-        borderRadius: '3px',
-        color: '#009c50',
-        textTransform: 'none',
-        fontFamily: 'ProximaNova-SemiBold',
-        margin: theme.spacing.unit,
-    },
-    buttonRevStyle: {
-        height: '40px',
-        border: '1px solid #ffa726',
-        borderRadius: '3px',
-        color: '#ffa726',
-        textTransform: 'none',
-        fontFamily: 'ProximaNova-SemiBold',
-        margin: theme.spacing.unit,
-    },
-    buttonPublishStyle: {
-        height: '40px',
-        border: '1px solid #458ef5',
-        borderRadius: '3px',
-        color: '#458ef5',
-        textTransform: 'none',
-        fontFamily: 'ProximaNova-SemiBold',
-        margin: theme.spacing.unit,
-    },
-    buttonCloseStyle: {
-        height: '40px',
-        border: '1px solid #ea3a2a',
-        borderRadius: '3px',
-        color: '#ea3a2a',
-        textTransform: 'none',
-        fontFamily: 'ProximaNova-SemiBold',
-        margin: theme.spacing.unit,
-    },
-    snackIconStyle: {
-        fontSize: 20,
-        opacity: 0.9,
-        marginRight: theme.spacing.unit
-    },
-    formControl: {
-        margin: theme.spacing.unit,
-        [theme.breakpoints.down('sm')]: {
-            width: '217px'
-        },
-        [theme.breakpoints.up('md')]: {
-            width: '230px'
-        },
-        [theme.breakpoints.up('lg')]: {
-            width: '300px'
-        }
-    },
-    dialogStyle: {
-        opacity: '0.5',
-        backgroundColor: '#EFEFEF',
-        pointerEvents: 'none'
-    },
-    actionStyle: {
-        display: 'flex',
-        flexWrap: 'wrap',
-        justifyContent: 'center'
-    },
-    labelStyle: {
-        fontFamily: 'ProximaNova-Regular',
-    },
-    inputStyle: {
-        fontFamily: 'ProximaNova-Regular'
-    },
-    inputContainer: {
-        border: 1
-    }
-});
+const selectStyle = {
+    container: () => ({
+        padding: 10, 
+        width: 287
+    }),
+    menu: () => ({
+        zIndex: 9999
+    })
+};
 
-const longText = `
-All the product id's must be comma separated
-`;
-
-const longTextName = `
-The name must be unique and should not contain any capital letters! 
-`;
+var promiseOptions = inputValue =>
+    new Promise((resolve, reject) => {
+        var productSuggestions = [];
+        var authVal = new Buffer(BasicAuthVal).toString('base64');
+        if (debug){
+            var basicAuthValue = 'Basic ' + authVal;
+        } else{
+            var basicAuthValue = localStorage.getItem('token');
+        }
+        fetch(productSearchAPI + "?term=" + inputValue, {
+            method: "GET",
+            headers: {
+                [AuthKey]: basicAuthValue,
+                'X-Requested-With': 'XMLHttpRequest'
+            }
+        }).
+            then(res => {
+                if (res.status == 200) {
+                    return res.json();
+                }
+                else {
+                    throw Error(res.statusText);
+                }
+            })
+            .then(result => {
+                var prodArr = result.results.data;
+                if(prodArr) {
+                    prodArr.forEach(function (arrayItem) {
+                        var prodName = arrayItem.name;
+                        var prodId = arrayItem.pid;
+                        productSuggestions.push({value: prodId, label: prodName});
+                    });
+                    var filterOption = (inputValue) => {
+                        return productSuggestions.filter(i =>
+                            i.value.toString().includes(inputValue.toString())
+                        );
+                    };
+                    setTimeout(() => {
+                        resolve(filterOption(inputValue));
+                    }, 1000);
+                }
+                else {
+                    productSuggestions.push({value: inputValue, label: inputValue});
+                    setTimeout(() => {
+                        resolve(productSuggestions);
+                    }, 1000);
+                }
+            })
+            .catch((error) => {
+                reject(null);
+                console.log('Looks like there was a problem in fetching products \n');
+            });
+    });
 
 class SaveTempName extends Component {
     constructor(props) {
@@ -133,23 +88,19 @@ class SaveTempName extends Component {
         this.state = {
             name: this.props.aplusname,
             maunfactName: '',
-            pids: '',
+            pids: null,
             commentVal: '',
             productAction: 'override',
             tempId: '',
             statusPermission: '',
-            open: false,
             loading: false,
-            togglePid: true,
             toggleReview: true,
             togglePending: true,
             toggleRevision: true,
+            toggleDraft: true,
+            toggleSave: true,
             errorSnack: false,
-            errorDataSnack: false,
-            warningPidSnack: false,
             warningPidLenSnack: false,
-            warningNameSnack: false,
-            warningNameSnackTwo: false,
             errorTempData: false,
             successReviewSnack: false,
             errorReviewSnack: false,
@@ -157,29 +108,12 @@ class SaveTempName extends Component {
             errorRevisionSnack: false,
             successDraftSnack: false,
             errorDraftSnack: false,
+            successSaveSnack: false,
+            errorSaveSnack: false,
             successPublishSnack: false,
-            errorPublishSnack: false,
-            errorNameSnack: false
+            errorPublishSnack: false
         };
         this.el = document.createElement('div');
-    }
-
-    timeout = (ms, promise) => {
-        return new Promise((resolve, reject) => {
-            const timeoutId = setTimeout(() => {
-                reject(new Error("promise timeout"))
-            }, ms);
-            promise.then(
-                (res) => {
-                    clearTimeout(timeoutId);
-                    resolve(res);
-                },
-                (err) => {
-                    clearTimeout(timeoutId);
-                    reject(err);
-                }
-            );
-        })
     }
 
     componentDidMount = () => {
@@ -198,7 +132,7 @@ class SaveTempName extends Component {
 
             this.setState({ tempId: getTid, statusPermission: get_sname });
             this.setState({ loading: true, errorTempData: false });
-            this.timeout(pendingTimeout, fetch(templateAPI + '/' + getTid + '/' + getSid, {
+            apitimeout(pendingTimeout, fetch(templateAPI + '/' + getTid + '/' + getSid, {
                 method: "GET",
                 headers: {
                     "Content-Type": "application/json",
@@ -239,21 +173,21 @@ class SaveTempName extends Component {
                             errorTempData: false
                         })
                     }, timeout);
-                    console.log('Problem in fetching template data in SaveTempOne \n', error);
+                    console.log('Problem in fetching template data in SaveTempOne \n');
                 });
 
             if (get_sname == statusDraft || get_sname == statusReview) {
-                this.setState({ toggleRevision: false, togglePending: false });
+                this.setState({ toggleRevision: false, togglePending: false, toggleDraft: false });
             }
             else if (get_sname == statusRevision || get_sname == statusSentForPublish) {
-                this.setState({ toggleReview: false });
+                this.setState({ toggleReview: false, toggleDraft: false });
             }
             else if (get_sname == statusPending) {
-                this.setState({ toggleReview: false, togglePending: false });
+                this.setState({ toggleReview: false, togglePending: false, toggleDraft: false, toggleSave: false });
             }
         }
         else {
-            this.setState({ toggleRevision: false, togglePending: false });
+            this.setState({ toggleRevision: false, togglePending: false, toggleSave: false });
         }
     }
 
@@ -261,17 +195,8 @@ class SaveTempName extends Component {
         modalRoot.removeChild(this.el);
     }
 
-    countUpperCaseChars = (str) => {
-        var count = 0, len = str.length;
-        for (var i = 0; i < len; i++) {
-            if (/[A-Z]/.test(str.charAt(i))) count++;
-        }
-        return count;
-    }
-
     handleMaxProductIds = (prodIdStr) => {
-        var prodIdArr = prodIdStr.split(",");
-        var prodIdLength = prodIdArr.length;
+        var prodIdLength = prodIdStr.length;
 
         if (prodIdLength <= 20)
             return true;
@@ -279,102 +204,94 @@ class SaveTempName extends Component {
             return false;
     }
 
-    handleChange = name => event => {
-        this.setState({ [name]: event.target.value });
-    };
-
-    handleDialogOpen = () => {
-        this.setState({ open: true });
-    }
-
-    handleDialogClose = () => {
-        this.setState({ open: false });
-    }
-
     handleReview = () => {
+        var tempHTML = document.getElementById('template').innerHTML;
+        var tempFile = new File([tempHTML], this.state.name + ".html", { type: "text/html" });
+        var formData = new FormData();
+        formData.append('file', tempFile);
+        formData.append("data", JSON.stringify({
+            "data": {
+                "hiT": {
+                    "tag": "header-image",
+                    "heading": this.props.headingvalue,
+                    "imageSrc": this.props.imgsrcvalue
+                },
+                "hihspM": {
+                    "tag": "header-image-anotherHeader-subheader-para",
+                    "heading": this.props.headingTwovalue,
+                    "imageSrc": this.props.imgsrcTwovalue,
+                    "anotherHeading": this.props.anotherHeadingvalue,
+                    "subHeading": this.props.subheadingvalue,
+                    "paragraph": this.props.paravalue
+                },
+                "hspihB": {
+                    "tag": "anotherHeader-subheader-para-image-header",
+                    "anotherHeading": this.props.anotherHeadingTwovalue,
+                    "subHeading": this.props.subheadingTwovalue,
+                    "paragraph": this.props.paraTwovalue,
+                    "imageSrc": this.props.imgsrcThreevalue,
+                    "heading": this.props.headingThreevalue
+                },
+                "ispLT": {
+                    "tag": "image-subheading-para",
+                    "imageSrc": this.props.imgsrcFourvalue,
+                    "subHeading": this.props.subheadingThreevalue,
+                    "paragraph": this.props.paraThreevalue
+                },
+                "ispMT": {
+                    "tag": "image-subheading-para",
+                    "imageSrc": this.props.imgsrcFivevalue,
+                    "subHeading": this.props.subheadingFourvalue,
+                    "paragraph": this.props.paraFourvalue
+                },
+                "ispRT": {
+                    "tag": "image-subheading-para",
+                    "imageSrc": this.props.imgsrcSixvalue,
+                    "subHeading": this.props.subheadingFivevalue,
+                    "paragraph": this.props.paraFivevalue
+                },
+                "ispLB": {
+                    "tag": "image-subheading-para",
+                    "imageSrc": this.props.imgsrcSevenvalue,
+                    "subHeading": this.props.subheadingSixvalue,
+                    "paragraph": this.props.paraSixvalue
+                },
+                "ispMB": {
+                    "tag": "image-subheading-para",
+                    "imageSrc": this.props.imgsrcEightvalue,
+                    "subHeading": this.props.subheadingSevenvalue,
+                    "paragraph": this.props.paraEightvalue
+                },
+                "ispRB": {
+                    "tag": "image-subheading-para",
+                    "imageSrc": this.props.imgsrcNinevalue,
+                    "subHeading": this.props.subheadingEightvalue,
+                    "paragraph": this.props.paraEightvalue
+                }
+            },
+            "metaData": {
+                "templateName": this.state.name,
+                "templateTag": this.props.tempComponent,
+                "action": "createToReview",
+                "taskId": this.props.taskId,
+                "templateId": this.state.tempId,
+                "manufacturer": this.state.maunfactName
+            },
+            "association": {
+                "products": this.state.pids,
+                "action": this.state.productAction
+            },
+            "comment": this.state.commentVal
+        }));
+
         if (this.handleMaxProductIds(this.state.pids)) {
-            this.setState({ loading: true, successReviewSnack: false, errorReviewSnack: false, errorDataSnack: false });
-            this.timeout(pendingTimeout, fetch(templateAPI + "/change/state/create", {
+            this.setState({ loading: true, successReviewSnack: false, errorReviewSnack: false });
+            apitimeout(pendingTimeout, fetch(templateAPI + "/change/state/create", {
                 method: "POST",
                 headers: {
-                    "Content-Type": "application/json",
-                    "X-Requested-With": "XMLHttpRequest",
                     [AuthKey]: localStorage.getItem('token')
                 },
-                body: JSON.stringify({
-                    "data": {
-                        "hiT": {
-                            "tag": "header-image",
-                            "heading": this.props.headingvalue,
-                            "imageSrc": this.props.imgsrcvalue
-                        },
-                        "hihspM": {
-                            "tag": "header-image-anotherHeader-subheader-para",
-                            "heading": this.props.headingTwovalue,
-                            "imageSrc": this.props.imgsrcTwovalue,
-                            "anotherHeading": this.props.anotherHeadingvalue,
-                            "subHeading": this.props.subheadingvalue,
-                            "paragraph": this.props.paravalue
-                        },
-                        "hspihB": {
-                            "tag": "anotherHeader-subheader-para-image-header",
-                            "anotherHeading": this.props.anotherHeadingTwovalue,
-                            "subHeading": this.props.subheadingTwovalue,
-                            "paragraph": this.props.paraTwovalue,
-                            "imageSrc": this.props.imgsrcThreevalue,
-                            "heading": this.props.headingThreevalue
-                        },
-                        "ispLT": {
-                            "tag": "image-subheading-para",
-                            "imageSrc": this.props.imgsrcFourvalue,
-                            "subHeading": this.props.subheadingThreevalue,
-                            "paragraph": this.props.paraThreevalue
-                        },
-                        "ispMT": {
-                            "tag": "image-subheading-para",
-                            "imageSrc": this.props.imgsrcFivevalue,
-                            "subHeading": this.props.subheadingFourvalue,
-                            "paragraph": this.props.paraFourvalue
-                        },
-                        "ispRT": {
-                            "tag": "image-subheading-para",
-                            "imageSrc": this.props.imgsrcSixvalue,
-                            "subHeading": this.props.subheadingFivevalue,
-                            "paragraph": this.props.paraFivevalue
-                        },
-                        "ispLB": {
-                            "tag": "image-subheading-para",
-                            "imageSrc": this.props.imgsrcSevenvalue,
-                            "subHeading": this.props.subheadingSixvalue,
-                            "paragraph": this.props.paraSixvalue
-                        },
-                        "ispMB": {
-                            "tag": "image-subheading-para",
-                            "imageSrc": this.props.imgsrcEightvalue,
-                            "subHeading": this.props.subheadingSevenvalue,
-                            "paragraph": this.props.paraEightvalue
-                        },
-                        "ispRB": {
-                            "tag": "image-subheading-para",
-                            "imageSrc": this.props.imgsrcNinevalue,
-                            "subHeading": this.props.subheadingEightvalue,
-                            "paragraph": this.props.paraEightvalue
-                        }
-                    },
-                    "metaData": {
-                        "templateName": this.state.name,
-                        "templateTag": this.props.tempComponent,
-                        "action": "createToReview",
-                        "taskId": this.props.taskId,
-                        "templateId": this.state.tempId,
-                        "manufacturer": this.state.maunfactName
-                    },
-                    "association": {
-                        "products": this.state.pids,
-                        "action": this.state.productAction
-                    },
-                    "comment": this.state.commentVal
-                })
+                body: formData
             })).then(
                 response => {
                     if (response.status == 200) {
@@ -388,23 +305,17 @@ class SaveTempName extends Component {
                         return;
                     }
                     else {
-                        this.setState({ loading: false, errorReviewSnack: true });
-                        setTimeout(() => {
-                            this.setState({
-                                errorReviewSnack: false
-                            })
-                        }, timeout);
-                        return;
+                        throw Error(response.status);
                     }
                 }
             ).catch((error) => {
-                this.setState({ errorDataSnack: true, loading: false });
+                this.setState({ loading: false, errorReviewSnack: true });
                 setTimeout(() => {
                     this.setState({
-                        errorDataSnack: false
+                        errorReviewSnack: false
                     })
                 }, timeout);
-                console.log('Looks like there was a problem in saving template \n', error);
+                console.log('Looks like there was a problem in sending for review \n');
             });
         }
         else {
@@ -420,89 +331,92 @@ class SaveTempName extends Component {
     }
 
     handleRevision = () => {
+        var tempHTML = document.getElementById('template').innerHTML;
+        var tempFile = new File([tempHTML], this.state.name + ".html", { type: "text/html" });
+        var formData = new FormData();
+        formData.append('file', tempFile);
+        formData.append("data", JSON.stringify({
+            "data": {
+                "hiT": {
+                    "tag": "header-image",
+                    "heading": this.props.headingvalue,
+                    "imageSrc": this.props.imgsrcvalue
+                },
+                "hihspM": {
+                    "tag": "header-image-anotherHeader-subheader-para",
+                    "heading": this.props.headingTwovalue,
+                    "imageSrc": this.props.imgsrcTwovalue,
+                    "anotherHeading": this.props.anotherHeadingvalue,
+                    "subHeading": this.props.subheadingvalue,
+                    "paragraph": this.props.paravalue
+                },
+                "hspihB": {
+                    "tag": "anotherHeader-subheader-para-image-header",
+                    "anotherHeading": this.props.anotherHeadingTwovalue,
+                    "subHeading": this.props.subheadingTwovalue,
+                    "paragraph": this.props.paraTwovalue,
+                    "imageSrc": this.props.imgsrcThreevalue,
+                    "heading": this.props.headingThreevalue
+                },
+                "ispLT": {
+                    "tag": "image-subheading-para",
+                    "imageSrc": this.props.imgsrcFourvalue,
+                    "subHeading": this.props.subheadingThreevalue,
+                    "paragraph": this.props.paraThreevalue
+                },
+                "ispMT": {
+                    "tag": "image-subheading-para",
+                    "imageSrc": this.props.imgsrcFivevalue,
+                    "subHeading": this.props.subheadingFourvalue,
+                    "paragraph": this.props.paraFourvalue
+                },
+                "ispRT": {
+                    "tag": "image-subheading-para",
+                    "imageSrc": this.props.imgsrcSixvalue,
+                    "subHeading": this.props.subheadingFivevalue,
+                    "paragraph": this.props.paraFivevalue
+                },
+                "ispLB": {
+                    "tag": "image-subheading-para",
+                    "imageSrc": this.props.imgsrcSevenvalue,
+                    "subHeading": this.props.subheadingSixvalue,
+                    "paragraph": this.props.paraSixvalue
+                },
+                "ispMB": {
+                    "tag": "image-subheading-para",
+                    "imageSrc": this.props.imgsrcEightvalue,
+                    "subHeading": this.props.subheadingSevenvalue,
+                    "paragraph": this.props.paraEightvalue
+                },
+                "ispRB": {
+                    "tag": "image-subheading-para",
+                    "imageSrc": this.props.imgsrcNinevalue,
+                    "subHeading": this.props.subheadingEightvalue,
+                    "paragraph": this.props.paraEightvalue
+                }
+            },
+            "metaData": {
+                "templateName": this.state.name,
+                "templateTag": this.props.tempComponent,
+                "action": "reviewToCreate",
+                "taskId": this.props.taskId,
+                "templateId": this.state.tempId,
+                "manufacturer": this.state.maunfactName
+            },
+            "association": {
+                "products": this.state.pids,
+                "action": this.state.productAction
+            },
+            "comment": this.state.commentVal
+        }));
         if (this.handleMaxProductIds(this.state.pids)) {
             this.setState({ loading: true, successRevisionSnack: false, errorRevisionSnack: false });
-            this.timeout(pendingTimeout, fetch(templateAPI + "/change/state/review", {
+            apitimeout(pendingTimeout, fetch(templateAPI + "/change/state/review", {
                 method: "POST",
                 headers: {
-                    "Content-Type": "application/json",
-                    "X-Requested-With": "XMLHttpRequest",
                     [AuthKey]: localStorage.getItem('token')
                 },
-                body: JSON.stringify({
-                    "data": {
-                        "hiT": {
-                            "tag": "header-image",
-                            "heading": this.props.headingvalue,
-                            "imageSrc": this.props.imgsrcvalue
-                        },
-                        "hihspM": {
-                            "tag": "header-image-anotherHeader-subheader-para",
-                            "heading": this.props.headingTwovalue,
-                            "imageSrc": this.props.imgsrcTwovalue,
-                            "anotherHeading": this.props.anotherHeadingvalue,
-                            "subHeading": this.props.subheadingvalue,
-                            "paragraph": this.props.paravalue
-                        },
-                        "hspihB": {
-                            "tag": "anotherHeader-subheader-para-image-header",
-                            "anotherHeading": this.props.anotherHeadingTwovalue,
-                            "subHeading": this.props.subheadingTwovalue,
-                            "paragraph": this.props.paraTwovalue,
-                            "imageSrc": this.props.imgsrcThreevalue,
-                            "heading": this.props.headingThreevalue
-                        },
-                        "ispLT": {
-                            "tag": "image-subheading-para",
-                            "imageSrc": this.props.imgsrcFourvalue,
-                            "subHeading": this.props.subheadingThreevalue,
-                            "paragraph": this.props.paraThreevalue
-                        },
-                        "ispMT": {
-                            "tag": "image-subheading-para",
-                            "imageSrc": this.props.imgsrcFivevalue,
-                            "subHeading": this.props.subheadingFourvalue,
-                            "paragraph": this.props.paraFourvalue
-                        },
-                        "ispRT": {
-                            "tag": "image-subheading-para",
-                            "imageSrc": this.props.imgsrcSixvalue,
-                            "subHeading": this.props.subheadingFivevalue,
-                            "paragraph": this.props.paraFivevalue
-                        },
-                        "ispLB": {
-                            "tag": "image-subheading-para",
-                            "imageSrc": this.props.imgsrcSevenvalue,
-                            "subHeading": this.props.subheadingSixvalue,
-                            "paragraph": this.props.paraSixvalue
-                        },
-                        "ispMB": {
-                            "tag": "image-subheading-para",
-                            "imageSrc": this.props.imgsrcEightvalue,
-                            "subHeading": this.props.subheadingSevenvalue,
-                            "paragraph": this.props.paraEightvalue
-                        },
-                        "ispRB": {
-                            "tag": "image-subheading-para",
-                            "imageSrc": this.props.imgsrcNinevalue,
-                            "subHeading": this.props.subheadingEightvalue,
-                            "paragraph": this.props.paraEightvalue
-                        }
-                    },
-                    "metaData": {
-                        "templateName": this.state.name,
-                        "templateTag": this.props.tempComponent,
-                        "action": "reviewToCreate",
-                        "taskId": this.props.taskId,
-                        "templateId": this.state.tempId,
-                        "manufacturer": this.state.maunfactName
-                    },
-                    "association": {
-                        "products": this.state.pids,
-                        "action": this.state.productAction
-                    },
-                    "comment": this.state.commentVal
-                })
+                body: formData
             })).then(
                 response => {
                     if (response.status == 200) {
@@ -516,23 +430,17 @@ class SaveTempName extends Component {
                         return;
                     }
                     else {
-                        this.setState({ loading: false, errorRevisionSnack: true });
-                        setTimeout(() => {
-                            this.setState({
-                                errorRevisionSnack: false
-                            })
-                        }, timeout);
-                        return;
+                        throw Error(response.status);
                     }
                 }
             ).catch((error) => {
-                this.setState({ errorDataSnack: true, loading: false });
+                this.setState({ loading: false, errorRevisionSnack: true });
                 setTimeout(() => {
                     this.setState({
-                        errorDataSnack: false
+                        errorRevisionSnack: false
                     })
                 }, timeout);
-                console.log('Looks like there was a problem in saving template \n', error);
+                console.log('Looks like there was a problem in sending for revision \n');
             });
         }
         else {
@@ -548,92 +456,94 @@ class SaveTempName extends Component {
     }
 
     handleDraft = () => {
+        var tempHTML = document.getElementById('template').innerHTML;
+        var tempFile = new File([tempHTML], this.state.name + ".html", { type: "text/html" });
+        var formData = new FormData();
+        formData.append('file', tempFile);
+        formData.append("data", JSON.stringify({
+            "data": {
+                "hiT": {
+                    "tag": "header-image",
+                    "heading": this.props.headingvalue,
+                    "imageSrc": this.props.imgsrcvalue
+                },
+                "hihspM": {
+                    "tag": "header-image-anotherHeader-subheader-para",
+                    "heading": this.props.headingTwovalue,
+                    "imageSrc": this.props.imgsrcTwovalue,
+                    "anotherHeading": this.props.anotherHeadingvalue,
+                    "subHeading": this.props.subheadingvalue,
+                    "paragraph": this.props.paravalue
+                },
+                "hspihB": {
+                    "tag": "anotherHeader-subheader-para-image-header",
+                    "anotherHeading": this.props.anotherHeadingTwovalue,
+                    "subHeading": this.props.subheadingTwovalue,
+                    "paragraph": this.props.paraTwovalue,
+                    "imageSrc": this.props.imgsrcThreevalue,
+                    "heading": this.props.headingThreevalue
+                },
+                "ispLT": {
+                    "tag": "image-subheading-para",
+                    "imageSrc": this.props.imgsrcFourvalue,
+                    "subHeading": this.props.subheadingThreevalue,
+                    "paragraph": this.props.paraThreevalue
+                },
+                "ispMT": {
+                    "tag": "image-subheading-para",
+                    "imageSrc": this.props.imgsrcFivevalue,
+                    "subHeading": this.props.subheadingFourvalue,
+                    "paragraph": this.props.paraFourvalue
+                },
+                "ispRT": {
+                    "tag": "image-subheading-para",
+                    "imageSrc": this.props.imgsrcSixvalue,
+                    "subHeading": this.props.subheadingFivevalue,
+                    "paragraph": this.props.paraFivevalue
+                },
+                "ispLB": {
+                    "tag": "image-subheading-para",
+                    "imageSrc": this.props.imgsrcSevenvalue,
+                    "subHeading": this.props.subheadingSixvalue,
+                    "paragraph": this.props.paraSixvalue
+                },
+                "ispMB": {
+                    "tag": "image-subheading-para",
+                    "imageSrc": this.props.imgsrcEightvalue,
+                    "subHeading": this.props.subheadingSevenvalue,
+                    "paragraph": this.props.paraEightvalue
+                },
+                "ispRB": {
+                    "tag": "image-subheading-para",
+                    "imageSrc": this.props.imgsrcNinevalue,
+                    "subHeading": this.props.subheadingEightvalue,
+                    "paragraph": this.props.paraEightvalue
+                }
+            },
+            "metaData": {
+                "templateName": this.state.name,
+                "templateTag": this.props.tempComponent,
+                "action": "draft",
+                "manufacturer": this.state.maunfactName
+            },
+            "association": {
+                "products": this.state.pids,
+                "action": this.state.productAction
+            },
+            "comment": this.state.commentVal
+        }));
         if (this.handleMaxProductIds(this.state.pids)) {
             this.setState({ loading: true, successDraftSnack: false, errorDraftSnack: false });
-            this.timeout(pendingTimeout, fetch(templateAPI + "/draft/", {
+            apitimeout(pendingTimeout, fetch(templateAPI + "/draft/", {
                 method: "PUT",
                 headers: {
-                    "Content-Type": "application/json",
-                    "X-Requested-With": "XMLHttpRequest",
                     [AuthKey]: localStorage.getItem('token')
                 },
-                body: JSON.stringify({
-                    "data": {
-                        "hiT": {
-                            "tag": "header-image",
-                            "heading": this.props.headingvalue,
-                            "imageSrc": this.props.imgsrcvalue
-                        },
-                        "hihspM": {
-                            "tag": "header-image-anotherHeader-subheader-para",
-                            "heading": this.props.headingTwovalue,
-                            "imageSrc": this.props.imgsrcTwovalue,
-                            "anotherHeading": this.props.anotherHeadingvalue,
-                            "subHeading": this.props.subheadingvalue,
-                            "paragraph": this.props.paravalue
-                        },
-                        "hspihB": {
-                            "tag": "anotherHeader-subheader-para-image-header",
-                            "anotherHeading": this.props.anotherHeadingTwovalue,
-                            "subHeading": this.props.subheadingTwovalue,
-                            "paragraph": this.props.paraTwovalue,
-                            "imageSrc": this.props.imgsrcThreevalue,
-                            "heading": this.props.headingThreevalue
-                        },
-                        "ispLT": {
-                            "tag": "image-subheading-para",
-                            "imageSrc": this.props.imgsrcFourvalue,
-                            "subHeading": this.props.subheadingThreevalue,
-                            "paragraph": this.props.paraThreevalue
-                        },
-                        "ispMT": {
-                            "tag": "image-subheading-para",
-                            "imageSrc": this.props.imgsrcFivevalue,
-                            "subHeading": this.props.subheadingFourvalue,
-                            "paragraph": this.props.paraFourvalue
-                        },
-                        "ispRT": {
-                            "tag": "image-subheading-para",
-                            "imageSrc": this.props.imgsrcSixvalue,
-                            "subHeading": this.props.subheadingFivevalue,
-                            "paragraph": this.props.paraFivevalue
-                        },
-                        "ispLB": {
-                            "tag": "image-subheading-para",
-                            "imageSrc": this.props.imgsrcSevenvalue,
-                            "subHeading": this.props.subheadingSixvalue,
-                            "paragraph": this.props.paraSixvalue
-                        },
-                        "ispMB": {
-                            "tag": "image-subheading-para",
-                            "imageSrc": this.props.imgsrcEightvalue,
-                            "subHeading": this.props.subheadingSevenvalue,
-                            "paragraph": this.props.paraEightvalue
-                        },
-                        "ispRB": {
-                            "tag": "image-subheading-para",
-                            "imageSrc": this.props.imgsrcNinevalue,
-                            "subHeading": this.props.subheadingEightvalue,
-                            "paragraph": this.props.paraEightvalue
-                        }
-                    },
-                    "metaData": {
-                        "templateName": this.state.name,
-                        "templateTag": this.props.tempComponent,
-                        "action": "draft",
-                        "manufacturer": this.state.maunfactName
-                    },
-                    "association": {
-                        "products": this.state.pids,
-                        "action": this.state.productAction
-                    },
-                    "comment": this.state.commentVal
-                })
+                body: formData
             })).then(
                 response => {
                     if (response.status == 200) {
-                        this.setState({ loading: false });
-                        this.setState({ successDraftSnack: true });
+                        this.setState({ loading: false, successDraftSnack: true });
                         setTimeout(() => {
                             this.setState({
                                 successDraftSnack: false
@@ -643,23 +553,17 @@ class SaveTempName extends Component {
                         return;
                     }
                     else {
-                        this.setState({ loading: false, errorDraftSnack: true });
-                        setTimeout(() => {
-                            this.setState({
-                                errorDraftSnack: false
-                            })
-                        }, timeout);
-                        return;
+                        throw Error(response.status);
                     }
                 }
             ).catch((error) => {
-                this.setState({ errorDataSnack: true, loading: false });
+                this.setState({ loading: false, errorDraftSnack: true });
                 setTimeout(() => {
                     this.setState({
-                        errorDataSnack: false
+                        errorDraftSnack: false
                     })
                 }, timeout);
-                console.log('Looks like there was a problem in saving template \n', error);
+                console.log('Looks like there was a problem in saving template \n');
             });
         }
         else {
@@ -674,192 +578,129 @@ class SaveTempName extends Component {
         }
     }
 
-    handleCreate = () => {
-        let valid = "";
-        var today = new Date();
-        var dd = String(today.getDate()).padStart(2, '0');
-        var mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
-        var yyyy = today.getFullYear();
-
-        if (this.state.name == '') {
-            alert("The Name Cannot be Empty!");
-        }
-
-        else if (this.countUpperCaseChars(this.state.name) == 0) {
-            this.setState({ loading: true, errorNameSnack: false, warningNameSnack: false, warningNameSnackTwo: false });
-            this.timeout(pendingTimeout, fetch(templateAPI + "/" + this.state.name + "-" + dd + "-" + mm + "-" + yyyy + "/is-unique", {
-                method: "GET",
+    handleSave = () => {
+        var tempHTML = document.getElementById('template').innerHTML;
+        var tempFile = new File([tempHTML], this.state.name + ".html", { type: "text/html" });
+        var formData = new FormData();
+        formData.append('file', tempFile);
+        formData.append("data", JSON.stringify({
+            "data": {
+                "hiT": {
+                    "tag": "header-image",
+                    "heading": this.props.headingvalue,
+                    "imageSrc": this.props.imgsrcvalue
+                },
+                "hihspM": {
+                    "tag": "header-image-anotherHeader-subheader-para",
+                    "heading": this.props.headingTwovalue,
+                    "imageSrc": this.props.imgsrcTwovalue,
+                    "anotherHeading": this.props.anotherHeadingvalue,
+                    "subHeading": this.props.subheadingvalue,
+                    "paragraph": this.props.paravalue
+                },
+                "hspihB": {
+                    "tag": "anotherHeader-subheader-para-image-header",
+                    "anotherHeading": this.props.anotherHeadingTwovalue,
+                    "subHeading": this.props.subheadingTwovalue,
+                    "paragraph": this.props.paraTwovalue,
+                    "imageSrc": this.props.imgsrcThreevalue,
+                    "heading": this.props.headingThreevalue
+                },
+                "ispLT": {
+                    "tag": "image-subheading-para",
+                    "imageSrc": this.props.imgsrcFourvalue,
+                    "subHeading": this.props.subheadingThreevalue,
+                    "paragraph": this.props.paraThreevalue
+                },
+                "ispMT": {
+                    "tag": "image-subheading-para",
+                    "imageSrc": this.props.imgsrcFivevalue,
+                    "subHeading": this.props.subheadingFourvalue,
+                    "paragraph": this.props.paraFourvalue
+                },
+                "ispRT": {
+                    "tag": "image-subheading-para",
+                    "imageSrc": this.props.imgsrcSixvalue,
+                    "subHeading": this.props.subheadingFivevalue,
+                    "paragraph": this.props.paraFivevalue
+                },
+                "ispLB": {
+                    "tag": "image-subheading-para",
+                    "imageSrc": this.props.imgsrcSevenvalue,
+                    "subHeading": this.props.subheadingSixvalue,
+                    "paragraph": this.props.paraSixvalue
+                },
+                "ispMB": {
+                    "tag": "image-subheading-para",
+                    "imageSrc": this.props.imgsrcEightvalue,
+                    "subHeading": this.props.subheadingSevenvalue,
+                    "paragraph": this.props.paraEightvalue
+                },
+                "ispRB": {
+                    "tag": "image-subheading-para",
+                    "imageSrc": this.props.imgsrcNinevalue,
+                    "subHeading": this.props.subheadingEightvalue,
+                    "paragraph": this.props.paraEightvalue
+                }
+            },
+            "metaData": {
+                "templateName": this.state.name,
+                "templateTag": this.props.tempComponent,
+                "action": "save",
+                "taskId": this.props.taskId,
+                "templateId": this.state.tempId,
+                "manufacturer": this.state.maunfactName
+            },
+            "association": {
+                "products": this.state.pids,
+                "action": this.state.productAction
+            },
+            "comment": this.state.commentVal
+        }));
+        if (this.handleMaxProductIds(this.state.pids)) {
+            this.setState({ loading: true, successSaveSnack: false, errorSaveSnack: false });
+            apitimeout(pendingTimeout, fetch(templateAPI + "/save/", {
+                method: "POST",
                 headers: {
-                    "Content-Type": "application/json",
-                    "X-Requested-With": "XMLHttpRequest",
                     [AuthKey]: localStorage.getItem('token')
-                }
-            })).then(response => {
-                if (response.status == 200) {
-                    valid = true;
-                }
-                else if (response.status == 409) {
-                    this.setState({ loading: false });
-                    valid = false;
-                }
-                else {
-                    this.setState({ loading: false, errorNameSnack: true });
-                    setTimeout(() => {
-                        this.setState({
-                            errorNameSnack: false
-                        })
-                    }, timeout);
-                }
-
-                if (valid == true) {
-                    if (this.handleMaxProductIds(this.state.pids)) {
-                        this.timeout(pendingTimeout, fetch(templateAPI + "/draft/", {
-                            method: "PUT",
-                            headers: {
-                                "Content-Type": "application/json",
-                                "X-Requested-With": "XMLHttpRequest",
-                                [AuthKey]: localStorage.getItem('token')
-                            },
-                            body: JSON.stringify({
-                                "data": {
-                                    "hiT": {
-                                        "tag": "header-image",
-                                        "heading": this.props.headingvalue,
-                                        "imageSrc": this.props.imgsrcvalue
-                                    },
-                                    "hihspM": {
-                                        "tag": "header-image-anotherHeader-subheader-para",
-                                        "heading": this.props.headingTwovalue,
-                                        "imageSrc": this.props.imgsrcTwovalue,
-                                        "anotherHeading": this.props.anotherHeadingvalue,
-                                        "subHeading": this.props.subheadingvalue,
-                                        "paragraph": this.props.paravalue
-                                    },
-                                    "hspihB": {
-                                        "tag": "anotherHeader-subheader-para-image-header",
-                                        "anotherHeading": this.props.anotherHeadingTwovalue,
-                                        "subHeading": this.props.subheadingTwovalue,
-                                        "paragraph": this.props.paraTwovalue,
-                                        "imageSrc": this.props.imgsrcThreevalue,
-                                        "heading": this.props.headingThreevalue
-                                    },
-                                    "ispLT": {
-                                        "tag": "image-subheading-para",
-                                        "imageSrc": this.props.imgsrcFourvalue,
-                                        "subHeading": this.props.subheadingThreevalue,
-                                        "paragraph": this.props.paraThreevalue
-                                    },
-                                    "ispMT": {
-                                        "tag": "image-subheading-para",
-                                        "imageSrc": this.props.imgsrcFivevalue,
-                                        "subHeading": this.props.subheadingFourvalue,
-                                        "paragraph": this.props.paraFourvalue
-                                    },
-                                    "ispRT": {
-                                        "tag": "image-subheading-para",
-                                        "imageSrc": this.props.imgsrcSixvalue,
-                                        "subHeading": this.props.subheadingFivevalue,
-                                        "paragraph": this.props.paraFivevalue
-                                    },
-                                    "ispLB": {
-                                        "tag": "image-subheading-para",
-                                        "imageSrc": this.props.imgsrcSevenvalue,
-                                        "subHeading": this.props.subheadingSixvalue,
-                                        "paragraph": this.props.paraSixvalue
-                                    },
-                                    "ispMB": {
-                                        "tag": "image-subheading-para",
-                                        "imageSrc": this.props.imgsrcEightvalue,
-                                        "subHeading": this.props.subheadingSevenvalue,
-                                        "paragraph": this.props.paraEightvalue
-                                    },
-                                    "ispRB": {
-                                        "tag": "image-subheading-para",
-                                        "imageSrc": this.props.imgsrcNinevalue,
-                                        "subHeading": this.props.subheadingEightvalue,
-                                        "paragraph": this.props.paraEightvalue
-                                    }
-                                },
-                                "metaData": {
-                                    "templateName": this.state.name + "-" + dd + "-" + mm + "-" + yyyy,
-                                    "templateTag": this.props.tempComponent,
-                                    "action": "draft",
-                                    "manufacturer": this.state.maunfactName
-                                },
-                                "association": {
-                                    "products": this.state.pids,
-                                    "action": this.state.productAction
-                                },
-                                "comment": this.state.commentVal
-                            })
-                        })).then(
-                            response => {
-                                if (response.status == 200) {
-                                    this.setState({ loading: false });
-                                    this.setState({ successDraftSnack: true });
-                                    return;
-                                }
-                                else {
-                                    this.setState({ loading: false, errorDraftSnack: true });
-                                    return;
-                                }
-                            }
-                        ).catch((error) => {
-                            this.setState({ errorDataSnack: true, loading: false });
-                            setTimeout(() => {
-                                this.setState({
-                                    errorDataSnack: false
-                                })
-                            }, timeout);
-                            console.log('Looks like there was a problem in saving template \n', error);
-                        });
-                    }
-                    else {
-                        this.setState({
-                            warningPidLenSnack: true
-                        });
+                },
+                body: formData
+            })).then(
+                response => {
+                    if (response.status == 200) {
+                        this.setState({ loading: false });
+                        this.setState({ successSaveSnack: true });
                         setTimeout(() => {
                             this.setState({
-                                warningPidLenSnack: false
-                            })
+                                successSaveSnack: false
+                            });
+                            window.location.replace(clientHost);
                         }, timeout);
+                        return;
+                    }
+                    else {
+                        throw Error(response.status);
                     }
                 }
-                else if (valid == false) {
-                    this.setState({ warningNameSnack: true });
-                    setTimeout(() => {
-                        this.setState({
-                            warningNameSnack: false
-                        })
-                    }, timeout);
-                }
-            })
-                .catch((error) => {
-                    this.setState({ errorDataSnack: true, loading: false });
-                    setTimeout(() => {
-                        this.setState({
-                            errorDataSnack: false
-                        })
-                    }, timeout);
-                    console.log('Looks like there was a problem in finding unique name \n', error);
-                });
+            ).catch((error) => {
+                this.setState({ loading: false, errorSaveSnack: true });
+                setTimeout(() => {
+                    this.setState({
+                        errorSaveSnack: false
+                    })
+                }, timeout);
+                console.log('Looks like there was a problem in saving template \n');
+            });
         }
         else {
-            this.setState({ warningNameSnackTwo: true });
+            this.setState({
+                warningPidLenSnack: true
+            });
             setTimeout(() => {
                 this.setState({
-                    warningNameSnackTwo: false
+                    warningPidLenSnack: false
                 })
             }, timeout);
-        }
-    };
-
-    handleSubmit = () => {
-        if (this.state.statusPermission == statusRevision) {
-            this.handleDialogOpen();
-        }
-        else {
-            this.handleDraft();
         }
     }
 
@@ -945,7 +786,7 @@ class SaveTempName extends Component {
 
         if (this.handleMaxProductIds(this.state.pids)) {
             this.setState({ loading: true, successPublishSnack: false, errorPublishSnack: false });
-            this.timeout(pendingTimeout, fetch(templateAPI + '/publish', {
+            apitimeout(pendingTimeout, fetch(templateAPI + '/publish', {
                 method: "POST",
                 headers: {
                     [AuthKey]: localStorage.getItem('token')
@@ -959,28 +800,22 @@ class SaveTempName extends Component {
                             this.setState({
                                 successPublishSnack: false
                             });
-                            window.location.replace(clientHost);
+                            window.location.replace(clientHost + "all");
                         }, timeout);
                         return;
                     }
                     else {
-                        this.setState({ loading: false, errorPublishSnack: true });
-                        setTimeout(() => {
-                            this.setState({
-                                errorPublishSnack: false
-                            })
-                        }, timeout);
-                        return;
+                        throw Error(response.status);
                     }
                 }
             ).catch((error) => {
-                this.setState({ errorDataSnack: true, loading: false });
+                this.setState({ loading: false, errorPublishSnack: true });
                 setTimeout(() => {
                     this.setState({
-                        errorDataSnack: false
+                        errorPublishSnack: false
                     })
                 }, timeout);
-                console.log('Looks like there was a problem in sending html file \n', error);
+                console.log('Looks like there was a problem in sending html file \n');
             });
         }
         else {
@@ -999,21 +834,12 @@ class SaveTempName extends Component {
         this.setState({ [maunfactName]: event.target.value });
     };
 
-    handleChangeId = pids => e => {
-        this.setState({ [pids]: e.target.value });
-        if (RegExp(/^((\d+)?)(,\s*((\d+)?))*$/g).test(e.target.value)) {
-            this.setState({ togglePid: true });
+    handleChangeId = (val) => {
+        if(val) {
+            this.setState({ pids: val });
         }
         else {
-            this.setState({
-                warningPidSnack: true,
-                togglePid: false
-            });
-            setTimeout(() => {
-                this.setState({
-                    warningPidSnack: false
-                })
-            }, timeout)
+            this.setState({ pids: '' });
         }
     }
 
@@ -1028,65 +854,11 @@ class SaveTempName extends Component {
     render() {
         const { classes } = this.props;
         let allfilled = true;
-        allfilled = this.state.pids && this.state.productAction && this.state.maunfactName && this.state.togglePid;
+        allfilled = this.state.pids && this.state.productAction && this.state.maunfactName;
 
         return (
             <form className={this.state.loading ? classes.root : classes.container} noValidate autoComplete="off">
                 {this.state.loading && ReactDOM.createPortal(<Loader />, this.el)}
-                <TextField
-                    id="template-name"
-                    label={<span className={classes.labelStyle}>Name</span>}
-                    value={this.state.name}
-                    className={classes.textField}
-                    margin="normal"
-                    variant="outlined"
-                    InputProps={{
-                        classes: {
-                            root: classes.inputContainer,
-                            input: classes.inputStyle
-                        }
-                    }}
-                    disabled
-                />
-                <Tooltip title={longText} placement="right">
-                    <TextField
-                        id="pid-multiline"
-                        label={<span className={classes.labelStyle}>Enter Products Ids</span>}
-                        value={this.state.pids}
-                        onChange={this.handleChangeId('pids')}
-                        className={classes.textField}
-                        margin="normal"
-                        multiline
-                        rows="5"
-                        variant="outlined"
-                        InputProps={{
-                            classes: {
-                                root: classes.inputContainer,
-                                input: classes.inputStyle
-                            }
-                        }}
-                        required
-                    />
-                </Tooltip>
-                <FormControl className={classes.formControl}>
-                    <InputLabel htmlFor="paction-simple" className={classes.labelStyle}>Select Action for Product</InputLabel>
-                    <Select
-                        value={this.state.productAction}
-                        onChange={this.handleProductAction}
-                        required
-                        InputProps={{
-                            name: 'paction',
-                            id: 'paction-simple',
-                            classes: {
-                                root: classes.inputContainer,
-                                input: classes.inputStyle
-                            }
-                        }}
-                    >
-                        <MenuItem value="append">append</MenuItem>
-                        <MenuItem value="override">override</MenuItem>
-                    </Select>
-                </FormControl>
                 <TextField
                     id="manufacturer-name"
                     label={<span className={classes.labelStyle}>Manufacturer Name</span>}
@@ -1106,6 +878,38 @@ class SaveTempName extends Component {
                     }}
                     required
                 />
+                <span style={{paddingLeft: 10}} className={classes.labelStyle}>Enter Products</span><br/>
+                <AsyncSelect
+                    isMulti
+                    cacheOptions
+                    defaultOptions
+                    name="product-ids"
+                    styles={selectStyle}
+                    loadOptions={promiseOptions}
+                    className="basic-multi-select"
+                    classNamePrefix="select"
+                    value={this.state.pids}
+                    onChange={this.handleChangeId}
+                />
+                <FormControl className={classes.formControl}>
+                    <InputLabel htmlFor="paction-simple" className={classes.labelStyle}>Select Action for Product</InputLabel>
+                    <Select
+                        value={this.state.productAction}
+                        onChange={this.handleProductAction}
+                        required
+                        InputProps={{
+                            name: 'paction',
+                            id: 'paction-simple',
+                            classes: {
+                                root: classes.inputContainer,
+                                input: classes.inputStyle
+                            }
+                        }}
+                    >
+                        <MenuItem value="append">append</MenuItem>
+                        <MenuItem value="override">override</MenuItem>
+                    </Select>
+                </FormControl>
                 <TextField
                     id="comments-multiline"
                     label={<span className={classes.labelStyle}>Comments</span>}
@@ -1127,17 +931,22 @@ class SaveTempName extends Component {
                     variant="outlined"
                 />
                 <div className={classes.actionStyle}>
-                    <Button className={classes.buttonSaveStyle} disabled={!allfilled} onClick={this.handleSubmit} >
-                        Draft
-                    </Button>
+                    {this.state.toggleDraft &&
+                        <Button className={classes.buttonSaveStyle} disabled={!allfilled} onClick={this.handleDraft} >
+                            Draft
+                    </Button>}
+                    {this.state.toggleSave &&
+                        <Button className={classes.buttonSaveStyle} disabled={!allfilled} onClick={this.handleSave} >
+                            Save
+                    </Button>}
                     {this.state.toggleReview &&
                         <Button className={classes.buttonRevStyle} disabled={!allfilled} onClick={this.handleReview}>
-                            Review
+                            Send for Review
                         </Button>
                     }
                     {this.state.togglePending &&
                         <Button className={classes.buttonRevStyle} disabled={!allfilled} onClick={this.handleRevision}>
-                            Revision
+                            Send for Revision
                         </Button>
                     }
                     {this.state.toggleRevision &&
@@ -1146,51 +955,17 @@ class SaveTempName extends Component {
                         </Button>
                     }
                 </div>
-                <Dialog open={this.state.open} onClose={this.handleDialogClose} className={this.state.loading && classes.dialogStyle} aria-labelledby="form-dialog-title" >
-                    <DialogTitle id="form-dialog-title">Name of A+ Content</DialogTitle>
-                    <DialogContent>
-                        <Tooltip title={longTextName}>
-                            <TextField
-                                id="standard-name"
-                                label={<span className={classes.labelStyle}>Name</span>}
-                                className={classes.textField}
-                                value={this.state.name}
-                                onChange={this.handleChange('name')}
-                                margin="normal"
-                                autoComplete="off"
-                                InputProps={{
-                                    classes: {
-                                        input: classes.inputStyle
-                                    }
-                                }}
-                                required
-                            />
-                        </Tooltip>
-                        {this.state.loading && <Loader />}
-                    </DialogContent>
-                    <DialogActions>
-                        <Button className={classes.buttonSaveStyle} onClick={this.handleCreate}>
-                            Create
-                        </Button>
-                        <Button className={classes.buttonCloseStyle} onClick={this.handleDialogClose}>
-                            Close
-                        </Button>
-                    </DialogActions>
-                </Dialog>
                 {this.state.errorSnack && ReactDOM.createPortal(<ErrorToast message="Error in Processing" />, this.el)}
-                {this.state.errorDataSnack && ReactDOM.createPortal(<ErrorToast message="Error in Processing" />, this.el)}
-                {this.state.warningPidSnack && ReactDOM.createPortal(<WarningToast message="Product Ids can contain only integers" />, this.el)}
-                {this.state.warningPidLenSnack && ReactDOM.createPortal(<WarningToast message="Product Ids cannot be more than 20" />, this.el)}
+                {this.state.warningPidLenSnack && ReactDOM.createPortal(<WarningToast message="Product Ids should not be more than 20" />, this.el)}
                 {this.state.errorTempData && ReactDOM.createPortal(<ErrorToast message="Error in processing" />, this.el)}
-                {this.state.successReviewSnack && ReactDOM.createPortal(<SuccessToast message="Aplus Template is Sent for Review" />, this.el)}
+                {this.state.successReviewSnack && ReactDOM.createPortal(<SuccessToast message="Aplus Template is Send for Review" />, this.el)}
                 {this.state.errorReviewSnack && ReactDOM.createPortal(<ErrorToast message="Error in sending for request" />, this.el)}
-                {this.state.successRevisionSnack && ReactDOM.createPortal(<SuccessToast message="Aplus Template is Sent for Revision" />, this.el)}
+                {this.state.successRevisionSnack && ReactDOM.createPortal(<SuccessToast message="Aplus Template is Send for Revision" />, this.el)}
                 {this.state.errorRevisionSnack && ReactDOM.createPortal(<ErrorToast message="Error in sending for revison" />, this.el)}
-                {this.state.successDraftSnack && ReactDOM.createPortal(<SuccessToast message="Aplus Template is Saved" />, this.el)}
-                {this.state.errorDraftSnack && ReactDOM.createPortal(<ErrorToast message="Error in Saving" />, this.el)}
-                {this.state.errorNameSnack && ReactDOM.createPortal(<ErrorToast message="Error in Processing" />, this.el)}
-                {this.state.warningNameSnack && ReactDOM.createPortal(<WarningToast message="The Name Exists!" />, this.el)}
-                {this.state.warningNameSnackTwo && ReactDOM.createPortal(<WarningToast message="The Name Cannot Contain Capital Letters!" />, this.el)}
+                {this.state.successDraftSnack && ReactDOM.createPortal(<SuccessToast message="Aplus Template is Drafted" />, this.el)}
+                {this.state.errorDraftSnack && ReactDOM.createPortal(<ErrorToast message="Error in Draft" />, this.el)}
+                {this.state.successSaveSnack && ReactDOM.createPortal(<SuccessToast message="Aplus Template is Saved" />, this.el)}
+                {this.state.errorSaveSnack && ReactDOM.createPortal(<ErrorToast message="Error in Saving" />, this.el)}
                 {this.state.successPublishSnack && ReactDOM.createPortal(<SuccessToast message="Aplus Template is Published" />, this.el)}
                 {this.state.errorPublishSnack && ReactDOM.createPortal(<ErrorToast message="Error in Publishing" />, this.el)}
             </form>

@@ -13,13 +13,13 @@ class SubHeader extends Component {
 
   //sending sub head value to App
   setsubheading = (model) => {
-    const subhead = model;
+    let subhead = model;
     this.props.updateSubHead(subhead);
   }
 
   render() {
     return(
-      <div>
+      <div style={{paddingTop: 10}}>
         <FroalaEditor tag='textarea' 
           config={{
             placeholderText: 'Edit Your Content Here!',
@@ -28,6 +28,10 @@ class SubHeader extends Component {
             height:200,
             width:300,
             enter: $.FroalaEditor.ENTER_BR,
+            pastePlain: true,
+            quickInsertEnabled: false,
+            wordPasteModal: false,
+            wordPasteKeepFormatting: false,
             key:FroalaKey, 
             toolbarButtons: ['bold', 'italic', 'underline','|','color'],      
             colorsDefaultTab: 'text',

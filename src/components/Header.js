@@ -6,7 +6,6 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import FroalaEditor from "react-froala-wysiwyg";
 
-
 class Header extends Component {
   constructor(props) {
     super(props);
@@ -14,13 +13,13 @@ class Header extends Component {
 
   //sending the header value to App
   setheading = (model) => {
-    const head = model;
+    let head = model;
     this.props.updateHead(head);
   }
 
   render() {
     return (
-      <div>
+      <div style={{paddingTop: 10}}>
         <FroalaEditor tag='textarea'
           config={{
             placeholderText: 'Edit Your Content Here!',
@@ -29,6 +28,10 @@ class Header extends Component {
             height: 200,
             width: 300,
             enter: $.FroalaEditor.ENTER_BR,
+            pastePlain: true,
+            quickInsertEnabled: false,
+            wordPasteModal: false,
+            wordPasteKeepFormatting: false,
             key: FroalaKey,
             toolbarButtons: ['bold', 'italic', 'underline', '|', 'color'],
             colorsDefaultTab: 'text',

@@ -1,6 +1,9 @@
 import React, { Component } from 'react';
 import { NavLink, withRouter } from 'react-router-dom';
 import { withStyles } from '@material-ui/core/styles';
+import { styles } from './ComponentStyle/TableStyle';
+import { apitimeout } from './api_timeout';
+import { slugify } from './slugifystring';
 import MaterialTable from "material-table";
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
@@ -14,72 +17,13 @@ import {
     MuiThemeProvider,
     createMuiTheme
 } from '@material-ui/core/styles';
+import InputLabel from '@material-ui/core/InputLabel';
+import MenuItem from '@material-ui/core/MenuItem';
+import FormControl from '@material-ui/core/FormControl';
+import Select from '@material-ui/core/Select';
 import SuccessToast from './SuccessToast';
 import ErrorToast from './ErrorToast';
 import WarningToast from './WarningToast';
-import MobileCover from '../assets/images/mobile-cover.jpg';
-
-const styles = theme => ({
-    textField: {
-        marginLeft: theme.spacing.unit,
-        marginRight: theme.spacing.unit
-    },
-    tableHeader: {
-        fontSize: 18,
-        fontFamily: "ProximaNova-SemiBold",
-        textTransform: "none",
-        textDecoration: "none"
-    },
-    labelStyle: {
-        fontFamily: 'ProximaNova-Regular',
-    },
-    inputStyle: {
-        fontFamily: 'ProximaNova-Regular',
-        width: 491
-    },
-    buttonCreateStyle: {
-        height: '40px',
-        border: '1px solid #009c50',
-        borderRadius: '3px',
-        color: '#009c50',
-        textTransform: 'none',
-        fontFamily: 'ProximaNova-SemiBold',
-        margin: theme.spacing.unit,
-    },
-    buttonCloseStyle: {
-        height: '40px',
-        border: '1px solid #ea3a2a',
-        borderRadius: '3px',
-        color: '#ea3a2a',
-        textTransform: 'none',
-        fontFamily: 'ProximaNova-SemiBold',
-        margin: theme.spacing.unit,
-    },
-    rootFrame: {
-        backgroundImage: `url(${MobileCover})`,
-        backgroundPosition: 'top center',
-        backgroundRepeat: 'no-repeat',
-        overflow: 'hidden',
-        backgroundSize: '265px',
-        marginTop: 4
-    },
-    frame: {
-        marginTop: 33,
-        marginBottom: 0,
-        marginLeft: 'auto',
-        paddingLeft: 142,
-        width: '534px',
-        height: '550px'
-    },
-    inner: {
-        overflow: 'hidden',
-        width: 248,
-        height: 499
-    },
-    iframeStyle: {
-        border: 'none'
-    }
-});
 
 const longText = `
 The name must be unique and should not contain any capital letters! 
@@ -110,7 +54,7 @@ const themeDialogMobile = createMuiTheme({
         MuiDialog: {
             paperWidthSm: {
                 maxWidth: 600,
-                maxHeight: 600
+                maxHeight: 650
             }
         }
     }
@@ -120,105 +64,76 @@ class TableGrid extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            tableFlag: false,
-            tableDataUrl: '',
             tableData: [],
-            validComp: null,
             open: false,
             successCloneSnack: false,
             errorCloneSnack: false,
             warningCloneSnack: false,
             warningCloneSnackTwo: false,
             warningCloneSnackThree: false,
+            warningFileUpload: false,
             successUnpublishSnack: false,
             errorUnpublishSnack: false,
-            overallErrorOne: false,
-            overallErrorTwo: false,
+            successUpload: false,
+            errorUpload: false,
             overallErrorThree: false,
             overallErrorFour: false,
             overallErrorFive: false,
             openUnpublish: false,
             openMobile: false,
+            openUpload: false,
             htmlLocation: '',
             name: '',
+            productAction: 'override',
+            excelFile: null,
             loading: false
         };
 
     }
 
-    timeout = (ms, promise) => {
-        return new Promise((resolve, reject) => {
-            const timeoutId = setTimeout(() => {
-                reject(new Error("promise timeout"))
-            }, ms);
-            promise.then(
-                (res) => {
-                    clearTimeout(timeoutId);
-                    resolve(res);
-                },
-                (err) => {
-                    clearTimeout(timeoutId);
-                    reject(err);
-                }
-            );
-        })
-    }
-
-    componentWillMount = () => {
+    componentDidMount = () => {
         var url = window.location.href;
         var url_get = url.split("apluscontent/")[1];
+        var table_url = '';
+        this.setState({ loading: true, overallErrorFive: false });
 
-        if (url_get == 'all')
-            this.setState({ tableDataUrl: templateAPI + "/all?" });
+        if (url_get.includes('all'))
+            table_url = templateAPI + "/all";
         else
-            this.setState({ tableDataUrl: templateAPI + "?" });
+            table_url = templateAPI + "/";
 
-        this.setState({ loading: true, overallErrorOne: false });
-        this.timeout(pendingTimeout, fetch(templateAPI + '/all', {
+        apitimeout(pendingTimeout, fetch(table_url, {
             method: "GET",
             headers: {
-                'Content-Type': 'application/json',
+                "Content-Type": "application/json",
                 "X-Requested-With": "XMLHttpRequest",
                 [AuthKey]: localStorage.getItem('token')
             }
-        })).then(response => {
-            if (response.status == 200) {
+        }).then(response => {
+            if (response.status == 200)
                 return response.json();
-            }
             else {
-                this.setState({ loading: false });
                 throw Error(response.statusText);
             }
-        })
+        }))
             .then(result => {
                 this.setState({ loading: false });
-                if (Object.keys(result).length > 0) {
-                    this.setState({
-                        validComp: "table",
-                        tableFlag: true
-                    }, () => {
-                        this.getBlockComponent(this.state.validComp)
-                    });
+                if (result) {
+                    this.setState({ tableData: result.data });
                 }
                 else {
-                    this.setState({
-                        validComp: "empty",
-                        tableFlag: false
-                    }, () => {
-                        this.getBlockComponent(this.state.validComp)
-                    });
+                    this.setState({ tableData: [] });
                 }
             })
             .catch((error) => {
-                this.setState({ loading: false, overallErrorOne: true });
+                this.setState({ overallErrorFive: true, loading: false });
                 setTimeout(() => {
                     this.setState({
-                        overallErrorOne: false
+                        overallErrorFive: false
                     })
                 }, timeout)
-                console.log('Looks like there was a problem in fetching all table data \n', error);
+                console.log('Looks like there was a problem in finding table data \n', error);
             });
-
     };
 
     handleClickOpen = () => {
@@ -229,12 +144,20 @@ class TableGrid extends Component {
         this.setState({ openUnpublish: true });
     }
 
+    handleUploadOpen = () => {
+        this.setState({ openUpload: true, excelFile: null });
+    }
+
     handleMobileOpen = (relativeLoc) => {
         this.setState({ openMobile: true, htmlLocation: relativeLoc });
     }
 
     handleDialogClose = () => {
-        this.setState({ openUnpublish: false, openMobile: false, open: false });
+        this.setState({ openUnpublish: false, openMobile: false, open: false, openUpload: false });
+    }
+
+    handleProductAction = (e) => {
+        this.setState({ productAction: e.target.value });
     }
 
     countUpperCaseChars = (str) => {
@@ -245,12 +168,18 @@ class TableGrid extends Component {
         return count;
     }
 
+    readExcel = (e) => {
+        e.preventDefault();
+
+        this.setState({ excelFile: e.target.files[0] });
+    }
+
     handleUnpublish = () => {
         var url = window.location.href;
         var tempid = url.split("#")[1];
-        this.setState({ loading: true, successUnpublishSnack: false, errorUnpublishSnack: false, overallErrorTwo: false, openUnpublish: false });
+        this.setState({ loading: true, successUnpublishSnack: false, errorUnpublishSnack: false, openUnpublish: false });
 
-        this.timeout(pendingTimeout, fetch(templateAPI + '/deactivate/' + tempid, {
+        apitimeout(pendingTimeout, fetch(templateAPI + '/deactivate/' + tempid, {
             method: "POST",
             headers: {
                 [AuthKey]: localStorage.getItem('token')
@@ -267,27 +196,78 @@ class TableGrid extends Component {
                 }, timeout);
             }
             else {
+                throw Error(response.status);
+            }
+        })
+            .catch((error) => {
+                this.setState({ loading: false });
                 this.setState({ errorUnpublishSnack: true });
                 setTimeout(() => {
                     this.setState({
                         errorUnpublishSnack: false
                     })
                 }, timeout);
-            }
-        })
-            .catch((error) => {
-                this.setState({ loading: false, overallErrorTwo: true });
-                setTimeout(() => {
-                    this.setState({
-                        overallErrorTwo: false
-                    })
-                }, timeout);
                 console.log('Looks like there was a problem in Deactivating \n', error);
             });
     }
 
+    handleExcelUpload = () => {
+        if (this.state.excelFile != null) {
+            var url = window.location.href;
+            var xslfile = this.state.excelFile;
+            var tempid = url.split("#")[1];
+            var excelData = new FormData();
+            excelData.append('file', xslfile);
+            excelData.append("metaData", JSON.stringify({
+                "templateId": tempid,
+                "action": this.state.productAction
+            }));
+            this.setState({ loading: true, successUpload: false, errorUpload: false });
+            apitimeout(pendingTimeout, fetch(templateAPI + "/upload/sku", {
+                method: "POST",
+                headers: {
+                    [AuthKey]: localStorage.getItem('token')
+                },
+                body: excelData
+            })).
+                then(res => {
+                    this.setState({ loading: false });
+                    if (res.status == 200) {
+                        this.setState({ successUpload: true, openUpload: false });
+                        setTimeout(() => {
+                            this.setState({
+                                successUpload: false
+                            });
+                            window.location.replace(clientHost + 'all');
+                        }, timeout);
+                    }
+                    else {
+                        throw Error(res.statusText);
+                    }
+                })
+                .catch((error) => {
+                    this.setState({ loading: false });
+                    this.setState({ errorUpload: true });
+                    setTimeout(() => {
+                        this.setState({
+                            errorUpload: false
+                        })
+                    }, timeout);
+                    console.log('Looks like there was a problem in uploading excel file \n', error);
+                });
+        }
+        else {
+            this.setState({ warningFileUpload: true });
+            setTimeout(() => {
+                this.setState({
+                    warningFileUpload: false
+                })
+            }, timeout);
+        }
+    }
+
     handleClose = () => {
-        this.setState({ open: false, successCloneSnack: false, errorCloneSnack: false, overallErrorThree: false, overallErrorFour: false, warningCloneSnack: false, warningCloneSnackTwo: false, warningCloneSnackThree: false });
+        this.setState({ successCloneSnack: false, errorCloneSnack: false, overallErrorThree: false, overallErrorFour: false, warningCloneSnack: false, warningCloneSnackTwo: false, warningCloneSnackThree: false });
 
         var url = window.location.href;
         var tempid = url.split("#")[1];
@@ -308,7 +288,8 @@ class TableGrid extends Component {
 
         else if (this.countUpperCaseChars(this.state.name) == 0) {
             this.setState({ loading: true });
-            this.timeout(pendingTimeout, fetch(templateAPI + "/" + this.state.name + "-" + dd + "-" + mm + "-" + yyyy + "/is-unique", {
+            let slugName = slugify(this.state.name);
+            apitimeout(pendingTimeout, fetch(templateAPI + "/" + slugName + "-" + dd + "-" + mm + "-" + yyyy + "/is-unique", {
                 method: "GET",
                 headers: {
                     "Content-Type": "application/json",
@@ -319,12 +300,16 @@ class TableGrid extends Component {
                 if (response.status == 200) {
                     valid = true;
                 }
-                else {
+                else if (response.status == 409) {
                     this.setState({ loading: false });
                     valid = false;
                 }
+                else {
+                    this.setState({ loading: false });
+                    throw Error(response.status);
+                }
                 if (valid == true) {
-                    this.timeout(pendingTimeout, fetch(templateAPI + '/clone/' + tempid + '/' + this.state.name + "-" + dd + "-" + mm + "-" + yyyy, {
+                    apitimeout(pendingTimeout, fetch(templateAPI + '/clone/' + tempid + '/' + slugName + "-" + dd + "-" + mm + "-" + yyyy, {
                         method: "GET",
                         headers: {
                             'Content-Type': 'application/json',
@@ -342,7 +327,7 @@ class TableGrid extends Component {
                         .then(result => {
                             this.setState({ loading: false });
                             if (Object.keys(result).length > 0) {
-                                this.setState({ successCloneSnack: true });
+                                this.setState({ open: false, successCloneSnack: true });
                                 setTimeout(() => {
                                     this.setState({
                                         successCloneSnack: false
@@ -351,7 +336,7 @@ class TableGrid extends Component {
                                 }, timeout);
                             }
                             else {
-                                this.setState({ errorCloneSnack: true });
+                                this.setState({ open: false, errorCloneSnack: true });
                                 setTimeout(() => {
                                     this.setState({
                                         errorCloneSnack: false
@@ -402,59 +387,14 @@ class TableGrid extends Component {
         this.setState({ [name]: event.target.value });
     };
 
-    getBlockComponent = (block) => {
-        switch (block) {
-            case "table":
-                let url = this.state.tableDataUrl;
-                this.setState({ loading: true, overallErrorFive: false });
-                this.timeout(pendingTimeout, fetch(url, {
-                    method: "GET",
-                    headers: {
-                        "Content-Type": "application/json",
-                        "X-Requested-With": "XMLHttpRequest",
-                        [AuthKey]: localStorage.getItem('token')
-                    }
-                }).then(response => {
-                    if (response.status == 200)
-                        return response.json();
-                    else
-                        return null;
-                }))
-                    .then(result => {
-                        this.setState({ loading: false });
-                        if (result) {
-                            this.setState({ tableData: result.data });
-                        }
-                        else {
-                            this.setState({ tableData: [] });
-                        }
-                    })
-                    .catch((error) => {
-                        this.setState({ overallErrorFive: true, loading: false });
-                        setTimeout(() => {
-                            this.setState({
-                                overallErrorFive: false
-                            })
-                        }, timeout)
-                        console.log('Looks like there was a problem in finding table data \n', error);
-                    });
-                break;
-
-            case "empty":
-                break;
-
-            default:
-                break;
-        }
-    }
-
     render() {
         const { classes } = this.props;
+        let dateObj = new Date();
 
         return (
             <div>
                 {this.state.loading && <Loader />}
-                {this.state.tableFlag ? <MuiThemeProvider theme={theme}>
+                <MuiThemeProvider theme={theme}>
                     <MaterialTable
                         title={<span className={classes.tableHeader}>Manage A+ Content</span>}
                         columns={[
@@ -466,8 +406,9 @@ class TableGrid extends Component {
                                     const id = rowData.id;
                                     const statusid = rowData.status.id;
                                     const statusname = rowData.status.name;
+                                    const url = window.location.href;
                                     let block = null;
-                                    if (this.state.tableDataUrl.includes('all')) {
+                                    if (url.includes('all')) {
                                         block = val;
                                     }
                                     else {
@@ -484,25 +425,6 @@ class TableGrid extends Component {
                                     )
                                 }
                             },
-                            {
-                                title: 'Clone', field: 'action',
-                                render: rowData => {
-                                    const act = "Clone";
-                                    const statusname = rowData.status.name;
-                                    let block = false;
-                                    if (statusname === statusDraft || statusname === statusReview) {
-                                        block = ''
-                                    }
-                                    else {
-                                        block = <a href={'#' + rowData.id} onClick={this.handleClickOpen} >{act}</a>
-                                    }
-                                    return (
-                                        <span>
-                                            {block}
-                                        </span>
-                                    )
-                                },
-                            },
                             { title: 'Status', field: 'status.displayName' },
                             { title: 'Reviewer', field: 'approvedBy' },
                             { title: 'Manufacturer', field: 'manufacturer' },
@@ -510,22 +432,57 @@ class TableGrid extends Component {
                             { title: 'Created On', field: 'createdOn', type: 'datetime' },
                             { title: 'Modified On', field: 'updatedOn', type: 'datetime' },
                             {
-                                title: 'Action', field: 'action',
+                                title: 'Action', field: 'action', sorting: false,
                                 render: rowData => {
-                                    const unp = "Unpublish";
                                     const val = rowData.templateName;
                                     const id = rowData.id;
                                     const statusid = rowData.status.id;
+                                    let block = '';
                                     const statusname = rowData.status.name;
-                                    let block = false;
-                                    if (statusname == statusActive) {
-                                        block = <a href={'#' + rowData.id} onClick={this.handleDialogOpen}>{unp}</a>
-                                    }
-                                    else if (statusname == statusSentForPublish || statusname == statusPending) {
-                                        block = <NavLink exact to={preUrl + "/apluscontent/tempview?" + val + "&tid=" + id + "&sid=" + statusid + "&sname=" + statusname}>Republish</NavLink>
-                                    }
-                                    else {
-                                        block = ''
+                                    var permActions = new Set();
+                                    var permissionActionMap = new Map([
+                                        ["cmsCreators", ["Clone"]],
+                                        ["cmsReviewers", ["Clone"]],
+                                        ["cmsPublishers", ["Clone", "Republish", "UploadPid"]],
+                                        ["cmsUnPublishers", ["Clone", "Unpublish"]]
+                                    ]);
+                                    if (localStorage.getItem('userPermission')) {
+                                        var permissionArr = localStorage.getItem('userPermission').split(',');
+                                        permissionArr.forEach(function (permVal) {
+                                            var tempVal = permissionActionMap.get(permVal);
+                                            tempVal.forEach(function (element) {
+                                                permActions.add(element)
+                                            });
+                                        });
+                                        if (statusname === statusActive) {
+                                            if (permActions.has('Unpublish') && permActions.has('UploadPid')) {
+                                                block = <span><a href={'#' + rowData.id} onClick={this.handleDialogOpen}>Unpublish</a>/<a href={'#' + rowData.id} onClick={this.handleUploadOpen}>Upload</a>/<a href={'#' + rowData.id} onClick={this.handleClickOpen} >Clone</a></span>
+                                            }
+                                            else if (permActions.has('Unpublish')) {
+                                                block = <span><a href={'#' + rowData.id} onClick={this.handleDialogOpen}>Unpublish</a>/<a href={'#' + rowData.id} onClick={this.handleClickOpen} >Clone</a></span>
+                                            }
+                                            else if (permActions.has('UploadPid')) {
+                                                block = <span><a href={'#' + rowData.id} onClick={this.handleUploadOpen}>Upload</a>/<a href={'#' + rowData.id} onClick={this.handleClickOpen} >Clone</a></span>
+                                            }
+                                            else {
+                                                block = <span><a href={'#' + rowData.id} onClick={this.handleClickOpen} >Clone</a></span>
+                                            }
+                                        }
+                                        else if (statusname === statusSentForPublish || statusname === statusPending) {
+                                            if (permActions.has('Republish')) {
+                                                block = <span><NavLink exact to={preUrl + "/apluscontent/tempview?" + val + "&tid=" + id + "&sid=" + statusid + "&sname=" + statusname}>Republish</NavLink>/<a href={'#' + rowData.id} onClick={this.handleClickOpen} >Clone</a></span>
+                                            }
+                                            else {
+                                                block = <span><a href={'#' + rowData.id} onClick={this.handleClickOpen} >Clone</a></span>
+                                            }
+
+                                        }
+                                        else if (statusname === statusDraft || statusname === statusReview) {
+                                            block = ''
+                                        }
+                                        else {
+                                            block = <a href={'#' + rowData.id} onClick={this.handleClickOpen} >Clone</a>
+                                        }
                                     }
                                     return (
                                         <span>
@@ -535,18 +492,17 @@ class TableGrid extends Component {
                                 },
                             },
                             {
-                                title: 'Preview', field: 'location',
+                                title: 'Preview', field: 'location', sorting: false,
                                 render: rowData => {
                                     const app = "App";
                                     const web = "Web";
-                                    const statusname = rowData.status.name;
                                     const htmlloc = rowData.location;
                                     let block = false;
-                                    if (statusname == statusActive && rowData.location) {
-                                        block = <span><a href='#' onClick={() => this.handleMobileOpen(htmlloc)}>{app}</a>/<a href={imageHost + htmlloc} target="_blank">{web}</a></span>;
+                                    if (!htmlloc) {
+                                        block = '';
                                     }
                                     else {
-                                        block = ''
+                                        block = <span><a href='#' onClick={() => this.handleMobileOpen(htmlloc)}>{app}</a>/<a href={imageHost + htmlloc} target="_blank">{web}</a></span>;
                                     }
                                     return (
                                         <span>
@@ -569,7 +525,7 @@ class TableGrid extends Component {
                             }
                         }}
                     />
-                </MuiThemeProvider> : <div className={classes.tableHeader}>There are no records to display!</div>}
+                </MuiThemeProvider>
                 <MuiThemeProvider theme={themeDialog}>
                     <Dialog open={this.state.open} onClose={this.handleDialogClose} aria-labelledby="form-dialog-title" >
                         <DialogTitle id="form-dialog-title">Name of A+ Content</DialogTitle>
@@ -604,6 +560,48 @@ class TableGrid extends Component {
                 </MuiThemeProvider>
 
                 <MuiThemeProvider theme={themeDialog}>
+                    <Dialog open={this.state.openUpload} onClose={this.handleDialogClose} aria-labelledby="form-dialog-title" >
+                        <DialogTitle id="form-dialog-title">Upload Product Id File</DialogTitle>
+                        <DialogContent>
+                            <FormControl className={classes.formControl}>
+                                <InputLabel htmlFor="paction-simple" className={classes.labelStyle}>Select Action for Product</InputLabel>
+                                <Select
+                                    value={this.state.productAction}
+                                    onChange={this.handleProductAction}
+                                    required
+                                    InputProps={{
+                                        name: 'paction',
+                                        id: 'paction-simple',
+                                        classes: {
+                                            root: classes.inputContainer,
+                                            input: classes.inputStyle
+                                        }
+                                    }}
+                                >
+                                    <MenuItem value="append">append</MenuItem>
+                                    <MenuItem value="override">override</MenuItem>
+                                </Select>
+                            </FormControl>
+                            <span className={classes.uploadLabelStyle} >Upload Sku:</span><br />
+                            <input
+                                type="file"
+                                id="uploadExcel"
+                                className={classes.uploadInputStyle}
+                                accept=".csv,.xlsx,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel" onChange={this.readExcel}
+                            />
+                        </DialogContent>
+                        <DialogActions>
+                            <Button className={classes.buttonCloseStyle} onClick={this.handleDialogClose}>
+                                Close
+                            </Button>
+                            <Button className={classes.buttonCreateStyle} onClick={this.handleExcelUpload} >
+                                Upload
+                            </Button>
+                        </DialogActions>
+                    </Dialog>
+                </MuiThemeProvider>
+
+                <MuiThemeProvider theme={themeDialog}>
                     <Dialog open={this.state.openUnpublish} onClose={this.handleDialogClose} aria-labelledby="form-dialog-title" >
                         <DialogTitle id="form-dialog-title">Do you want to unpublish this Aplus content?</DialogTitle>
                         <DialogActions>
@@ -624,7 +622,7 @@ class TableGrid extends Component {
                             <div className={classes.rootFrame}>
                                 <div className={classes.frame}>
                                     <div className={classes.inner}>
-                                        <iframe src={imageHost + this.state.htmlLocation} height="500" width="263" className={classes.iframeStyle}>
+                                        <iframe src={imageHost + this.state.htmlLocation} height="500" width="263" name={dateObj.getSeconds()} className={classes.iframeStyle}>
                                         </iframe>
                                     </div>
                                 </div>
@@ -637,8 +635,6 @@ class TableGrid extends Component {
                         </DialogActions>
                     </Dialog>
                 </MuiThemeProvider>
-                {this.state.overallErrorOne && <ErrorToast message="Error in Processing" />}
-                {this.state.overallErrorTwo && <ErrorToast message="Error in Processing" />}
                 {this.state.overallErrorThree && <ErrorToast message="Error in Processing" />}
                 {this.state.overallErrorFour && <ErrorToast message="Error in Processing" />}
                 {this.state.overallErrorFive && <ErrorToast message="Error in Processing" />}
@@ -646,6 +642,9 @@ class TableGrid extends Component {
                 {this.state.errorUnpublishSnack && <WarningToast message="Unsucessfull while Unpublishing" />}
                 {this.state.successCloneSnack && <SuccessToast message="Aplus Template is Sucessfully Cloned" />}
                 {this.state.errorCloneSnack && <ErrorToast message="Unsucessfull while Cloning" />}
+                {this.state.successUpload && <SuccessToast message="Excel file upload Successfully" />}
+                {this.state.errorUpload && <ErrorToast message="Unsucessfull while Uploading" />}
+                {this.state.warningFileUpload && <WarningToast message="Please select a excel file" />}
                 {this.state.warningCloneSnack && <WarningToast message="The AplusTemplate Name Exists" />}
                 {this.state.warningCloneSnackTwo && <WarningToast message="The Name Contains Capital Letters" />}
                 {this.state.warningCloneSnackThree && <WarningToast message="The Name Cannot be Empty" />}

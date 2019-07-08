@@ -8,6 +8,12 @@ const main_config= {
     "imageHost": process.env.IMAGE_HOST,
 
     "AuthKey": process.env.AUTH_KEY,
+    
+    "ttl": process.env.TTL,
+    
+    "debug": process.env.DEBUG,
+    
+    "BasicAuthVal": process.env.BASIC_AUTH,
 
     "statusDraft": process.env.STATUS_DRAFT,
 
@@ -40,10 +46,10 @@ const main_config= {
     "pageListSize": process.env.PAGE_LIST_SIZE,
 
     "templateAPI": process.env.TEMPLATE_API,
+    
+    "productSearchAPI": process.env.PRODUCT_SEARCH_API,
 
-    "getGroupUserUrl": process.env.GET_GROUP_USER_URL,
-
-    "backend_host": process.env.BACKEND_HOST,
+    "getGroupUserUrl": process.env.GET_GROUP_USER_URL
 }
 
 module.exports = main_config;

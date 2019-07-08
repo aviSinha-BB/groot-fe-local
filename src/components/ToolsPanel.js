@@ -1,6 +1,7 @@
 import React, { Component, Suspense } from 'react';
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
+import { styles } from './ComponentStyle/ToolsPanelStyle';
 import Loader from './Loading';
 const SaveTempName = React.lazy(() => import(/* webpackChunkName: "SaveTempName" */"./SaveTempName"));
 const SaveTempNameTwo = React.lazy(() => import(/* webpackChunkName: "SaveTempNameTwo" */"./SaveTempNameTwo"));
@@ -9,12 +10,6 @@ const Banner = React.lazy(() => import(/* webpackChunkName: "Banner" */"./Banner
 const SubHeader = React.lazy(() => import(/* webpackChunkName: "SubHeader" */"./SubHeader"));
 const Paragraph = React.lazy(() => import(/* webpackChunkName: "Paragraph" */"./Paragraph"));
 const VideoUpload = React.lazy(() => import(/* webpackChunkName: "VideoUpload" */"./VideoUpload"));
-
-const styles = theme => ({
-    root: {
-        flexGrow: 1,
-    },
-});
 
 class ToolsPanel extends Component {
     constructor(props) {
@@ -139,6 +134,7 @@ class ToolsPanel extends Component {
                     tempComponent={this.props.tempComponent}
                     imgsrcvalue={this.props.imgsrcvalue}
                     updateBanner={this.props.updateBanner}
+                    bannerType="bannerLg"
                 />;
                 break;
             case "bannerTwo":
@@ -146,6 +142,7 @@ class ToolsPanel extends Component {
                     tempComponent={this.props.tempComponent}
                     imgsrcvalue={this.props.imgsrcTwovalue}
                     updateBanner={this.props.updateBannerTwo}
+                    bannerType="bannerMd"
                 />;
                 break;
             case "bannerThree":
@@ -153,6 +150,7 @@ class ToolsPanel extends Component {
                     tempComponent={this.props.tempComponent}
                     imgsrcvalue={this.props.imgsrcThreevalue}
                     updateBanner={this.props.updateBannerThree}
+                    bannerType="bannerMd"
                 />;
                 break;
             case "bannerFour":
@@ -160,6 +158,7 @@ class ToolsPanel extends Component {
                     tempComponent={this.props.tempComponent}
                     imgsrcvalue={this.props.imgsrcFourvalue}
                     updateBanner={this.props.updateBannerFour}
+                    bannerType="bannerSm"
                 />;
                 break;
             case "bannerFive":
@@ -167,6 +166,7 @@ class ToolsPanel extends Component {
                     tempComponent={this.props.tempComponent}
                     imgsrcvalue={this.props.imgsrcFivevalue}
                     updateBanner={this.props.updateBannerFive}
+                    bannerType="bannerSm"
                 />;
                 break;
             case "bannerSix":
@@ -174,6 +174,7 @@ class ToolsPanel extends Component {
                     tempComponent={this.props.tempComponent}
                     imgsrcvalue={this.props.imgsrcSixvalue}
                     updateBanner={this.props.updateBannerSix}
+                    bannerType="bannerSm"
                 />;
                 break;
             case "bannerSeven":
@@ -181,6 +182,7 @@ class ToolsPanel extends Component {
                     tempComponent={this.props.tempComponent}
                     imgsrcvalue={this.props.imgsrcSevenvalue}
                     updateBanner={this.props.updateBannerSeven}
+                    bannerType="bannerSm"
                 />;
                 break;
             case "bannerEight":
@@ -188,6 +190,7 @@ class ToolsPanel extends Component {
                     tempComponent={this.props.tempComponent}
                     imgsrcvalue={this.props.imgsrcEightvalue}
                     updateBanner={this.props.updateBannerEight}
+                    bannerType="bannerSm"
                 />;
                 break;
             case "bannerNine":
@@ -195,6 +198,7 @@ class ToolsPanel extends Component {
                     tempComponent={this.props.tempComponent}
                     imgsrcvalue={this.props.imgsrcNinevalue}
                     updateBanner={this.props.updateBannerNine}
+                    bannerType="bannerSm"
                 />;
                 break;
             case "subheader":
@@ -287,6 +291,8 @@ class ToolsPanel extends Component {
 
         return (
             <div className={classes.root} >
+                <div className={classes.empty}></div>
+                <span className={classes.labelStyle}>{this.props.aplusname}</span>
                 <Suspense fallback={Loader}>
                     {formComponent}
                 </Suspense>

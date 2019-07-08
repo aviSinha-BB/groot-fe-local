@@ -6,14 +6,12 @@ const styles = theme => ({
   loaderSrc: {
     position: "fixed",
     top: "50%",
-    left: "50%",
+    left: "45%",
     zIndex: 9999
   }
 });
-class loadingComponent extends React.Component {
-  constructor(props) {
-    super(props);
-  }
+
+class loadingComponent extends React.PureComponent {
   
   render() {
     const { classes } = this.props;
