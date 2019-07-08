@@ -267,9 +267,7 @@ class TableGrid extends Component {
         }
     }
 
-    handleUploadedExcelDownload = () => {
-        var url = window.location.href;
-        var tempid = url.split("#")[1];
+    handleUploadedExcelDownload = (tempid) => {
         this.setState({ loading: true, errorDownload: false });
         apitimeout(pendingTimeout, fetch(templateAPI + "/download/" + tempid, {
             method: "GET",
@@ -537,6 +535,7 @@ class TableGrid extends Component {
                                 render: rowData => {
                                     const app = "App";
                                     const web = "Web";
+                                    const templateId = rowData.id;
                                     const dwnld = "Download SKU";
                                     const htmlloc = rowData.location;
                                     const statusname = rowData.status.name;
@@ -545,7 +544,7 @@ class TableGrid extends Component {
                                         block = '';
                                     }
                                     else if (statusname === statusActive) {
-                                        block = <span><a href='#' onClick={() => this.handleMobileOpen(htmlloc)}>{app}</a>/<a href={imageHost + htmlloc} target="_blank">{web}</a>/<a href={'#' + rowData.id} onClick={() => this.handleUploadedExcelDownload()}>{dwnld}</a></span>;
+                                        block = <span><a href='#' onClick={() => this.handleMobileOpen(htmlloc)}>{app}</a>/<a href={imageHost + htmlloc} target="_blank">{web}</a>/<a href={'#'} onClick={() => this.handleUploadedExcelDownload(templateId)}>{dwnld}</a></span>;
                                     }
                                     else {
                                         block = <span><a href='#' onClick={() => this.handleMobileOpen(htmlloc)}>{app}</a>/<a href={imageHost + htmlloc} target="_blank">{web}</a></span>;

@@ -30,8 +30,6 @@ class Paragraph extends Component {
             enter: $.FroalaEditor.ENTER_BR,
             pastePlain: true,
             quickInsertEnabled: false,
-            wordPasteModal: false,
-            wordPasteKeepFormatting: false,
             key: FroalaKey,
             toolbarButtons: ['bold', 'italic', 'underline', '|', 'color', 'formatOL', 'formatUL'],
             colorsDefaultTab: 'text',

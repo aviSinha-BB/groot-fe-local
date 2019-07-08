@@ -140,7 +140,7 @@ class ChooseTemplate extends Component {
                             errorCloneSnackTwo: false
                         })
                     }, timeout)
-                    console.log('Looks like there was a problem in finding unique name \n', error);
+                    console.log('Looks like there was a problem in finding unique name \n');
                 });
         }
         else {
