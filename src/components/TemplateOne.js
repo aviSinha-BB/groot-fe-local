@@ -1664,7 +1664,7 @@ class TemplateOne extends Component {
             this.setState({ activeParagraphSix: false });
             this.setState({ activeParagraphSeven: false });
             this.setState({ activeParagraphEight: false });
-        }, 20000);
+        }, pendingTimeout);
     }
 
     render() {

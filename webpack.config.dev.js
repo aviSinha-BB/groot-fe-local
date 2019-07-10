@@ -6,6 +6,8 @@ const OptimizeCssAssetsPlugin = require("optimize-css-assets-webpack-plugin");
 //const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 
 module.exports = {
+  name: 'client',
+  mode: 'development',
   target: "web",
   performance: {
     hints: false,
@@ -14,6 +16,7 @@ module.exports = {
   entry: {
     index: [
         "webpack-hot-middleware/client?path=/__webpack_hmr&timeout=20000&reload=false&quiet=false&noInfo=false",
+        "react-hot-loader/patch",
         "./src/index.js"
     ]
   },
@@ -66,6 +69,9 @@ module: {
       "catalogHost": JSON.stringify(process.env.CATALOG_HOST),
       "imageHost": JSON.stringify(process.env.IMAGE_HOST),
       "AuthKey": JSON.stringify(process.env.AUTH_KEY),
+      "ttl": JSON.stringify(process.env.TTL),
+      "debug": JSON.stringify(process.env.DEBUG),
+      "BasicAuthVal": JSON.stringify(process.env.BASIC_AUTH),
       "statusDraft": JSON.stringify(process.env.STATUS_DRAFT),
       "statusRevision": JSON.stringify(process.env.STATUS_REVISION),
       "statusReview": JSON.stringify(process.env.STATUS_REVIEW),
@@ -74,6 +80,9 @@ module: {
       "statusSentForPublish": JSON.stringify(process.env.STATUS_SENT_FOR_PUBLISH),
       "statusPending": JSON.stringify(process.env.STATUS_PENDING),
       "creatorPermission": JSON.stringify(process.env.CREATOR_PERMISSION),
+      "reviewerPermission": JSON.stringify(process.env.REVIEWER_PERMISSION),
+      "publisherPermission": JSON.stringify(process.env.PUBLISHER_PERMISSION),
+      "unpublisherPermission": JSON.stringify(process.env.UNPUBLISHER_PERMISSION),
       "imageSize": JSON.stringify(process.env.IMAGE_SIZE),   //1024*1024 = 1MB
       "FroalaKey": JSON.stringify(process.env.FROALA_KEY),
       "signKey": JSON.stringify(process.env.SIGN_KEY),
@@ -82,13 +91,12 @@ module: {
       "pendingTimeout": JSON.stringify(process.env.PENDING_TIMEOUT),
       "pageListSize": JSON.stringify(process.env.PAGE_LIST_SIZE),
       "templateAPI": JSON.stringify(process.env.TEMPLATE_API),
-      "getGroupUserUrl": JSON.stringify(process.env.GET_GROUP_USER_URL),
-      "backend_host": JSON.stringify(process.env.BACKEND_HOST),
+      "productSearchAPI": JSON.stringify(process.env.PRODUCT_SEARCH_API),
+      "getGroupUserUrl": JSON.stringify(process.env.GET_GROUP_USER_URL)
     }),
 
     new HtmlWebpackPlugin({
       template: './public/index.html',
-      favicon: './public/favicon.ico',
       filename: './index.html'
     }),
 

@@ -24,26 +24,30 @@ app.get(main_config.preUrl + '/apluscontent/*',
         res.sendFile(path.join(__dirname, '../build', 'index.html'));
     });
 
-// function checkAuth(authStr) {
-//     if (!authStr)
-//         return false;
-//     else {
-//         var encodedAuthVal = authStr.split(" ")[1];
-//         var decodedAuthVal = base64.decode(encodedAuthVal);
+function checkAuth(authStr) {
+    if (!authStr)
+        return false;
+    else {
+        if (authStr.includes("Basic")) {
+            var encodedAuthVal = authStr.split("Basic ")[1];
+            var decodedAuthVal = base64.decode(encodedAuthVal);
 
-//         if (decodedAuthVal == main_config.BasicAuthVal)
-//             return true;
-//         else
-//             return false;
-//     }
-// }
+            if (decodedAuthVal === main_config.BasicAuthVal)
+                return true;
+            else
+                return false;
+        }
+        else
+            return false;
+    }
+}
 
 const formUrlEncoded = x =>
     Object.keys(x).reduce((p, c) => p + `&${c}=${encodeURIComponent(x[c])}`, '');
 
 app.post(main_config.preUrl + "/apluscontent/userspermission", (req, res, next) => {
     const groups = req.body.groups;
-    //if (checkAuth(req.get('BASIC_AUTH'))) {
+    if (checkAuth(req.get('Authorization'))) {
         console.log("[Content_Fe_WAPI]: Workflow is calling.. ");
         console.log("[Content_Fe_WAPI]: Requested Group from Workflow: ", req.body.groups);
         const bbSignkey = bbsign.generate_bbsign(main_config.signKey, ['group_name'], [groups]);
@@ -59,10 +63,10 @@ app.post(main_config.preUrl + "/apluscontent/userspermission", (req, res, next) 
             })
         }).then(function (response) {
             const permissionUsers = {};
-            if(response.status == 200) {
+            if (response.status === 200) {
                 var grpuser = response.data.mesg;
                 console.log("[Content_Fe_WAPI]: Call to Get Group User API: ", response.data.status);
-                if (grpuser != 'invalid group name' || grpuser != 'Sign Error.') {
+                if (grpuser !== 'invalid group name' || grpuser !== 'Sign Error.') {
                     grpuser.forEach(element => {
                         if (!permissionUsers[groups]) {
                             permissionUsers[groups] = [element.user_email];
@@ -71,16 +75,15 @@ app.post(main_config.preUrl + "/apluscontent/userspermission", (req, res, next) 
                         }
                     });
                     console.log("[Content_Fe_WAPI]: Users Sent to Workflow!");
-                    console.log("[Content_Fe_WAPI]: Response Sent: ", permissionUsers)
                     res.status(200).send({
                         data: permissionUsers
                     })
                 }
-                else if (grpuser != 'invalid group name'){
+                else if (grpuser === 'invalid group name') {
                     console.log("[Content_Fe_WAPI]: Invalid Group Name!");
                     res.status(400).send();
                 }
-                else if (grpuser != 'Sign Error.'){
+                else if (grpuser === 'Sign Error.') {
                     console.log("[Content_Fe_WAPI]: Sign Error!");
                     res.status(400).send();
                 }
@@ -92,21 +95,21 @@ app.post(main_config.preUrl + "/apluscontent/userspermission", (req, res, next) 
         })
             .catch(function (error) {
                 console.log("[Content_Fe_WAPI]: Error call from Workflow!");
-                console.log("[Content_Fe_WAPI]: ",error)
+                console.log("[Content_Fe_WAPI]: ", error)
                 res.status(400).send();
             });
-    // }
-    // else {
-    //     console.log("[Content_Fe_WAPI]: Authorization Header not sent or incorrect!");
-    //     res.status(401).send();
-    // }
+    }
+    else {
+        console.log("[Content_Fe_WAPI]: Authorization Header not sent or incorrect!");
+        res.status(401).send();
+    }
 });
 
-app.get(main_config.preUrl + "/health-Fe", (req, res) => {
+app.get(main_config.preUrl + "/health-fe", (req, res) => {
     request
         .get('http://localhost:8081/content-svc/health-check')
         .on('response', function (response) {
-            if (response.statusCode == 200) {
+            if (response.statusCode === 200) {
                 console.log("[Content_Fe_Health]: Content Frontend Health Success!");
                 res.status(200).send({
                     data: "Success"
@@ -118,8 +121,7 @@ app.get(main_config.preUrl + "/health-Fe", (req, res) => {
             }
         })
         .on('error', function (err) {
-            console.log("[Content_Fe_Health]: Content Frontend Health Failed!");
-            console.log("[Content_Fe_Health]: ",err);
+            console.log("[Content_Fe_Health]: Content Frontend Health Failed! ", err);
             res.status(400).send();
         });
 });

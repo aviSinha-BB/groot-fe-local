@@ -260,7 +260,7 @@ class SaveTempNameTwo extends Component {
                     "tag": "image-subheading-para",
                     "imageSrc": this.props.imgsrcEightvalue,
                     "subHeading": this.props.subheadingSevenvalue,
-                    "paragraph": this.props.paraEightvalue
+                    "paragraph": this.props.paraSevenvalue
                 },
                 "ispRB": {
                     "tag": "image-subheading-para",
@@ -386,7 +386,7 @@ class SaveTempNameTwo extends Component {
                     "tag": "image-subheading-para",
                     "imageSrc": this.props.imgsrcEightvalue,
                     "subHeading": this.props.subheadingSevenvalue,
-                    "paragraph": this.props.paraEightvalue
+                    "paragraph": this.props.paraSevenvalue
                 },
                 "ispRB": {
                     "tag": "image-subheading-para",
@@ -511,7 +511,7 @@ class SaveTempNameTwo extends Component {
                     "tag": "image-subheading-para",
                     "imageSrc": this.props.imgsrcEightvalue,
                     "subHeading": this.props.subheadingSevenvalue,
-                    "paragraph": this.props.paraEightvalue
+                    "paragraph": this.props.paraSevenvalue
                 },
                 "ispRB": {
                     "tag": "image-subheading-para",
@@ -634,7 +634,7 @@ class SaveTempNameTwo extends Component {
                     "tag": "image-subheading-para",
                     "imageSrc": this.props.imgsrcEightvalue,
                     "subHeading": this.props.subheadingSevenvalue,
-                    "paragraph": this.props.paraEightvalue
+                    "paragraph": this.props.paraSevenvalue
                 },
                 "ispRB": {
                     "tag": "image-subheading-para",
@@ -760,7 +760,7 @@ class SaveTempNameTwo extends Component {
                     "tag": "image-subheading-para",
                     "imageSrc": this.props.imgsrcEightvalue,
                     "subHeading": this.props.subheadingSevenvalue,
-                    "paragraph": this.props.paraEightvalue
+                    "paragraph": this.props.paraSevenvalue
                 },
                 "ispRB": {
                     "tag": "image-subheading-para",

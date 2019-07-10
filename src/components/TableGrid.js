@@ -480,18 +480,20 @@ class TableGrid extends Component {
                                     const statusname = rowData.status.name;
                                     var permActions = new Set();
                                     var permissionActionMap = new Map([
-                                        ["cmsCreators", ["Clone"]],
-                                        ["cmsReviewers", ["Clone"]],
-                                        ["cmsPublishers", ["Clone", "Republish", "UploadPid"]],
-                                        ["cmsUnPublishers", ["Clone", "Unpublish"]]
+                                        [creatorPermission, ["Clone"]],
+                                        [reviewerPermission, ["Clone"]],
+                                        [publisherPermission, ["Clone", "Republish", "UploadPid"]],
+                                        [unpublisherPermission, ["Clone", "Unpublish"]]
                                     ]);
                                     if (localStorage.getItem('userPermission')) {
                                         var permissionArr = localStorage.getItem('userPermission').split(',');
                                         permissionArr.forEach(function (permVal) {
                                             var tempVal = permissionActionMap.get(permVal);
-                                            tempVal.forEach(function (element) {
-                                                permActions.add(element)
-                                            });
+                                            if(tempVal !== undefined) {
+                                                tempVal.forEach(function (element) {
+                                                    permActions.add(element)
+                                                });
+                                            }
                                         });
                                         if (statusname === statusActive) {
                                             if (permActions.has('Unpublish') && permActions.has('UploadPid')) {

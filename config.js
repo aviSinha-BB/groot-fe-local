@@ -31,6 +31,12 @@ const main_config= {
 
     "creatorPermission": process.env.CREATOR_PERMISSION,
 
+    "reviewerPermission": process.env.REVIEWER_PERMISSION,
+
+    "publisherPermission": process.env.PUBLISHER_PERMISSION,
+
+    "unpublisherPermission": process.env.UNPUBLISHER_PERMISSION,
+
     "imageSize": process.env.IMAGE_SIZE,   //1024*1024 = 1MB
 
     "FroalaKey": process.env.FROALA_KEY,

@@ -85,6 +85,9 @@ module.exports = {
       "statusSentForPublish": JSON.stringify(process.env.STATUS_SENT_FOR_PUBLISH),
       "statusPending": JSON.stringify(process.env.STATUS_PENDING),
       "creatorPermission": JSON.stringify(process.env.CREATOR_PERMISSION),
+      "reviewerPermission": JSON.stringify(process.env.REVIEWER_PERMISSION),
+      "publisherPermission": JSON.stringify(process.env.PUBLISHER_PERMISSION),
+      "unpublisherPermission": JSON.stringify(process.env.UNPUBLISHER_PERMISSION),
       "imageSize": JSON.stringify(process.env.IMAGE_SIZE),   //1024*1024 = 1MB
       "FroalaKey": JSON.stringify(process.env.FROALA_KEY),
       "signKey": JSON.stringify(process.env.SIGN_KEY),
