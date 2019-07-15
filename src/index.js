@@ -96,8 +96,8 @@ class Main extends Component {
         });
     }
 
-    if(localStorage.getItem('userPermission') && localStorage.getItem('token'))
-      this.setState({toggleApp: true});
+    if (localStorage.getItem('userPermission') && localStorage.getItem('token'))
+      this.setState({ toggleApp: true });
   }
   render() {
     return (

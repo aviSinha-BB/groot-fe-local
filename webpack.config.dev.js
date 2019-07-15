@@ -15,7 +15,7 @@ module.exports = {
   devtool: "inline-source-map",
   entry: {
     index: [
-        "webpack-hot-middleware/client?path=/__webpack_hmr&timeout=20000&reload=false&quiet=false&noInfo=false",
+        "webpack-hot-middleware/client?path=http://localhost:8080/content-svc/apluscontent/__webpack_hmr",
         "react-hot-loader/patch",
         "./src/index.js"
     ]
@@ -23,7 +23,8 @@ module.exports = {
   output: {
     path: path.join(__dirname, "/dev"),
     chunkFilename: "[name].[hash].js",
-    filename: "[name].[hash].js"
+    filename: "[name].[hash].js",
+    publicPath: 'http://localhost:8080/content-svc/apluscontent/',
   },
   
 module: {

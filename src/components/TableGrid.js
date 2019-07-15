@@ -445,9 +445,8 @@ class TableGrid extends Component {
                                     const id = rowData.id;
                                     const statusid = rowData.status.id;
                                     const statusname = rowData.status.name;
-                                    const url = window.location.href;
                                     let block = null;
-                                    if (url.includes('all')) {
+                                    if (this.props.tabValue === 1) {
                                         block = val;
                                     }
                                     else {
@@ -468,8 +467,8 @@ class TableGrid extends Component {
                             { title: 'Reviewer', field: 'approvedBy' },
                             { title: 'Manufacturer', field: 'manufacturer' },
                             { title: 'Created By', field: 'createdBy' },
-                            { title: 'Created On', field: 'createdOn', type: 'datetime' },
-                            { title: 'Modified On', field: 'updatedOn', type: 'datetime' },
+                            { title: 'Created On', field: 'createdOn', type: 'datetime', sorting: false },
+                            { title: 'Modified On', field: 'updatedOn', type: 'datetime', sorting: false },
                             {
                                 title: 'Action', field: 'action', sorting: false,
                                 render: rowData => {
@@ -686,7 +685,7 @@ class TableGrid extends Component {
                 {this.state.overallErrorFour && <ErrorToast message="Error in Processing" />}
                 {this.state.overallErrorFive && <ErrorToast message="Error in Processing" />}
                 {this.state.successUnpublishSnack && <SuccessToast message="Aplus Template is Sucessfully Unpublished" />}
-                {this.state.errorUnpublishSnack && <WarningToast message="Unsucessfull while Unpublishing" />}
+                {this.state.errorUnpublishSnack && <ErrorToast message="Unsucessfull while Unpublishing" />}
                 {this.state.successCloneSnack && <SuccessToast message="Aplus Template is Sucessfully Cloned" />}
                 {this.state.errorCloneSnack && <ErrorToast message="Unsucessfull while Cloning" />}
                 {this.state.successUpload && <SuccessToast message="Excel file upload Successfully" />}

@@ -48,7 +48,6 @@ const formUrlEncoded = x =>
 app.post(main_config.preUrl + "/apluscontent/userspermission", (req, res, next) => {
     const groups = req.body.groups;
     if (checkAuth(req.get('Authorization'))) {
-        console.log("[Content_Fe_WAPI]: Workflow is calling.. ");
         console.log("[Content_Fe_WAPI]: Requested Group from Workflow: ", req.body.groups);
         const bbSignkey = bbsign.generate_bbsign(main_config.signKey, ['group_name'], [groups]);
         axios({
@@ -62,11 +61,12 @@ app.post(main_config.preUrl + "/apluscontent/userspermission", (req, res, next) 
                 'bb_sign': bbSignkey
             })
         }).then(function (response) {
-            const permissionUsers = {};
+            var permissionUsers = {};
             if (response.status === 200) {
                 var grpuser = response.data.mesg;
-                console.log("[Content_Fe_WAPI]: Call to Get Group User API: ", response.data.status);
-                if (grpuser !== 'invalid group name' || grpuser !== 'Sign Error.') {
+                console.log("[Content_Fe_WAPI]: Get Group User API status: ", response.data.status);
+                console.log("[Content_Fe_WAPI]: Get Group User API Response Received: \n", grpuser);
+                if (grpuser !== 'invalid group name' || grpuser !== 'Sign Error.' || grpuser.length() !== 0 || grpuser !== '') {
                     grpuser.forEach(element => {
                         if (!permissionUsers[groups]) {
                             permissionUsers[groups] = [element.user_email];
@@ -75,6 +75,7 @@ app.post(main_config.preUrl + "/apluscontent/userspermission", (req, res, next) 
                         }
                     });
                     console.log("[Content_Fe_WAPI]: Users Sent to Workflow!");
+                    console.log("[Content_Fe_WAPI]: Response Sent: ", permissionUsers);
                     res.status(200).send({
                         data: permissionUsers
                     })
@@ -87,15 +88,18 @@ app.post(main_config.preUrl + "/apluscontent/userspermission", (req, res, next) 
                     console.log("[Content_Fe_WAPI]: Sign Error!");
                     res.status(400).send();
                 }
+                else if (grpuser.length() === 0 || grpuser === '') {
+                    console.log("[Content_Fe_WAPI]: Empty response from Get Group User API");
+                    res.status(400).send();
+                }
             }
             else {
-                console.log("[Content_Fe_WAPI]: Response Failed: ", response.status);
+                console.log("[Content_Fe_WAPI]: Group User API Response Failed Status: ", response.status);
                 res.status(400).send();
             }
         })
             .catch(function (error) {
-                console.log("[Content_Fe_WAPI]: Error call from Workflow!");
-                console.log("[Content_Fe_WAPI]: ", error)
+                console.log("[Content_Fe_WAPI]: Error Call! \n", error);
                 res.status(400).send();
             });
     }
@@ -110,18 +114,18 @@ app.get(main_config.preUrl + "/health-fe", (req, res) => {
         .get('http://localhost:8081/content-svc/health-check')
         .on('response', function (response) {
             if (response.statusCode === 200) {
-                console.log("[Content_Fe_Health]: Content Frontend Health Success!");
+                console.log("[Content_Fe_Health]: Content-svc Health Success!");
                 res.status(200).send({
                     data: "Success"
                 });
             }
             else {
-                console.log("[Content_Fe_Health]: Content Frontend Health Failed! ", response.statusCode);
+                console.log("[Content_Fe_Health]: Content-svc Health Failed! ", response.statusCode);
                 res.status(400).send();
             }
         })
         .on('error', function (err) {
-            console.log("[Content_Fe_Health]: Content Frontend Health Failed! ", err);
+            console.log("[Content_Fe_Health]: Content-svc Health Failed! ", err);
             res.status(400).send();
         });
 });
