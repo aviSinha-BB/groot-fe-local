@@ -69,6 +69,7 @@ module: {
       "clientHost": JSON.stringify(process.env.CLIENT_HOST),
       "catalogHost": JSON.stringify(process.env.CATALOG_HOST),
       "imageHost": JSON.stringify(process.env.IMAGE_HOST),
+      "partnerLogoutUrl": JSON.stringify(process.env.PARTNER_LOGOUT_URL),
       "AuthKey": JSON.stringify(process.env.AUTH_KEY),
       "ttl": JSON.stringify(process.env.TTL),
       "debug": JSON.stringify(process.env.DEBUG),

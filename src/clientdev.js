@@ -99,5 +99,5 @@ app.post(main_config.preUrl + "/apluscontent/userspermission", (req, res, next) 
 });
 
 app.listen(main_config.clientPort, function () {
-    console.log("Frontend Serter Started on port " + main_config.clientPort + "url: http://localhost:8080/content-svc/apluscontent/");
+    console.log("Frontend Server Started on port " + main_config.clientPort + ", url: http://localhost:8080/content-svc/apluscontent/");
 });

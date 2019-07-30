@@ -28,10 +28,16 @@ class Main extends Component {
 
   componentDidMount() {
     var url = window.location.href;
-    var authToken = url.split("?sessionId=")[1];
+    var paramUrl = url.split("sessionId=")[1];
+
+    if (typeof paramUrl !== "undefined") {
+      var authToken = paramUrl.split("&source=")[0];
+      var sourceHost = paramUrl.split("&source=")[1];
+    }
 
     if (typeof authToken !== "undefined") {
       localStorage.setItem('token', authToken);
+      localStorage.setItem('source_host', sourceHost);
     }
 
     if (localStorage.getItem('token') === null) {
