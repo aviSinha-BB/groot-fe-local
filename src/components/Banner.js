@@ -27,6 +27,11 @@ class Banner extends Component {
     this.el = document.createElement('div');
   }
 
+  componentDidUpdate(prevProps) {
+    if(this.props.bannerType !== prevProps.bannerType)
+      this.setState({imgSrc:false});
+  }
+
   componentDidMount() {
     modalRoot.appendChild(this.el);
   }

@@ -32,10 +32,10 @@ app.use(require('webpack-hot-middleware')(compiler));
 
 //static assets
 
-app.use(main_config.preUrl+'/apluscontent', express.static(path.join(__dirname, '../dev')));
+app.use(main_config.preUrl + '/apluscontent', express.static(path.join(__dirname, '../dev')));
 app.use(cors());
 
-app.get(main_config.preUrl+'/apluscontent/*',
+app.get(main_config.preUrl + '/apluscontent/*',
     function (req, res) {
         res.sendFile(path.join(__dirname, '../dev', 'index.html'));
     });
@@ -44,9 +44,10 @@ app.get(main_config.preUrl+'/apluscontent/*',
 const formUrlEncoded = x =>
     Object.keys(x).reduce((p, c) => p + `&${c}=${encodeURIComponent(x[c])}`, '');
 
-app.post(main_config.preUrl+"/apluscontent/userspermission", (req, res, next) => {
+app.post(main_config.preUrl + "/apluscontent/userspermission", (req, res, next) => {
     const groups = req.body.groups;
-    console.log("Requested Group: ", req.body.groups);
+    console.log("[Content_Fe_WAPI]: Workflow is calling.. ");
+    console.log("[Content_Fe_WAPI]: Requested Group from Workflow: ", req.body.groups);
     const bbSignkey = bbsign.generate_bbsign(main_config.signKey, ['group_name'], [groups]);
     axios({
         method: 'post',
@@ -59,10 +60,11 @@ app.post(main_config.preUrl+"/apluscontent/userspermission", (req, res, next) =>
             'bb_sign': bbSignkey
         })
     }).then(function (response) {
-            const permissionUsers = {};
+        const permissionUsers = {};
+        if (response.status === 200) {
             var grpuser = response.data.mesg;
-            console.log("Workflow calling.. ", response.data.status);
-            if (grpuser != 'invalid group name') {
+            console.log("[Content_Fe_WAPI]: Call to Get Group User API: ", response.data.status);
+            if (grpuser !== 'invalid group name' || grpuser !== 'Sign Error.') {
                 grpuser.forEach(element => {
                     if (!permissionUsers[groups]) {
                         permissionUsers[groups] = [element.user_email];
@@ -70,22 +72,32 @@ app.post(main_config.preUrl+"/apluscontent/userspermission", (req, res, next) =>
                         permissionUsers[groups].push(element.user_email);
                     }
                 });
-                console.log("Permissions Sent!");
+                console.log("[Content_Fe_WAPI]: Users Sent to Workflow!");
                 res.status(200).send({
                     data: permissionUsers
                 })
             }
-            else {
-                console.log("Invalid Group Name!");
+            else if (grpuser === 'invalid group name') {
+                console.log("[Content_Fe_WAPI]: Invalid Group Name!");
                 res.status(400).send();
             }
-        })
+            else if (grpuser === 'Sign Error.') {
+                console.log("[Content_Fe_WAPI]: Sign Error!");
+                res.status(400).send();
+            }
+        }
+        else {
+            console.log("[Content_Fe_WAPI]: Response Failed: ", response.status);
+            res.status(400).send();
+        }
+    })
         .catch(function (error) {
-            console.log("Error call from Workflow! ", error);
+            console.log("[Content_Fe_WAPI]: Error call from Workflow!");
+            console.log("[Content_Fe_WAPI]: ", error)
             res.status(400).send();
         });
 });
 
 app.listen(main_config.clientPort, function () {
-    console.log("Frontend Serter Started on port " + main_config.clientPort);
+    console.log("Frontend Server Started on port " + main_config.clientPort + ", url: http://localhost:8080/content-svc/apluscontent/");
 });

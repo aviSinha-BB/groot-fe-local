@@ -97,13 +97,13 @@ class ManageAplusTemplate extends Component {
                 </Grid>
                 {this.state.tabValue === 0 && <TabContainer>
                     <div className={classes.tableStyle} >
-                        <Table />
+                        <Table tabValue={this.state.tabValue} />
                     </div>
                 </TabContainer>
                 }
                 {this.state.tabValue === 1 && <TabContainer>
                     <div className={classes.tableStyle} >
-                        <Table />
+                        <Table tabValue={this.state.tabValue} />
                     </div>
                 </TabContainer>
                 }

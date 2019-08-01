@@ -7,6 +7,8 @@ const main_config= {
 
     "imageHost": process.env.IMAGE_HOST,
 
+    "partnerLogoutUrl": process.env.PARTNER_LOGOUT_URL,
+
     "AuthKey": process.env.AUTH_KEY,
     
     "ttl": process.env.TTL,

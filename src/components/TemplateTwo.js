@@ -472,7 +472,7 @@ class TemplateTwo extends Component {
         var data = e.dataTransfer.getData("bmd");
         var source = document.getElementById(data).src;
         document.getElementById("placedImageTwo").src = source;
-        document.getElementById("yourImg").src = '';
+        
         this.updateBannerTwo(source);
     }
 
@@ -481,7 +481,7 @@ class TemplateTwo extends Component {
         var data = e.dataTransfer.getData("bmd");
         var source = document.getElementById(data).src;
         document.getElementById("placedImageThree").src = source;
-        document.getElementById("yourImg").src = '';
+        
         this.updateBannerThree(source);
     }
 
@@ -490,7 +490,7 @@ class TemplateTwo extends Component {
         var data = e.dataTransfer.getData("bsm");
         var source = document.getElementById(data).src;
         document.getElementById("placedImageFour").src = source;
-        document.getElementById("yourImg").src = '';
+        
         this.updateBannerFour(source);
     }
 
@@ -499,7 +499,7 @@ class TemplateTwo extends Component {
         var data = e.dataTransfer.getData("bsm");
         var source = document.getElementById(data).src;
         document.getElementById("placedImageFive").src = source;
-        document.getElementById("yourImg").src = '';
+        
         this.updateBannerFive(source);
     }
 
@@ -508,7 +508,7 @@ class TemplateTwo extends Component {
         var data = e.dataTransfer.getData("bsm");
         var source = document.getElementById(data).src;
         document.getElementById("placedImageSix").src = source;
-        document.getElementById("yourImg").src = '';
+        
         this.updateBannerSix(source);
     }
 
@@ -517,7 +517,7 @@ class TemplateTwo extends Component {
         var data = e.dataTransfer.getData("bsm");
         var source = document.getElementById(data).src;
         document.getElementById("placedImageSeven").src = source;
-        document.getElementById("yourImg").src = '';
+        
         this.updateBannerSeven(source);
     }
 
@@ -526,7 +526,7 @@ class TemplateTwo extends Component {
         var data = e.dataTransfer.getData("bsm");
         var source = document.getElementById(data).src;
         document.getElementById("placedImageEight").src = source;
-        document.getElementById("yourImg").src = '';
+        
         this.updateBannerEight(source);
     }
 
@@ -535,7 +535,7 @@ class TemplateTwo extends Component {
         var data = e.dataTransfer.getData("bsm");
         var source = document.getElementById(data).src;
         document.getElementById("placedImageNine").src = source;
-        document.getElementById("yourImg").src = '';
+        
         this.updateBannerNine(source);
     }
 

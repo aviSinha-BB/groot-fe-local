@@ -131,8 +131,14 @@ class Navbar extends Component {
 
     handleLogout = () => {
         this.handleMenuClose;
-        localStorage.clear();
-        window.location.replace(catalogHost);
+        if (localStorage.getItem('source_host') === 'partner') {
+            localStorage.clear();
+            window.location.replace(partnerLogoutUrl);
+        }
+        else {
+            localStorage.clear();
+            window.location.replace(catalogHost);
+        }
     }
 
     render() {

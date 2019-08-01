@@ -20,7 +20,7 @@ const modalRoot = document.getElementById('modal-root');
 
 const selectStyle = {
     container: () => ({
-        padding: 10, 
+        padding: 10,
         width: 287
     }),
     menu: () => ({
@@ -32,9 +32,9 @@ var promiseOptions = inputValue =>
     new Promise((resolve, reject) => {
         var productSuggestions = [];
         var authVal = new Buffer(BasicAuthVal).toString('base64');
-        if (debug){
+        if (debug) {
             var basicAuthValue = 'Basic ' + authVal;
-        } else{
+        } else {
             var basicAuthValue = localStorage.getItem('token');
         }
         fetch(productSearchAPI + "?term=" + inputValue, {
@@ -54,26 +54,31 @@ var promiseOptions = inputValue =>
             })
             .then(result => {
                 var prodArr = result.results.data;
-                if(prodArr.length != 0) {
-                    prodArr.forEach(function (arrayItem) {
-                        var prodName = arrayItem.name;
-                        var prodId = arrayItem.pid;
-                        productSuggestions.push({value: prodId, label: prodName});
-                    });
-                    var filterOption = (inputValue) => {
-                        return productSuggestions.filter(i =>
-                            i.value.toString().includes(inputValue.toString())
-                        );
-                    };
-                    setTimeout(() => {
-                        resolve(filterOption(inputValue));
-                    }, 1000);
+                if (/^\d+$/.test(inputValue)) {
+                    if (prodArr.length != 0) {
+                        prodArr.forEach(function (arrayItem) {
+                            var prodName = arrayItem.name;
+                            var prodId = arrayItem.pid;
+                            productSuggestions.push({ value: prodId, label: prodName });
+                        });
+                        var filterOption = (inputValue) => {
+                            return productSuggestions.filter(i =>
+                                i.value.toString().includes(inputValue.toString())
+                            );
+                        };
+                        setTimeout(() => {
+                            resolve(filterOption(inputValue));
+                        }, 1000);
+                    }
+                    else {
+                        productSuggestions.push({ value: inputValue, label: inputValue });
+                        setTimeout(() => {
+                            resolve(productSuggestions);
+                        }, 1000);
+                    }
                 }
                 else {
-                    productSuggestions.push({value: inputValue, label: inputValue});
-                    setTimeout(() => {
-                        resolve(productSuggestions);
-                    }, 1000);
+                    reject(null);
                 }
             })
             .catch((error) => {
@@ -176,8 +181,11 @@ class SaveTempName extends Component {
                     console.log('Problem in fetching template data in SaveTempOne \n');
                 });
 
-            if (get_sname == statusDraft || get_sname == statusReview) {
+            if (get_sname == statusReview) {
                 this.setState({ toggleRevision: false, togglePending: false, toggleDraft: false });
+            }
+            else if(get_sname == statusDraft) {
+                this.setState({ toggleRevision: false, togglePending: false, toggleSave: false });
             }
             else if (get_sname == statusRevision || get_sname == statusSentForPublish) {
                 this.setState({ toggleReview: false, toggleDraft: false });
@@ -804,17 +812,33 @@ class SaveTempName extends Component {
                         }, timeout);
                         return;
                     }
+                    else if (response.status == 206) {
+                        throw "Partial Success";
+                    }
                     else {
                         throw Error(response.status);
                     }
                 }
             ).catch((error) => {
-                this.setState({ loading: false, errorPublishSnack: true });
-                setTimeout(() => {
-                    this.setState({
-                        errorPublishSnack: false
-                    })
-                }, timeout);
+                if (error != "Partial Success") {
+                    this.setState({ loading: false, errorPublishSnack: true });
+                    setTimeout(() => {
+                        this.setState({
+                            errorPublishSnack: false
+                        })
+                    }, timeout);
+
+                }
+                else {
+                    this.setState({ loading: false, errorPublishSnack: true });
+                    setTimeout(() => {
+                        this.setState({
+                            errorPublishSnack: false
+                        });
+                        window.location.replace(clientHost + "all");
+                    }, timeout);
+
+                }
                 console.log('Looks like there was a problem in sending html file \n');
             });
         }
@@ -835,7 +859,7 @@ class SaveTempName extends Component {
     };
 
     handleChangeId = (val) => {
-        if(val) {
+        if (val) {
             this.setState({ pids: val });
         }
         else {
@@ -878,7 +902,7 @@ class SaveTempName extends Component {
                     }}
                     required
                 />
-                <span style={{paddingLeft: 10}} className={classes.labelStyle}>Enter Products</span><br/>
+                <span style={{ paddingLeft: 10 }} className={classes.labelStyle}>Enter Products</span><br />
                 <AsyncSelect
                     isMulti
                     cacheOptions
