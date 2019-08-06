@@ -4,6 +4,8 @@ import Loader from './Loading';
 import styled from 'styled-components';
 import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
+import Delete from '@material-ui/icons/Close';
+import IconButton from '@material-ui/core/IconButton';
 import { withStyles } from '@material-ui/core/styles';
 import { styles } from './ComponentStyle/TemplateStyle';
 import { apitimeout } from './api_timeout';
@@ -242,7 +244,15 @@ class TemplateTwo extends Component {
             activeParagraphSeven: false,
             activeParagraphEight: false,
             errorSnack: false,
-            errorSnackTwo: false
+            errorSnackTwo: false,
+            toggleSectionOne: true,
+            toggleSectionTwo: true,
+            toggleSectionThree: true,
+            toggleSectionFour: true,
+            toggleSectionFive: true,
+            toggleSectionSix: true,
+            toggleSectionSeven: true,
+            toggleSectionEight: true,
         };
     }
 
@@ -285,31 +295,41 @@ class TemplateTwo extends Component {
                             anotherHeadingvalue: result.data.hihspM.anotherHeading,
                             subheadingvalue: result.data.hihspM.subHeading,
                             paravalue: result.data.hihspM.paragraph,
+                            toggleSectionOne: result.data.hihspM.visible,
                             headingThreevalue: result.data.hspihB.heading,
                             imgsrcThreevalue: result.data.hspihB.imageSrc,
                             anotherHeadingTwovalue: result.data.hspihB.anotherHeading,
                             subheadingTwovalue: result.data.hspihB.subHeading,
                             paraTwovalue: result.data.hspihB.paragraph,
+                            toggleSectionTwo: result.data.hspihB.visible,
                             imgsrcFourvalue: result.data.ispLT.imageSrc,
                             subheadingThreevalue: result.data.ispLT.subHeading,
                             paraThreevalue: result.data.ispLT.paragraph,
+                            toggleSectionThree: result.data.ispLT.visible,
                             imgsrcFivevalue: result.data.ispMT.imageSrc,
                             subheadingFourvalue: result.data.ispMT.subHeading,
                             paraFourvalue: result.data.ispMT.paragraph,
+                            toggleSectionFour: result.data.ispMT.visible,
                             imgsrcSixvalue: result.data.ispRT.imageSrc,
                             subheadingFivevalue: result.data.ispRT.subHeading,
                             paraFivevalue: result.data.ispRT.paragraph,
+                            toggleSectionFive: result.data.ispRT.visible,
                             imgsrcSevenvalue: result.data.ispLB.imageSrc,
                             subheadingSixvalue: result.data.ispLB.subHeading,
                             paraSixvalue: result.data.ispLB.paragraph,
+                            toggleSectionSix: result.data.ispLB.visible,
                             imgsrcEightvalue: result.data.ispMB.imageSrc,
                             subheadingSevenvalue: result.data.ispMB.subHeading,
                             paraSevenvalue: result.data.ispMB.paragraph,
+                            toggleSectionSeven: result.data.ispMB.visible,
                             imgsrcNinevalue: result.data.ispRB.imageSrc,
                             subheadingEightvalue: result.data.ispRB.subHeading,
                             paraEightvalue: result.data.ispRB.paragraph,
+                            toggleSectionEight: result.data.ispRB.visible,
                             taskId: result.metaData.taskId
                         });
+
+                        this.handleDeleteSection("initial-mount")
                     }
                     else {
                         this.setState({ errorSnack: true });
@@ -472,7 +492,7 @@ class TemplateTwo extends Component {
         var data = e.dataTransfer.getData("bmd");
         var source = document.getElementById(data).src;
         document.getElementById("placedImageTwo").src = source;
-        
+
         this.updateBannerTwo(source);
     }
 
@@ -481,7 +501,7 @@ class TemplateTwo extends Component {
         var data = e.dataTransfer.getData("bmd");
         var source = document.getElementById(data).src;
         document.getElementById("placedImageThree").src = source;
-        
+
         this.updateBannerThree(source);
     }
 
@@ -490,7 +510,7 @@ class TemplateTwo extends Component {
         var data = e.dataTransfer.getData("bsm");
         var source = document.getElementById(data).src;
         document.getElementById("placedImageFour").src = source;
-        
+
         this.updateBannerFour(source);
     }
 
@@ -499,7 +519,7 @@ class TemplateTwo extends Component {
         var data = e.dataTransfer.getData("bsm");
         var source = document.getElementById(data).src;
         document.getElementById("placedImageFive").src = source;
-        
+
         this.updateBannerFive(source);
     }
 
@@ -508,7 +528,7 @@ class TemplateTwo extends Component {
         var data = e.dataTransfer.getData("bsm");
         var source = document.getElementById(data).src;
         document.getElementById("placedImageSix").src = source;
-        
+
         this.updateBannerSix(source);
     }
 
@@ -517,7 +537,7 @@ class TemplateTwo extends Component {
         var data = e.dataTransfer.getData("bsm");
         var source = document.getElementById(data).src;
         document.getElementById("placedImageSeven").src = source;
-        
+
         this.updateBannerSeven(source);
     }
 
@@ -526,7 +546,7 @@ class TemplateTwo extends Component {
         var data = e.dataTransfer.getData("bsm");
         var source = document.getElementById(data).src;
         document.getElementById("placedImageEight").src = source;
-        
+
         this.updateBannerEight(source);
     }
 
@@ -535,7 +555,7 @@ class TemplateTwo extends Component {
         var data = e.dataTransfer.getData("bsm");
         var source = document.getElementById(data).src;
         document.getElementById("placedImageNine").src = source;
-        
+
         this.updateBannerNine(source);
     }
 
@@ -1658,6 +1678,71 @@ class TemplateTwo extends Component {
         }, pendingTimeout);
     }
 
+    handleDelete = (section) => {
+        var parent = document.getElementById(section);
+        while (parent.firstChild) {
+            parent.removeChild(parent.firstChild);
+        }
+    }
+
+    handleDeleteSection = (section) => {
+        if (section === "initial-mount") {
+            if (!this.state.toggleSectionOne) {
+                this.handleDelete("section-one")
+            }
+            if (!this.state.toggleSectionTwo) {
+                this.handleDelete("section-two")
+            }
+            if (!this.state.toggleSectionThree) {
+                this.handleDelete("section-three")
+            }
+            if (!this.state.toggleSectionFour) {
+                this.handleDelete("section-four")
+            }
+            if (!this.state.toggleSectionFive) {
+                this.handleDelete("section-five")
+            }
+            if (!this.state.toggleSectionSix) {
+                this.handleDelete("section-six")
+            }
+            if (!this.state.toggleSectionSeven) {
+                this.handleDelete("section-seven")
+            }
+            if (!this.state.toggleSectionEight) {
+                this.handleDelete("section-eight")
+            }
+        }
+        else {
+            switch (section) {
+                case "section-one":
+                    this.setState({ toggleSectionOne: false });
+                    break;
+                case "section-two":
+                    this.setState({ toggleSectionTwo: false });
+                    break;
+                case "section-three":
+                    this.setState({ toggleSectionThree: false });
+                    break;
+                case "section-four":
+                    this.setState({ toggleSectionFour: false });
+                    break;
+                case "section-five":
+                    this.setState({ toggleSectionFive: false });
+                    break;
+                case "section-six":
+                    this.setState({ toggleSectionSix: false });
+                    break;
+                case "section-seven":
+                    this.setState({ toggleSectionSeven: false });
+                    break;
+                case "section-eight":
+                    this.setState({ toggleSectionEight: false });
+                    break;
+            };
+            this.handleDelete(section);
+        }
+    }
+
     render() {
         const { classes } = this.props;
         return (
@@ -1734,6 +1819,14 @@ class TemplateTwo extends Component {
                                     updateVideo={this.updateVideo}
                                     tempComponent={this.props.tempComponent}
                                     taskId={this.state.taskId}
+                                    toggleSectionOne={this.state.toggleSectionOne}
+                                    toggleSectionTwo={this.state.toggleSectionTwo}
+                                    toggleSectionThree={this.state.toggleSectionThree}
+                                    toggleSectionFour={this.state.toggleSectionFour}
+                                    toggleSectionFive={this.state.toggleSectionFive}
+                                    toggleSectionSix={this.state.toggleSectionSix}
+                                    toggleSectionSeven={this.state.toggleSectionSeven}
+                                    toggleSectionEight={this.state.toggleSectionEight}
                                 />
                             </Suspense>
                         </Paper>
@@ -1760,383 +1853,463 @@ class TemplateTwo extends Component {
                                         activeVideo={this.state.activeVideo}
                                         onClick={this.editVideo}
                                     >
-                                        {this.state.videoStr ? <div className="video-style" dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(this.state.videoStr,{ALLOWED_TAGS: ['iframe'], ALLOWED_ATTR: ['width','height','src']})}} /> : <img src={this.state.videoSrcPlaceholder} />}
+                                        {this.state.videoStr ? <div className="video-style" dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(this.state.videoStr, { ALLOWED_TAGS: ['iframe'], ALLOWED_ATTR: ['width', 'height', 'src'] }) }} /> : <img src={this.state.videoSrcPlaceholder} />}
                                     </ActiveVideo>
 
-                                    <ActiveHeaderTwo
-                                        className="main-heading"
-                                        activeHeadTwo={this.state.activeHeadTwo}
-                                        onClick={this.editHeaderTwo}
-                                    >
-                                        <FroalaEditorView
-                                            config={{
-                                                key: FroalaKey
-                                            }}
-                                            model={this.state.headingTwovalue}
-                                        />
-                                    </ActiveHeaderTwo>
-                                    <div className="flex-block flex-block-2">
-                                        <ActivePara
-                                            onDrop={this.dropTwo}
-                                            onDragOver={this.allowDrop}
+                                    <div id="section-one">
+                                        <div id="delete-button">
+                                            <IconButton
+                                                aria-label="delete"
+                                                onClick={() => this.handleDeleteSection("section-one")}
+                                            >
+                                                <Delete />
+                                            </IconButton>
+                                        </div>
+                                        <ActiveHeaderTwo
+                                            className="main-heading"
+                                            activeHeadTwo={this.state.activeHeadTwo}
+                                            onClick={this.editHeaderTwo}
                                         >
-                                            <ActiveBannerTwo
-                                                src={this.state.imgsrcTwovalue}
-                                                id="placedImageTwo"
-                                                width="600"
-                                                activeBannerTwo={this.state.activeBannerTwo}
-                                                onClick={this.editBannerTwo}
-                                                className="half-view-img"
-                                                alt
+                                            <FroalaEditorView
+                                                config={{
+                                                    key: FroalaKey
+                                                }}
+                                                model={this.state.headingTwovalue}
                                             />
-                                        </ActivePara>
-                                        <div>
-                                            <ActiveAnotherHeader
-                                                activeanotherHead={this.state.activeanotherHead}
-                                                onClick={this.editAnotherHead}
-                                                className="feature-heading"
-                                            >
-                                                <FroalaEditorView
-                                                    config={{
-                                                        key: FroalaKey
-                                                    }}
-                                                    model={this.state.anotherHeadingvalue}
-                                                />
-                                            </ActiveAnotherHeader>
-                                            <ActiveSubHeader
-                                                activeSubHead={this.state.activeSubHead}
-                                                onClick={this.editSubHead}
-                                                className="feature-sub-heading"
-                                            >
-                                                <FroalaEditorView
-                                                    config={{
-                                                        key: FroalaKey
-                                                    }}
-                                                    model={this.state.subheadingvalue}
-                                                />
-                                            </ActiveSubHeader>
+                                        </ActiveHeaderTwo>
+                                        <div className="flex-block flex-block-2">
                                             <ActivePara
-                                                activeParagraph={this.state.activeParagraph}
-                                                onClick={this.editPara}
-                                                className="para-1"
+                                                onDrop={this.dropTwo}
+                                                onDragOver={this.allowDrop}
                                             >
-                                                <FroalaEditorView
-                                                    config={{
-                                                        key: FroalaKey
-                                                    }}
-                                                    model={this.state.paravalue}
+                                                <ActiveBannerTwo
+                                                    src={this.state.imgsrcTwovalue}
+                                                    id="placedImageTwo"
+                                                    width="600"
+                                                    activeBannerTwo={this.state.activeBannerTwo}
+                                                    onClick={this.editBannerTwo}
+                                                    className="half-view-img"
+                                                    alt
                                                 />
                                             </ActivePara>
+                                            <div>
+                                                <ActiveAnotherHeader
+                                                    activeanotherHead={this.state.activeanotherHead}
+                                                    onClick={this.editAnotherHead}
+                                                    className="feature-heading"
+                                                >
+                                                    <FroalaEditorView
+                                                        config={{
+                                                            key: FroalaKey
+                                                        }}
+                                                        model={this.state.anotherHeadingvalue}
+                                                    />
+                                                </ActiveAnotherHeader>
+                                                <ActiveSubHeader
+                                                    activeSubHead={this.state.activeSubHead}
+                                                    onClick={this.editSubHead}
+                                                    className="feature-sub-heading"
+                                                >
+                                                    <FroalaEditorView
+                                                        config={{
+                                                            key: FroalaKey
+                                                        }}
+                                                        model={this.state.subheadingvalue}
+                                                    />
+                                                </ActiveSubHeader>
+                                                <ActivePara
+                                                    activeParagraph={this.state.activeParagraph}
+                                                    onClick={this.editPara}
+                                                    className="para-1"
+                                                >
+                                                    <FroalaEditorView
+                                                        config={{
+                                                            key: FroalaKey
+                                                        }}
+                                                        model={this.state.paravalue}
+                                                    />
+                                                </ActivePara>
+                                            </div>
                                         </div>
                                     </div>
-                                    <div className="flex-block flex-block-2 reverse">
-                                        <div>
-                                            <ActiveAnotherHeaderTwo
-                                                activeanotherHeadTwo={this.state.activeanotherHeadTwo}
-                                                onClick={this.editAnotherHeadTwo}
-                                                className="feature-heading"
+                                    <div id="section-two">
+                                        <div id="delete-button">
+                                            <IconButton
+                                                aria-label="delete"
+                                                onClick={() => this.handleDeleteSection("section-two")}
                                             >
-                                                <FroalaEditorView
-                                                    config={{
-                                                        key: FroalaKey
-                                                    }}
-                                                    model={this.state.anotherHeadingTwovalue}
-                                                />
-                                            </ActiveAnotherHeaderTwo>
-                                            <ActiveSubHeaderTwo
-                                                activeSubHeadTwo={this.state.activeSubHeadTwo}
-                                                onClick={this.editSubHeadTwo}
-                                                className="feature-sub-heading"
-                                            >
-                                                <FroalaEditorView
-                                                    config={{
-                                                        key: FroalaKey
-                                                    }}
-                                                    model={this.state.subheadingTwovalue}
-                                                />
-                                            </ActiveSubHeaderTwo>
-                                            <ActiveParaTwo
-                                                activeParagraphTwo={this.state.activeParagraphTwo}
-                                                onClick={this.editParaTwo}
-                                                className="para-1"
-                                            >
-                                                <FroalaEditorView
-                                                    config={{
-                                                        key: FroalaKey
-                                                    }}
-                                                    model={this.state.paraTwovalue}
-                                                />
-                                            </ActiveParaTwo>
+                                                <Delete />
+                                            </IconButton>
                                         </div>
-                                        <ActivePara
-                                            onDrop={this.dropThree}
-                                            onDragOver={this.allowDrop}
+                                        <div className="flex-block flex-block-2 reverse">
+                                            <div>
+                                                <ActiveAnotherHeaderTwo
+                                                    activeanotherHeadTwo={this.state.activeanotherHeadTwo}
+                                                    onClick={this.editAnotherHeadTwo}
+                                                    className="feature-heading"
+                                                >
+                                                    <FroalaEditorView
+                                                        config={{
+                                                            key: FroalaKey
+                                                        }}
+                                                        model={this.state.anotherHeadingTwovalue}
+                                                    />
+                                                </ActiveAnotherHeaderTwo>
+                                                <ActiveSubHeaderTwo
+                                                    activeSubHeadTwo={this.state.activeSubHeadTwo}
+                                                    onClick={this.editSubHeadTwo}
+                                                    className="feature-sub-heading"
+                                                >
+                                                    <FroalaEditorView
+                                                        config={{
+                                                            key: FroalaKey
+                                                        }}
+                                                        model={this.state.subheadingTwovalue}
+                                                    />
+                                                </ActiveSubHeaderTwo>
+                                                <ActiveParaTwo
+                                                    activeParagraphTwo={this.state.activeParagraphTwo}
+                                                    onClick={this.editParaTwo}
+                                                    className="para-1"
+                                                >
+                                                    <FroalaEditorView
+                                                        config={{
+                                                            key: FroalaKey
+                                                        }}
+                                                        model={this.state.paraTwovalue}
+                                                    />
+                                                </ActiveParaTwo>
+                                            </div>
+                                            <ActivePara
+                                                onDrop={this.dropThree}
+                                                onDragOver={this.allowDrop}
+                                            >
+                                                <ActiveBannerThree
+                                                    src={this.state.imgsrcThreevalue}
+                                                    id="placedImageThree"
+                                                    width="600"
+                                                    activeBannerThree={this.state.activeBannerThree}
+                                                    onClick={this.editBannerThree}
+                                                    className="half-view-img"
+                                                    alt
+                                                />
+                                            </ActivePara>
+                                        </div>
+                                        <ActiveHeaderThree
+                                            className="main-heading"
+                                            activeHeadThree={this.state.activeHeadThree}
+                                            onClick={this.editHeaderThree}
                                         >
-                                            <ActiveBannerThree
-                                                src={this.state.imgsrcThreevalue}
-                                                id="placedImageThree"
-                                                width="600"
-                                                activeBannerThree={this.state.activeBannerThree}
-                                                onClick={this.editBannerThree}
-                                                className="half-view-img"
-                                                alt
+                                            <FroalaEditorView
+                                                config={{
+                                                    key: FroalaKey
+                                                }}
+                                                model={this.state.headingThreevalue}
                                             />
-                                        </ActivePara>
-                                    </div>
-                                    <ActiveHeaderThree
-                                        className="main-heading"
-                                        activeHeadThree={this.state.activeHeadThree}
-                                        onClick={this.editHeaderThree}
-                                    >
-                                        <FroalaEditorView
-                                            config={{
-                                                key: FroalaKey
-                                            }}
-                                            model={this.state.headingThreevalue}
-                                        />
-                                    </ActiveHeaderThree>
-                                    <div className="flex-block flex-block-3">
-                                        <div>
-                                            <ActivePara
-                                                onDrop={this.dropFour}
-                                                onDragOver={this.allowDrop}
-                                            >
-                                                <ActiveBannerFour
-                                                    src={this.state.imgsrcFourvalue}
-                                                    id="placedImageFour"
-                                                    width="350"
-                                                    activeBannerFour={this.state.activeBannerFour}
-                                                    onClick={this.editBannerFour}
-                                                    className="small-view-img"
-                                                    alt
-                                                />
-                                            </ActivePara>
-                                            <ActiveSubHeaderThree
-                                                activeSubHeadThree={this.state.activeSubHeadThree}
-                                                onClick={this.editSubHeadThree}
-                                                className="feature-sub-heading"
-                                            >
-                                                <FroalaEditorView
-                                                    config={{
-                                                        key: FroalaKey
-                                                    }}
-                                                    model={this.state.subheadingThreevalue}
-                                                />
-                                            </ActiveSubHeaderThree>
-                                            <ActiveParaThree
-                                                activeParagraphThree={this.state.activeParagraphThree}
-                                                onClick={this.editParaThree}
-                                                className="para-1"
-                                            >
-                                                <FroalaEditorView
-                                                    config={{
-                                                        key: FroalaKey
-                                                    }}
-                                                    model={this.state.paraThreevalue}
-                                                />
-                                            </ActiveParaThree>
-                                        </div>
-                                        <div>
-                                            <ActivePara
-                                                onDrop={this.dropFive}
-                                                onDragOver={this.allowDrop}
-                                            >
-                                                <ActiveBannerFive
-                                                    src={this.state.imgsrcFivevalue}
-                                                    id="placedImageFive"
-                                                    width="350"
-                                                    activeBannerFive={this.state.activeBannerFive}
-                                                    onClick={this.editBannerFive}
-                                                    className="small-view-img"
-                                                    alt
-                                                />
-                                            </ActivePara>
-                                            <ActiveSubHeaderFour
-                                                activeSubHeadFour={this.state.activeSubHeadFour}
-                                                onClick={this.editSubHeadFour}
-                                                className="feature-sub-heading"
-                                            >
-                                                <FroalaEditorView
-                                                    config={{
-                                                        key: FroalaKey
-                                                    }}
-                                                    model={this.state.subheadingFourvalue}
-                                                />
-                                            </ActiveSubHeaderFour>
-                                            <ActiveParaFour
-                                                activeParagraphFour={this.state.activeParagraphFour}
-                                                onClick={this.editParaFour}
-                                                className="para-1"
-                                            >
-                                                <FroalaEditorView
-                                                    config={{
-                                                        key: FroalaKey
-                                                    }}
-                                                    model={this.state.paraFourvalue}
-                                                />
-                                            </ActiveParaFour>
-                                        </div>
-                                        <div>
-                                            <ActivePara
-                                                onDrop={this.dropSix}
-                                                onDragOver={this.allowDrop}
-                                            >
-                                                <ActiveBannerSix
-                                                    src={this.state.imgsrcSixvalue}
-                                                    id="placedImageSix"
-                                                    width="350"
-                                                    activeBannerSix={this.state.activeBannerSix}
-                                                    onClick={this.editBannerSix}
-                                                    className="small-view-img"
-                                                    alt
-                                                />
-                                            </ActivePara>
-                                            <ActiveSubHeaderFive
-                                                activeSubHeadFive={this.state.activeSubHeadFive}
-                                                onClick={this.editSubHeadFive}
-                                                className="feature-sub-heading"
-                                            >
-                                                <FroalaEditorView
-                                                    config={{
-                                                        key: FroalaKey
-                                                    }}
-                                                    model={this.state.subheadingFivevalue}
-                                                />
-                                            </ActiveSubHeaderFive>
-                                            <ActiveParaFive
-                                                activeParagraphFive={this.state.activeParagraphFive}
-                                                onClick={this.editParaFive}
-                                                className="para-1"
-                                            >
-                                                <FroalaEditorView
-                                                    config={{
-                                                        key: FroalaKey
-                                                    }}
-                                                    model={this.state.paraFivevalue}
-                                                />
-                                            </ActiveParaFive>
-                                        </div>
+                                        </ActiveHeaderThree>
                                     </div>
                                     <div className="flex-block flex-block-3">
-                                        <div>
-                                            <ActivePara
-                                                onDrop={this.dropSeven}
-                                                onDragOver={this.allowDrop}
-                                            >
-                                                <ActiveBannerSeven
-                                                    src={this.state.imgsrcSevenvalue}
-                                                    id="placedImageSeven"
-                                                    width="350"
-                                                    activeBannerSeven={this.state.activeBannerSeven}
-                                                    onClick={this.editBannerSeven}
-                                                    className="small-view-img"
-                                                    alt
-                                                />
-                                            </ActivePara>
-                                            <ActiveSubHeaderSix
-                                                activeSubHeadSix={this.state.activeSubHeadSix}
-                                                onClick={this.editSubHeadSix}
-                                                className="feature-sub-heading"
-                                            >
-                                                <FroalaEditorView
-                                                    config={{
-                                                        key: FroalaKey
-                                                    }}
-                                                    model={this.state.subheadingSixvalue}
-                                                />
-                                            </ActiveSubHeaderSix>
-                                            <ActiveParaSix
-                                                activeParagraphSix={this.state.activeParagraphSix}
-                                                onClick={this.editParaSix}
-                                                className="para-1"
-                                            >
-                                                <FroalaEditorView
-                                                    config={{
-                                                        key: FroalaKey
-                                                    }}
-                                                    model={this.state.paraSixvalue}
-                                                />
-                                            </ActiveParaSix>
+                                        <div id="section-three">
+                                            <div id="delete-button">
+                                                <IconButton
+                                                    aria-label="delete"
+                                                    onClick={() => this.handleDeleteSection("section-three")}
+                                                >
+                                                    <Delete />
+                                                </IconButton>
+                                            </div>
+                                            <div>
+                                                <ActivePara
+                                                    onDrop={this.dropFour}
+                                                    onDragOver={this.allowDrop}
+                                                >
+                                                    <ActiveBannerFour
+                                                        src={this.state.imgsrcFourvalue}
+                                                        id="placedImageFour"
+                                                        width="350"
+                                                        activeBannerFour={this.state.activeBannerFour}
+                                                        onClick={this.editBannerFour}
+                                                        className="small-view-img"
+                                                        alt
+                                                    />
+                                                </ActivePara>
+                                                <ActiveSubHeaderThree
+                                                    activeSubHeadThree={this.state.activeSubHeadThree}
+                                                    onClick={this.editSubHeadThree}
+                                                    className="feature-sub-heading"
+                                                >
+                                                    <FroalaEditorView
+                                                        config={{
+                                                            key: FroalaKey
+                                                        }}
+                                                        model={this.state.subheadingThreevalue}
+                                                    />
+                                                </ActiveSubHeaderThree>
+                                                <ActiveParaThree
+                                                    activeParagraphThree={this.state.activeParagraphThree}
+                                                    onClick={this.editParaThree}
+                                                    className="para-1"
+                                                >
+                                                    <FroalaEditorView
+                                                        config={{
+                                                            key: FroalaKey
+                                                        }}
+                                                        model={this.state.paraThreevalue}
+                                                    />
+                                                </ActiveParaThree>
+                                            </div>
                                         </div>
-                                        <div>
-                                            <ActivePara
-                                                onDrop={this.dropEight}
-                                                onDragOver={this.allowDrop}
-                                            >
-                                                <ActiveBannerEight
-                                                    src={this.state.imgsrcEightvalue}
-                                                    id="placedImageEight"
-                                                    width="350"
-                                                    activeBannerEight={this.state.activeBannerEight}
-                                                    onClick={this.editBannerEight}
-                                                    className="small-view-img"
-                                                    alt
-                                                />
-                                            </ActivePara>
-                                            <ActiveSubHeaderSeven
-                                                activeSubHeadSeven={this.state.activeSubHeadSeven}
-                                                onClick={this.editSubHeadSeven}
-                                                className="feature-sub-heading"
-                                            >
-                                                <FroalaEditorView
-                                                    config={{
-                                                        key: FroalaKey
-                                                    }}
-                                                    model={this.state.subheadingSevenvalue}
-                                                />
-                                            </ActiveSubHeaderSeven>
-                                            <ActiveParaSeven
-                                                activeParagraphSeven={this.state.activeParagraphSeven}
-                                                onClick={this.editParaSeven}
-                                                className="para-1"
-                                            >
-                                                <FroalaEditorView
-                                                    config={{
-                                                        key: FroalaKey
-                                                    }}
-                                                    model={this.state.paraSevenvalue}
-                                                />
-                                            </ActiveParaSeven>
+                                        <div id="section-four">
+                                            <div id="delete-button">
+                                                <IconButton
+                                                    aria-label="delete"
+                                                    onClick={() => this.handleDeleteSection("section-four")}
+                                                >
+                                                    <Delete />
+                                                </IconButton>
+                                            </div>
+                                            <div>
+                                                <ActivePara
+                                                    onDrop={this.dropFive}
+                                                    onDragOver={this.allowDrop}
+                                                >
+                                                    <ActiveBannerFive
+                                                        src={this.state.imgsrcFivevalue}
+                                                        id="placedImageFive"
+                                                        width="350"
+                                                        activeBannerFive={this.state.activeBannerFive}
+                                                        onClick={this.editBannerFive}
+                                                        className="small-view-img"
+                                                        alt
+                                                    />
+                                                </ActivePara>
+                                                <ActiveSubHeaderFour
+                                                    activeSubHeadFour={this.state.activeSubHeadFour}
+                                                    onClick={this.editSubHeadFour}
+                                                    className="feature-sub-heading"
+                                                >
+                                                    <FroalaEditorView
+                                                        config={{
+                                                            key: FroalaKey
+                                                        }}
+                                                        model={this.state.subheadingFourvalue}
+                                                    />
+                                                </ActiveSubHeaderFour>
+                                                <ActiveParaFour
+                                                    activeParagraphFour={this.state.activeParagraphFour}
+                                                    onClick={this.editParaFour}
+                                                    className="para-1"
+                                                >
+                                                    <FroalaEditorView
+                                                        config={{
+                                                            key: FroalaKey
+                                                        }}
+                                                        model={this.state.paraFourvalue}
+                                                    />
+                                                </ActiveParaFour>
+                                            </div>
                                         </div>
-                                        <div>
-                                            <ActivePara
-                                                onDrop={this.dropNine}
-                                                onDragOver={this.allowDrop}
-                                            >
-                                                <ActiveBannerNine
-                                                    src={this.state.imgsrcNinevalue}
-                                                    id="placedImageNine"
-                                                    width="350"
-                                                    activeBannerNine={this.state.activeBannerNine}
-                                                    onClick={this.editBannerNine}
-                                                    className="small-view-img"
-                                                    alt
-                                                />
-                                            </ActivePara>
-                                            <ActiveSubHeaderEight
-                                                activeSubHeadEight={this.state.activeSubHeadEight}
-                                                onClick={this.editSubHeadEight}
-                                                className="feature-sub-heading"
-                                            >
-                                                <FroalaEditorView
-                                                    config={{
-                                                        key: FroalaKey
-                                                    }}
-                                                    model={this.state.subheadingEightvalue}
-                                                />
-                                            </ActiveSubHeaderEight>
-                                            <ActiveParaEight
-                                                activeParagraphEight={this.state.activeParagraphEight}
-                                                onClick={this.editParaEight}
-                                                className="para-1"
-                                            >
-                                                <FroalaEditorView
-                                                    config={{
-                                                        key: FroalaKey
-                                                    }}
-                                                    model={this.state.paraEightvalue}
-                                                />
-                                            </ActiveParaEight>
+                                        <div id="section-five">
+                                            <div id="delete-button">
+                                                <IconButton
+                                                    aria-label="delete"
+                                                    onClick={() => this.handleDeleteSection("section-five")}
+                                                >
+                                                    <Delete />
+                                                </IconButton>
+                                            </div>
+                                            <div>
+                                                <ActivePara
+                                                    onDrop={this.dropSix}
+                                                    onDragOver={this.allowDrop}
+                                                >
+                                                    <ActiveBannerSix
+                                                        src={this.state.imgsrcSixvalue}
+                                                        id="placedImageSix"
+                                                        width="350"
+                                                        activeBannerSix={this.state.activeBannerSix}
+                                                        onClick={this.editBannerSix}
+                                                        className="small-view-img"
+                                                        alt
+                                                    />
+                                                </ActivePara>
+                                                <ActiveSubHeaderFive
+                                                    activeSubHeadFive={this.state.activeSubHeadFive}
+                                                    onClick={this.editSubHeadFive}
+                                                    className="feature-sub-heading"
+                                                >
+                                                    <FroalaEditorView
+                                                        config={{
+                                                            key: FroalaKey
+                                                        }}
+                                                        model={this.state.subheadingFivevalue}
+                                                    />
+                                                </ActiveSubHeaderFive>
+                                                <ActiveParaFive
+                                                    activeParagraphFive={this.state.activeParagraphFive}
+                                                    onClick={this.editParaFive}
+                                                    className="para-1"
+                                                >
+                                                    <FroalaEditorView
+                                                        config={{
+                                                            key: FroalaKey
+                                                        }}
+                                                        model={this.state.paraFivevalue}
+                                                    />
+                                                </ActiveParaFive>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div className="flex-block flex-block-3">
+                                        <div id="section-six">
+                                            <div id="delete-button">
+                                                <IconButton
+                                                    aria-label="delete"
+                                                    onClick={() => this.handleDeleteSection("section-six")}
+                                                >
+                                                    <Delete />
+                                                </IconButton>
+                                            </div>
+                                            <div>
+                                                <ActivePara
+                                                    onDrop={this.dropSeven}
+                                                    onDragOver={this.allowDrop}
+                                                >
+                                                    <ActiveBannerSeven
+                                                        src={this.state.imgsrcSevenvalue}
+                                                        id="placedImageSeven"
+                                                        width="350"
+                                                        activeBannerSeven={this.state.activeBannerSeven}
+                                                        onClick={this.editBannerSeven}
+                                                        className="small-view-img"
+                                                        alt
+                                                    />
+                                                </ActivePara>
+                                                <ActiveSubHeaderSix
+                                                    activeSubHeadSix={this.state.activeSubHeadSix}
+                                                    onClick={this.editSubHeadSix}
+                                                    className="feature-sub-heading"
+                                                >
+                                                    <FroalaEditorView
+                                                        config={{
+                                                            key: FroalaKey
+                                                        }}
+                                                        model={this.state.subheadingSixvalue}
+                                                    />
+                                                </ActiveSubHeaderSix>
+                                                <ActiveParaSix
+                                                    activeParagraphSix={this.state.activeParagraphSix}
+                                                    onClick={this.editParaSix}
+                                                    className="para-1"
+                                                >
+                                                    <FroalaEditorView
+                                                        config={{
+                                                            key: FroalaKey
+                                                        }}
+                                                        model={this.state.paraSixvalue}
+                                                    />
+                                                </ActiveParaSix>
+                                            </div>
+                                        </div>
+                                        <div id="section-seven">
+                                            <div id="delete-button">
+                                                <IconButton
+                                                    aria-label="delete"
+                                                    onClick={() => this.handleDeleteSection("section-seven")}
+                                                >
+                                                    <Delete />
+                                                </IconButton>
+                                            </div>
+                                            <div>
+                                                <ActivePara
+                                                    onDrop={this.dropEight}
+                                                    onDragOver={this.allowDrop}
+                                                >
+                                                    <ActiveBannerEight
+                                                        src={this.state.imgsrcEightvalue}
+                                                        id="placedImageEight"
+                                                        width="350"
+                                                        activeBannerEight={this.state.activeBannerEight}
+                                                        onClick={this.editBannerEight}
+                                                        className="small-view-img"
+                                                        alt
+                                                    />
+                                                </ActivePara>
+                                                <ActiveSubHeaderSeven
+                                                    activeSubHeadSeven={this.state.activeSubHeadSeven}
+                                                    onClick={this.editSubHeadSeven}
+                                                    className="feature-sub-heading"
+                                                >
+                                                    <FroalaEditorView
+                                                        config={{
+                                                            key: FroalaKey
+                                                        }}
+                                                        model={this.state.subheadingSevenvalue}
+                                                    />
+                                                </ActiveSubHeaderSeven>
+                                                <ActiveParaSeven
+                                                    activeParagraphSeven={this.state.activeParagraphSeven}
+                                                    onClick={this.editParaSeven}
+                                                    className="para-1"
+                                                >
+                                                    <FroalaEditorView
+                                                        config={{
+                                                            key: FroalaKey
+                                                        }}
+                                                        model={this.state.paraSevenvalue}
+                                                    />
+                                                </ActiveParaSeven>
+                                            </div>
+                                        </div>
+                                        <div id="section-eight">
+                                            <div id="delete-button">
+                                                <IconButton
+                                                    aria-label="delete"
+                                                    onClick={() => this.handleDeleteSection("section-eight")}
+                                                >
+                                                    <Delete />
+                                                </IconButton>
+                                            </div>
+                                            <div>
+                                                <ActivePara
+                                                    onDrop={this.dropNine}
+                                                    onDragOver={this.allowDrop}
+                                                >
+                                                    <ActiveBannerNine
+                                                        src={this.state.imgsrcNinevalue}
+                                                        id="placedImageNine"
+                                                        width="350"
+                                                        activeBannerNine={this.state.activeBannerNine}
+                                                        onClick={this.editBannerNine}
+                                                        className="small-view-img"
+                                                        alt
+                                                    />
+                                                </ActivePara>
+                                                <ActiveSubHeaderEight
+                                                    activeSubHeadEight={this.state.activeSubHeadEight}
+                                                    onClick={this.editSubHeadEight}
+                                                    className="feature-sub-heading"
+                                                >
+                                                    <FroalaEditorView
+                                                        config={{
+                                                            key: FroalaKey
+                                                        }}
+                                                        model={this.state.subheadingEightvalue}
+                                                    />
+                                                </ActiveSubHeaderEight>
+                                                <ActiveParaEight
+                                                    activeParagraphEight={this.state.activeParagraphEight}
+                                                    onClick={this.editParaEight}
+                                                    className="para-1"
+                                                >
+                                                    <FroalaEditorView
+                                                        config={{
+                                                            key: FroalaKey
+                                                        }}
+                                                        model={this.state.paraEightvalue}
+                                                    />
+                                                </ActiveParaEight>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>

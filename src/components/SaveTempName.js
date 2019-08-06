@@ -184,7 +184,7 @@ class SaveTempName extends Component {
             if (get_sname == statusReview) {
                 this.setState({ toggleRevision: false, togglePending: false, toggleDraft: false });
             }
-            else if(get_sname == statusDraft) {
+            else if (get_sname == statusDraft) {
                 this.setState({ toggleRevision: false, togglePending: false, toggleSave: false });
             }
             else if (get_sname == statusRevision || get_sname == statusSentForPublish) {
@@ -212,7 +212,18 @@ class SaveTempName extends Component {
             return false;
     }
 
+    handleDeleteButtons = () => {
+        var parent = document.getElementById("template").querySelectorAll("#delete-button");
+        var i;
+        for (i = 0; i < parent.length; i++) {
+            while (parent[i].firstChild) {
+                parent[i].removeChild(parent[i].firstChild);
+            }
+        }
+    }
+
     handleReview = () => {
+        this.handleDeleteButtons();
         var tempHTML = document.getElementById('template').innerHTML;
         var tempFile = new File([tempHTML], this.state.name + ".html", { type: "text/html" });
         var formData = new FormData();
@@ -230,7 +241,8 @@ class SaveTempName extends Component {
                     "imageSrc": this.props.imgsrcTwovalue,
                     "anotherHeading": this.props.anotherHeadingvalue,
                     "subHeading": this.props.subheadingvalue,
-                    "paragraph": this.props.paravalue
+                    "paragraph": this.props.paravalue,
+                    "visible": this.props.toggleSectionOne
                 },
                 "hspihB": {
                     "tag": "anotherHeader-subheader-para-image-header",
@@ -238,43 +250,50 @@ class SaveTempName extends Component {
                     "subHeading": this.props.subheadingTwovalue,
                     "paragraph": this.props.paraTwovalue,
                     "imageSrc": this.props.imgsrcThreevalue,
-                    "heading": this.props.headingThreevalue
+                    "heading": this.props.headingThreevalue,
+                    "visible": this.props.toggleSectionTwo
                 },
                 "ispLT": {
                     "tag": "image-subheading-para",
                     "imageSrc": this.props.imgsrcFourvalue,
                     "subHeading": this.props.subheadingThreevalue,
-                    "paragraph": this.props.paraThreevalue
+                    "paragraph": this.props.paraThreevalue,
+                    "visible": this.props.toggleSectionThree
                 },
                 "ispMT": {
                     "tag": "image-subheading-para",
                     "imageSrc": this.props.imgsrcFivevalue,
                     "subHeading": this.props.subheadingFourvalue,
-                    "paragraph": this.props.paraFourvalue
+                    "paragraph": this.props.paraFourvalue,
+                    "visible": this.props.toggleSectionFour
                 },
                 "ispRT": {
                     "tag": "image-subheading-para",
                     "imageSrc": this.props.imgsrcSixvalue,
                     "subHeading": this.props.subheadingFivevalue,
-                    "paragraph": this.props.paraFivevalue
+                    "paragraph": this.props.paraFivevalue,
+                    "visible": this.props.toggleSectionFive
                 },
                 "ispLB": {
                     "tag": "image-subheading-para",
                     "imageSrc": this.props.imgsrcSevenvalue,
                     "subHeading": this.props.subheadingSixvalue,
-                    "paragraph": this.props.paraSixvalue
+                    "paragraph": this.props.paraSixvalue,
+                    "visible": this.props.toggleSectionSix
                 },
                 "ispMB": {
                     "tag": "image-subheading-para",
                     "imageSrc": this.props.imgsrcEightvalue,
                     "subHeading": this.props.subheadingSevenvalue,
-                    "paragraph": this.props.paraSevenvalue
+                    "paragraph": this.props.paraSevenvalue,
+                    "visible": this.props.toggleSectionSeven
                 },
                 "ispRB": {
                     "tag": "image-subheading-para",
                     "imageSrc": this.props.imgsrcNinevalue,
                     "subHeading": this.props.subheadingEightvalue,
-                    "paragraph": this.props.paraEightvalue
+                    "paragraph": this.props.paraEightvalue,
+                    "visible": this.props.toggleSectionEight
                 }
             },
             "metaData": {
@@ -339,6 +358,7 @@ class SaveTempName extends Component {
     }
 
     handleRevision = () => {
+        this.handleDeleteButtons();
         var tempHTML = document.getElementById('template').innerHTML;
         var tempFile = new File([tempHTML], this.state.name + ".html", { type: "text/html" });
         var formData = new FormData();
@@ -356,7 +376,8 @@ class SaveTempName extends Component {
                     "imageSrc": this.props.imgsrcTwovalue,
                     "anotherHeading": this.props.anotherHeadingvalue,
                     "subHeading": this.props.subheadingvalue,
-                    "paragraph": this.props.paravalue
+                    "paragraph": this.props.paravalue,
+                    "visible": this.props.toggleSectionOne
                 },
                 "hspihB": {
                     "tag": "anotherHeader-subheader-para-image-header",
@@ -364,43 +385,50 @@ class SaveTempName extends Component {
                     "subHeading": this.props.subheadingTwovalue,
                     "paragraph": this.props.paraTwovalue,
                     "imageSrc": this.props.imgsrcThreevalue,
-                    "heading": this.props.headingThreevalue
+                    "heading": this.props.headingThreevalue,
+                    "visible": this.props.toggleSectionTwo
                 },
                 "ispLT": {
                     "tag": "image-subheading-para",
                     "imageSrc": this.props.imgsrcFourvalue,
                     "subHeading": this.props.subheadingThreevalue,
-                    "paragraph": this.props.paraThreevalue
+                    "paragraph": this.props.paraThreevalue,
+                    "visible": this.props.toggleSectionThree
                 },
                 "ispMT": {
                     "tag": "image-subheading-para",
                     "imageSrc": this.props.imgsrcFivevalue,
                     "subHeading": this.props.subheadingFourvalue,
-                    "paragraph": this.props.paraFourvalue
+                    "paragraph": this.props.paraFourvalue,
+                    "visible": this.props.toggleSectionFour
                 },
                 "ispRT": {
                     "tag": "image-subheading-para",
                     "imageSrc": this.props.imgsrcSixvalue,
                     "subHeading": this.props.subheadingFivevalue,
-                    "paragraph": this.props.paraFivevalue
+                    "paragraph": this.props.paraFivevalue,
+                    "visible": this.props.toggleSectionFive
                 },
                 "ispLB": {
                     "tag": "image-subheading-para",
                     "imageSrc": this.props.imgsrcSevenvalue,
                     "subHeading": this.props.subheadingSixvalue,
-                    "paragraph": this.props.paraSixvalue
+                    "paragraph": this.props.paraSixvalue,
+                    "visible": this.props.toggleSectionSix
                 },
                 "ispMB": {
                     "tag": "image-subheading-para",
                     "imageSrc": this.props.imgsrcEightvalue,
                     "subHeading": this.props.subheadingSevenvalue,
-                    "paragraph": this.props.paraSevenvalue
+                    "paragraph": this.props.paraSevenvalue,
+                    "visible": this.props.toggleSectionSeven
                 },
                 "ispRB": {
                     "tag": "image-subheading-para",
                     "imageSrc": this.props.imgsrcNinevalue,
                     "subHeading": this.props.subheadingEightvalue,
-                    "paragraph": this.props.paraEightvalue
+                    "paragraph": this.props.paraEightvalue,
+                    "visible": this.props.toggleSectionEight
                 }
             },
             "metaData": {
@@ -464,6 +492,7 @@ class SaveTempName extends Component {
     }
 
     handleDraft = () => {
+        this.handleDeleteButtons();
         var tempHTML = document.getElementById('template').innerHTML;
         var tempFile = new File([tempHTML], this.state.name + ".html", { type: "text/html" });
         var formData = new FormData();
@@ -481,7 +510,8 @@ class SaveTempName extends Component {
                     "imageSrc": this.props.imgsrcTwovalue,
                     "anotherHeading": this.props.anotherHeadingvalue,
                     "subHeading": this.props.subheadingvalue,
-                    "paragraph": this.props.paravalue
+                    "paragraph": this.props.paravalue,
+                    "visible": this.props.toggleSectionOne
                 },
                 "hspihB": {
                     "tag": "anotherHeader-subheader-para-image-header",
@@ -489,43 +519,50 @@ class SaveTempName extends Component {
                     "subHeading": this.props.subheadingTwovalue,
                     "paragraph": this.props.paraTwovalue,
                     "imageSrc": this.props.imgsrcThreevalue,
-                    "heading": this.props.headingThreevalue
+                    "heading": this.props.headingThreevalue,
+                    "visible": this.props.toggleSectionTwo
                 },
                 "ispLT": {
                     "tag": "image-subheading-para",
                     "imageSrc": this.props.imgsrcFourvalue,
                     "subHeading": this.props.subheadingThreevalue,
-                    "paragraph": this.props.paraThreevalue
+                    "paragraph": this.props.paraThreevalue,
+                    "visible": this.props.toggleSectionThree
                 },
                 "ispMT": {
                     "tag": "image-subheading-para",
                     "imageSrc": this.props.imgsrcFivevalue,
                     "subHeading": this.props.subheadingFourvalue,
-                    "paragraph": this.props.paraFourvalue
+                    "paragraph": this.props.paraFourvalue,
+                    "visible": this.props.toggleSectionFour
                 },
                 "ispRT": {
                     "tag": "image-subheading-para",
                     "imageSrc": this.props.imgsrcSixvalue,
                     "subHeading": this.props.subheadingFivevalue,
-                    "paragraph": this.props.paraFivevalue
+                    "paragraph": this.props.paraFivevalue,
+                    "visible": this.props.toggleSectionFive
                 },
                 "ispLB": {
                     "tag": "image-subheading-para",
                     "imageSrc": this.props.imgsrcSevenvalue,
                     "subHeading": this.props.subheadingSixvalue,
-                    "paragraph": this.props.paraSixvalue
+                    "paragraph": this.props.paraSixvalue,
+                    "visible": this.props.toggleSectionSix
                 },
                 "ispMB": {
                     "tag": "image-subheading-para",
                     "imageSrc": this.props.imgsrcEightvalue,
                     "subHeading": this.props.subheadingSevenvalue,
-                    "paragraph": this.props.paraSevenvalue
+                    "paragraph": this.props.paraSevenvalue,
+                    "visible": this.props.toggleSectionSeven
                 },
                 "ispRB": {
                     "tag": "image-subheading-para",
                     "imageSrc": this.props.imgsrcNinevalue,
                     "subHeading": this.props.subheadingEightvalue,
-                    "paragraph": this.props.paraEightvalue
+                    "paragraph": this.props.paraEightvalue,
+                    "visible": this.props.toggleSectionEight
                 }
             },
             "metaData": {
@@ -587,6 +624,7 @@ class SaveTempName extends Component {
     }
 
     handleSave = () => {
+        this.handleDeleteButtons();
         var tempHTML = document.getElementById('template').innerHTML;
         var tempFile = new File([tempHTML], this.state.name + ".html", { type: "text/html" });
         var formData = new FormData();
@@ -604,7 +642,8 @@ class SaveTempName extends Component {
                     "imageSrc": this.props.imgsrcTwovalue,
                     "anotherHeading": this.props.anotherHeadingvalue,
                     "subHeading": this.props.subheadingvalue,
-                    "paragraph": this.props.paravalue
+                    "paragraph": this.props.paravalue,
+                    "visible": this.props.toggleSectionOne
                 },
                 "hspihB": {
                     "tag": "anotherHeader-subheader-para-image-header",
@@ -612,43 +651,50 @@ class SaveTempName extends Component {
                     "subHeading": this.props.subheadingTwovalue,
                     "paragraph": this.props.paraTwovalue,
                     "imageSrc": this.props.imgsrcThreevalue,
-                    "heading": this.props.headingThreevalue
+                    "heading": this.props.headingThreevalue,
+                    "visible": this.props.toggleSectionTwo
                 },
                 "ispLT": {
                     "tag": "image-subheading-para",
                     "imageSrc": this.props.imgsrcFourvalue,
                     "subHeading": this.props.subheadingThreevalue,
-                    "paragraph": this.props.paraThreevalue
+                    "paragraph": this.props.paraThreevalue,
+                    "visible": this.props.toggleSectionThree
                 },
                 "ispMT": {
                     "tag": "image-subheading-para",
                     "imageSrc": this.props.imgsrcFivevalue,
                     "subHeading": this.props.subheadingFourvalue,
-                    "paragraph": this.props.paraFourvalue
+                    "paragraph": this.props.paraFourvalue,
+                    "visible": this.props.toggleSectionFour
                 },
                 "ispRT": {
                     "tag": "image-subheading-para",
                     "imageSrc": this.props.imgsrcSixvalue,
                     "subHeading": this.props.subheadingFivevalue,
-                    "paragraph": this.props.paraFivevalue
+                    "paragraph": this.props.paraFivevalue,
+                    "visible": this.props.toggleSectionFive
                 },
                 "ispLB": {
                     "tag": "image-subheading-para",
                     "imageSrc": this.props.imgsrcSevenvalue,
                     "subHeading": this.props.subheadingSixvalue,
-                    "paragraph": this.props.paraSixvalue
+                    "paragraph": this.props.paraSixvalue,
+                    "visible": this.props.toggleSectionSix
                 },
                 "ispMB": {
                     "tag": "image-subheading-para",
                     "imageSrc": this.props.imgsrcEightvalue,
                     "subHeading": this.props.subheadingSevenvalue,
-                    "paragraph": this.props.paraSevenvalue
+                    "paragraph": this.props.paraSevenvalue,
+                    "visible": this.props.toggleSectionSeven
                 },
                 "ispRB": {
                     "tag": "image-subheading-para",
                     "imageSrc": this.props.imgsrcNinevalue,
                     "subHeading": this.props.subheadingEightvalue,
-                    "paragraph": this.props.paraEightvalue
+                    "paragraph": this.props.paraEightvalue,
+                    "visible": this.props.toggleSectionEight
                 }
             },
             "metaData": {
@@ -713,6 +759,7 @@ class SaveTempName extends Component {
     }
 
     handlePublish = () => {
+        this.handleDeleteButtons();
         var tempHTML = document.getElementById('template').innerHTML;
         var tempFile = new File([tempHTML], this.state.name + ".html", { type: "text/html" });
         var formData = new FormData();
@@ -730,7 +777,8 @@ class SaveTempName extends Component {
                     "imageSrc": this.props.imgsrcTwovalue,
                     "anotherHeading": this.props.anotherHeadingvalue,
                     "subHeading": this.props.subheadingvalue,
-                    "paragraph": this.props.paravalue
+                    "paragraph": this.props.paravalue,
+                    "visible": this.props.toggleSectionOne
                 },
                 "hspihB": {
                     "tag": "anotherHeader-subheader-para-image-header",
@@ -738,43 +786,50 @@ class SaveTempName extends Component {
                     "subHeading": this.props.subheadingTwovalue,
                     "paragraph": this.props.paraTwovalue,
                     "imageSrc": this.props.imgsrcThreevalue,
-                    "heading": this.props.headingThreevalue
+                    "heading": this.props.headingThreevalue,
+                    "visible": this.props.toggleSectionTwo
                 },
                 "ispLT": {
                     "tag": "image-subheading-para",
                     "imageSrc": this.props.imgsrcFourvalue,
                     "subHeading": this.props.subheadingThreevalue,
-                    "paragraph": this.props.paraThreevalue
+                    "paragraph": this.props.paraThreevalue,
+                    "visible": this.props.toggleSectionThree
                 },
                 "ispMT": {
                     "tag": "image-subheading-para",
                     "imageSrc": this.props.imgsrcFivevalue,
                     "subHeading": this.props.subheadingFourvalue,
-                    "paragraph": this.props.paraFourvalue
+                    "paragraph": this.props.paraFourvalue,
+                    "visible": this.props.toggleSectionFour
                 },
                 "ispRT": {
                     "tag": "image-subheading-para",
                     "imageSrc": this.props.imgsrcSixvalue,
                     "subHeading": this.props.subheadingFivevalue,
-                    "paragraph": this.props.paraFivevalue
+                    "paragraph": this.props.paraFivevalue,
+                    "visible": this.props.toggleSectionFive
                 },
                 "ispLB": {
                     "tag": "image-subheading-para",
                     "imageSrc": this.props.imgsrcSevenvalue,
                     "subHeading": this.props.subheadingSixvalue,
-                    "paragraph": this.props.paraSixvalue
+                    "paragraph": this.props.paraSixvalue,
+                    "visible": this.props.toggleSectionSix
                 },
                 "ispMB": {
                     "tag": "image-subheading-para",
                     "imageSrc": this.props.imgsrcEightvalue,
                     "subHeading": this.props.subheadingSevenvalue,
-                    "paragraph": this.props.paraSevenvalue
+                    "paragraph": this.props.paraSevenvalue,
+                    "visible": this.props.toggleSectionSeven
                 },
                 "ispRB": {
                     "tag": "image-subheading-para",
                     "imageSrc": this.props.imgsrcNinevalue,
                     "subHeading": this.props.subheadingEightvalue,
-                    "paragraph": this.props.paraEightvalue
+                    "paragraph": this.props.paraEightvalue,
+                    "visible": this.props.toggleSectionEight
                 }
             },
             "metaData": {
