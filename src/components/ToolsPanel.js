@@ -53,6 +53,14 @@ class ToolsPanel extends Component {
                     imgsrcNinevalue={this.props.imgsrcNinevalue}
                     tempComponent={this.props.tempComponent}
                     taskId={this.props.taskId}
+                    toggleSectionOne={this.props.toggleSectionOne}
+                    toggleSectionTwo={this.props.toggleSectionTwo}
+                    toggleSectionThree={this.props.toggleSectionThree}
+                    toggleSectionFour={this.props.toggleSectionFour}
+                    toggleSectionFive={this.props.toggleSectionFive}
+                    toggleSectionSix={this.props.toggleSectionSix}
+                    toggleSectionSeven={this.props.toggleSectionSeven}
+                    toggleSectionEight={this.props.toggleSectionEight}
                 />)
 
             case "Temp 2":
@@ -91,6 +99,14 @@ class ToolsPanel extends Component {
                     videoStr={this.props.videoStr}
                     tempComponent={this.props.tempComponent}
                     taskId={this.props.taskId}
+                    toggleSectionOne={this.props.toggleSectionOne}
+                    toggleSectionTwo={this.props.toggleSectionTwo}
+                    toggleSectionThree={this.props.toggleSectionThree}
+                    toggleSectionFour={this.props.toggleSectionFour}
+                    toggleSectionFive={this.props.toggleSectionFive}
+                    toggleSectionSix={this.props.toggleSectionSix}
+                    toggleSectionSeven={this.props.toggleSectionSeven}
+                    toggleSectionEight={this.props.toggleSectionEight}
                 />)
 
             default:
