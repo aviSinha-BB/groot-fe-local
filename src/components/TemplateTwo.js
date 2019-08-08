@@ -1696,20 +1696,8 @@ class TemplateTwo extends Component {
             if (!this.state.toggleSectionThree) {
                 this.handleDelete("section-three")
             }
-            if (!this.state.toggleSectionFour) {
-                this.handleDelete("section-four")
-            }
-            if (!this.state.toggleSectionFive) {
-                this.handleDelete("section-five")
-            }
             if (!this.state.toggleSectionSix) {
-                this.handleDelete("section-six")
-            }
-            if (!this.state.toggleSectionSeven) {
-                this.handleDelete("section-seven")
-            }
-            if (!this.state.toggleSectionEight) {
-                this.handleDelete("section-eight")
+                this.handleDelete("section-four")
             }
         }
         else {
@@ -1721,22 +1709,10 @@ class TemplateTwo extends Component {
                     this.setState({ toggleSectionTwo: false });
                     break;
                 case "section-three":
-                    this.setState({ toggleSectionThree: false });
+                    this.setState({ toggleSectionThree: false, toggleSectionFour: false, toggleSectionFive: false });
                     break;
                 case "section-four":
-                    this.setState({ toggleSectionFour: false });
-                    break;
-                case "section-five":
-                    this.setState({ toggleSectionFive: false });
-                    break;
-                case "section-six":
-                    this.setState({ toggleSectionSix: false });
-                    break;
-                case "section-seven":
-                    this.setState({ toggleSectionSeven: false });
-                    break;
-                case "section-eight":
-                    this.setState({ toggleSectionEight: false });
+                    this.setState({ toggleSectionSix: false, toggleSectionSeven: false, toggleSectionEight: false });
                     break;
             };
             this.handleDelete(section);
@@ -2008,16 +1984,16 @@ class TemplateTwo extends Component {
                                             />
                                         </ActiveHeaderThree>
                                     </div>
-                                    <div className="flex-block flex-block-3">
-                                        <div id="section-three">
-                                            <div id="delete-button">
-                                                <IconButton
-                                                    aria-label="delete"
-                                                    onClick={() => this.handleDeleteSection("section-three")}
-                                                >
-                                                    <Delete />
-                                                </IconButton>
-                                            </div>
+                                    <div id="section-three">
+                                        <div id="delete-button">
+                                            <IconButton
+                                                aria-label="delete"
+                                                onClick={() => this.handleDeleteSection("section-three")}
+                                            >
+                                                <Delete />
+                                            </IconButton>
+                                        </div>
+                                        <div className="flex-block flex-block-3">
                                             <div>
                                                 <ActivePara
                                                     onDrop={this.dropFour}
@@ -2058,16 +2034,6 @@ class TemplateTwo extends Component {
                                                     />
                                                 </ActiveParaThree>
                                             </div>
-                                        </div>
-                                        <div id="section-four">
-                                            <div id="delete-button">
-                                                <IconButton
-                                                    aria-label="delete"
-                                                    onClick={() => this.handleDeleteSection("section-four")}
-                                                >
-                                                    <Delete />
-                                                </IconButton>
-                                            </div>
                                             <div>
                                                 <ActivePara
                                                     onDrop={this.dropFive}
@@ -2107,16 +2073,6 @@ class TemplateTwo extends Component {
                                                         model={this.state.paraFourvalue}
                                                     />
                                                 </ActiveParaFour>
-                                            </div>
-                                        </div>
-                                        <div id="section-five">
-                                            <div id="delete-button">
-                                                <IconButton
-                                                    aria-label="delete"
-                                                    onClick={() => this.handleDeleteSection("section-five")}
-                                                >
-                                                    <Delete />
-                                                </IconButton>
                                             </div>
                                             <div>
                                                 <ActivePara
@@ -2160,16 +2116,16 @@ class TemplateTwo extends Component {
                                             </div>
                                         </div>
                                     </div>
-                                    <div className="flex-block flex-block-3">
-                                        <div id="section-six">
-                                            <div id="delete-button">
-                                                <IconButton
-                                                    aria-label="delete"
-                                                    onClick={() => this.handleDeleteSection("section-six")}
-                                                >
-                                                    <Delete />
-                                                </IconButton>
-                                            </div>
+                                    <div id="section-four">
+                                        <div id="delete-button">
+                                            <IconButton
+                                                aria-label="delete"
+                                                onClick={() => this.handleDeleteSection("section-four")}
+                                            >
+                                                <Delete />
+                                            </IconButton>
+                                        </div>
+                                        <div className="flex-block flex-block-3">
                                             <div>
                                                 <ActivePara
                                                     onDrop={this.dropSeven}
@@ -2210,16 +2166,6 @@ class TemplateTwo extends Component {
                                                     />
                                                 </ActiveParaSix>
                                             </div>
-                                        </div>
-                                        <div id="section-seven">
-                                            <div id="delete-button">
-                                                <IconButton
-                                                    aria-label="delete"
-                                                    onClick={() => this.handleDeleteSection("section-seven")}
-                                                >
-                                                    <Delete />
-                                                </IconButton>
-                                            </div>
                                             <div>
                                                 <ActivePara
                                                     onDrop={this.dropEight}
@@ -2259,16 +2205,6 @@ class TemplateTwo extends Component {
                                                         model={this.state.paraSevenvalue}
                                                     />
                                                 </ActiveParaSeven>
-                                            </div>
-                                        </div>
-                                        <div id="section-eight">
-                                            <div id="delete-button">
-                                                <IconButton
-                                                    aria-label="delete"
-                                                    onClick={() => this.handleDeleteSection("section-eight")}
-                                                >
-                                                    <Delete />
-                                                </IconButton>
                                             </div>
                                             <div>
                                                 <ActivePara

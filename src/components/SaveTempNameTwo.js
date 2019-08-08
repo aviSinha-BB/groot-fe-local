@@ -195,6 +195,9 @@ class SaveTempNameTwo extends Component {
             }
         }
         else {
+            if (localStorage.getItem('userManufacturer') !== null) {
+                this.setState({ maunfactName: localStorage.getItem('userManufacturer') });
+            }
             this.setState({ toggleRevision: false, togglePending: false, toggleSave: false });
         }
     }
@@ -934,6 +937,13 @@ class SaveTempNameTwo extends Component {
         const { classes } = this.props;
         let allfilled = true;
         allfilled = this.state.pids && this.state.productAction && this.state.maunfactName;
+        let toggleManufacturer = false;
+        if (localStorage.getItem('userManufacturer') === null) {
+            toggleManufacturer = false;
+        }
+        else {
+            toggleManufacturer = true;
+        }
 
         return (
             <form className={this.state.loading ? classes.root : classes.container} noValidate autoComplete="off">
@@ -943,6 +953,7 @@ class SaveTempNameTwo extends Component {
                     label={<span className={classes.labelStyle}>Manufacturer Name</span>}
                     value={this.state.maunfactName}
                     className={classes.textField}
+                    disabled={toggleManufacturer}
                     onChange={this.handleChangeManuName('maunfactName')}
                     margin="normal"
                     variant="outlined"
