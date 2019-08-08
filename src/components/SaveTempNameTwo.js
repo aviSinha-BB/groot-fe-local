@@ -195,7 +195,7 @@ class SaveTempNameTwo extends Component {
             }
         }
         else {
-            if (localStorage.getItem('userManufacturer') !== "null" && localStorage.getItem('userManufacturer') !== "") {
+            if (localStorage.getItem('userManufacturer') !== null) {
                 this.setState({ maunfactName: localStorage.getItem('userManufacturer') });
             }
             this.setState({ toggleRevision: false, togglePending: false, toggleSave: false });
@@ -935,10 +935,10 @@ class SaveTempNameTwo extends Component {
 
     render() {
         const { classes } = this.props;
-        var allfilled = true;
+        let allfilled = true;
         allfilled = this.state.pids && this.state.productAction && this.state.maunfactName;
-        var toggleManufacturer = false;
-        if (localStorage.getItem('userManufacturer') === "null" || localStorage.getItem('userManufacturer') === "") {
+        let toggleManufacturer = false;
+        if (localStorage.getItem('userManufacturer') === null) {
             toggleManufacturer = false;
         }
         else {

@@ -75,7 +75,9 @@ class Main extends Component {
         .then(result => {
           if (result) {
             localStorage.setItem('userPermission', result.roles);
-            localStorage.setItem('userManufacturer', result.externalUser.marketeer_name);
+            if (result.externalUser.marketeer_name !== null && result.externalUser.marketeer_name !== "") {
+              localStorage.setItem('userManufacturer', result.externalUser.marketeer_name);
+            }
             if (localStorage.getItem('userPermission').includes(creatorPermission)) {
               this.setState({ togglePerm: true });
             }
