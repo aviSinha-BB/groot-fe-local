@@ -37,6 +37,9 @@ class Main extends Component {
 
     if (typeof authToken !== "undefined") {
       localStorage.setItem('token', authToken);
+    }
+
+    if (typeof sourceHost !== "undefined") {
       localStorage.setItem('source_host', sourceHost);
     }
 
@@ -75,7 +78,7 @@ class Main extends Component {
         .then(result => {
           if (result) {
             localStorage.setItem('userPermission', result.roles);
-            if (result.externalUser.marketeer_name !== null && result.externalUser.marketeer_name !== "") {
+            if (result.externalUser !== null && result.externalUser !== "") {
               localStorage.setItem('userManufacturer', result.externalUser.marketeer_name);
             }
             if (localStorage.getItem('userPermission').includes(creatorPermission)) {

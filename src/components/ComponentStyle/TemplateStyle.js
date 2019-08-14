@@ -6,7 +6,6 @@ export const styles = theme => ({
     },
 
     paper: {
-        height: '2400px',
         width: '1286px',
     },
 
