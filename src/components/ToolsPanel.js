@@ -53,6 +53,7 @@ class ToolsPanel extends Component {
                     imgsrcNinevalue={this.props.imgsrcNinevalue}
                     tempComponent={this.props.tempComponent}
                     taskId={this.props.taskId}
+                    toggleSectionZero={this.props.toggleSectionZero}
                     toggleSectionOne={this.props.toggleSectionOne}
                     toggleSectionTwo={this.props.toggleSectionTwo}
                     toggleSectionThree={this.props.toggleSectionThree}
@@ -99,6 +100,7 @@ class ToolsPanel extends Component {
                     videoStr={this.props.videoStr}
                     tempComponent={this.props.tempComponent}
                     taskId={this.props.taskId}
+                    toggleSectionZero={this.props.toggleSectionZero}
                     toggleSectionOne={this.props.toggleSectionOne}
                     toggleSectionTwo={this.props.toggleSectionTwo}
                     toggleSectionThree={this.props.toggleSectionThree}

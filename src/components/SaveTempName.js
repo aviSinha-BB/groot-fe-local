@@ -236,7 +236,9 @@ class SaveTempName extends Component {
                 "hiT": {
                     "tag": "header-image",
                     "heading": this.props.headingvalue,
-                    "imageSrc": this.props.imgsrcvalue
+                    "imageSrc": this.props.imgsrcvalue,
+                    "visible": this.props.toggleSectionZero
+                    
                 },
                 "hihspM": {
                     "tag": "header-image-anotherHeader-subheader-para",
@@ -371,7 +373,8 @@ class SaveTempName extends Component {
                 "hiT": {
                     "tag": "header-image",
                     "heading": this.props.headingvalue,
-                    "imageSrc": this.props.imgsrcvalue
+                    "imageSrc": this.props.imgsrcvalue,
+                    "visible": this.props.toggleSectionZero
                 },
                 "hihspM": {
                     "tag": "header-image-anotherHeader-subheader-para",
@@ -505,7 +508,8 @@ class SaveTempName extends Component {
                 "hiT": {
                     "tag": "header-image",
                     "heading": this.props.headingvalue,
-                    "imageSrc": this.props.imgsrcvalue
+                    "imageSrc": this.props.imgsrcvalue,
+                    "visible": this.props.toggleSectionZero
                 },
                 "hihspM": {
                     "tag": "header-image-anotherHeader-subheader-para",
@@ -637,7 +641,8 @@ class SaveTempName extends Component {
                 "hiT": {
                     "tag": "header-image",
                     "heading": this.props.headingvalue,
-                    "imageSrc": this.props.imgsrcvalue
+                    "imageSrc": this.props.imgsrcvalue,
+                    "visible": this.props.toggleSectionZero
                 },
                 "hihspM": {
                     "tag": "header-image-anotherHeader-subheader-para",
@@ -772,7 +777,8 @@ class SaveTempName extends Component {
                 "hiT": {
                     "tag": "header-image",
                     "heading": this.props.headingvalue,
-                    "imageSrc": this.props.imgsrcvalue
+                    "imageSrc": this.props.imgsrcvalue,
+                    "visible": this.props.toggleSectionZero
                 },
                 "hihspM": {
                     "tag": "header-image-anotherHeader-subheader-para",

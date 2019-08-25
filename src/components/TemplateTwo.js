@@ -18,6 +18,7 @@ import placeholderTwo from '../assets/images/placeholder-600x300.png';
 import placeholderThree from '../assets/images/placeholder-350x350.jpg';
 import FroalaEditorView from "react-froala-wysiwyg/FroalaEditorView";
 import ErrorToast from './ErrorToast';
+import WarningToast from '../components/WarningToast';
 import DOMPurify from 'dompurify';
 const ToolsPanel = React.lazy(() => import(/* webpackChunkName: "ToolsPanel" */"./ToolsPanel"));
 
@@ -245,6 +246,8 @@ class TemplateTwo extends Component {
             activeParagraphEight: false,
             errorSnack: false,
             errorSnackTwo: false,
+            errorSnackThree: false,
+            toggleSectionZero: true,
             toggleSectionOne: true,
             toggleSectionTwo: true,
             toggleSectionThree: true,
@@ -290,6 +293,7 @@ class TemplateTwo extends Component {
                         this.setState({
                             headingvalue: result.data.hvT.heading,
                             videoStr: result.data.hvT.videoSrc,
+                            toggleSectionZero: result.data.hvT.visible,
                             headingTwovalue: result.data.hihspM.heading,
                             imgsrcTwovalue: result.data.hihspM.imageSrc,
                             anotherHeadingvalue: result.data.hihspM.anotherHeading,
@@ -1687,6 +1691,9 @@ class TemplateTwo extends Component {
 
     handleDeleteSection = (section) => {
         if (section === "initial-mount") {
+            if (!this.state.toggleSectionZero) {
+                this.handleDelete("section-zero")
+            }
             if (!this.state.toggleSectionOne) {
                 this.handleDelete("section-one")
             }
@@ -1701,21 +1708,51 @@ class TemplateTwo extends Component {
             }
         }
         else {
-            switch (section) {
-                case "section-one":
-                    this.setState({ toggleSectionOne: false });
-                    break;
-                case "section-two":
-                    this.setState({ toggleSectionTwo: false });
-                    break;
-                case "section-three":
-                    this.setState({ toggleSectionThree: false, toggleSectionFour: false, toggleSectionFive: false });
-                    break;
-                case "section-four":
-                    this.setState({ toggleSectionSix: false, toggleSectionSeven: false, toggleSectionEight: false });
-                    break;
-            };
-            this.handleDelete(section);
+            let count = 0;
+            if (!this.state.toggleSectionZero) {
+                count = count + 1;
+            }
+            if (!this.state.toggleSectionOne) {
+                count = count + 1;
+            }
+            if (!this.state.toggleSectionTwo) {
+                count = count + 1;
+            }
+            if (!this.state.toggleSectionThree) {
+                count = count + 1;
+            }
+            if (!this.state.toggleSectionSix) {
+                count = count + 1;
+            }
+
+            if (count === 4) {
+                this.setState({ errorSnackThree: true });
+                setTimeout(() => {
+                    this.setState({
+                        errorSnackThree: false
+                    })
+                }, timeout);
+            }
+            else {
+                switch (section) {
+                    case "section-zero":
+                        this.setState({ toggleSectionZero: false });
+                        break;
+                    case "section-one":
+                        this.setState({ toggleSectionOne: false });
+                        break;
+                    case "section-two":
+                        this.setState({ toggleSectionTwo: false });
+                        break;
+                    case "section-three":
+                        this.setState({ toggleSectionThree: false, toggleSectionFour: false, toggleSectionFive: false });
+                        break;
+                    case "section-four":
+                        this.setState({ toggleSectionSix: false, toggleSectionSeven: false, toggleSectionEight: false });
+                        break;
+                };
+                this.handleDelete(section);
+            }
         }
     }
 
@@ -1725,6 +1762,7 @@ class TemplateTwo extends Component {
             <div className={classes.root} >
                 {this.state.errorSnack && <ErrorToast message="Error in Processing" />}
                 {this.state.errorSnackTwo && <ErrorToast message="Error in Processing" />}
+                {this.state.errorSnackThree && <WarningToast message="Section cannot be deleted!" />}
                 {this.state.loading && <Loader />}
                 <Grid container >
                     <Grid item xs={3}>
@@ -1795,6 +1833,7 @@ class TemplateTwo extends Component {
                                     updateVideo={this.updateVideo}
                                     tempComponent={this.props.tempComponent}
                                     taskId={this.state.taskId}
+                                    toggleSectionZero={this.state.toggleSectionZero}
                                     toggleSectionOne={this.state.toggleSectionOne}
                                     toggleSectionTwo={this.state.toggleSectionTwo}
                                     toggleSectionThree={this.state.toggleSectionThree}
@@ -1812,26 +1851,35 @@ class TemplateTwo extends Component {
                             <Paper >
                                 <style dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize("\n      * {\n        box-sizing: border-box;\n      }\n      .main-template {\n        line-height: 20px;\n        font-size: 20px;\n      }\n           .main-video {\n       text-align: center;\n    }\n    .video-style {\n    display: flex;\n    justify-content: center;\n    }\n      img {\n        max-width: 100%;\n        max-height: 100%;\n      }\n           .main-heading {\n        font-family: ProximaNova-Semibold;\n        color: #110f0f;\n        margin: 10px 0 20px;\n      }\n      .feature-heading,\n      .feature-sub-heading,\n      p {\n        margin: 10px 0;\n        line-height: 20px;\n      }\n      .feature-heading {\n        color: #222222;\n        font-size: 18px;\n        font-family: ProximaNova-Semibold;\n      }\n      .feature-sub-heading {\n        font-size: 16px;\n        font-family: ProximaNova-Semibold;\n        color: #444444;\n      }\n      .para-1 {\n        color: #666666;\n        font-size: 14px;\n         font-family: ProximaNova-Regular;\n      }\n\n      .full-view-img,\n      .half-view-img,\n      .small-view-img {\n        display: block;\n      }\n      .full-view-img,\n      .half-view-img {\n        margin: 0 auto;\n        height: 300px;\n      }\n      .small-view-img {\n        height: 350px;\n      }\n      .flex-block-2 {\n        display: flex;\n        margin: 20px 0;\n        align-items: flex-start;\n        justify-content: space-evenly;\n      }\n      .flex-block-2 div {\n        flex-basis: 50%;\n        flex-grow: 0;\n        flex-shrink: 0;\n      }\n      .flex-block-3 {\n        display: flex;\n        margin: 20px 0;\n        align-items: flex-start;\n        justify-content: space-between;\n      }\n      .flex-block-3 div {\n        flex-basis: 30%;\n      }\n      .flex-block div.mar-20-left {\n        margin-left: 20px;\n      }\n      .flex-block div.mar-20-right {\n        margin-right: 20px;\n      }\n      ul {\n        padding-left: 18px;\n      }\n     @media (max-width: 700px) {\n        .flex-block-2 {\n          display: block;\n        }\n        .flex-block-3 {\n          display: block;\n        }\n        .reverse {\n          flex-direction: row-reverse;\n        }\n        .half-view-img {\n          margin: 0 auto;\n        }\n        .flex-block-3 img {\n          margin: 0 auto;\n        }\n        .full-view-img {\n          max-height: 85px;\n        }\n        .half-view-img {\n          margin: 0 auto;\n          max-height: 170px;\n        }\n        .small-view-img {\n          max-height: 200px;\n        } \n      }\n    ") }} />
                                 <div className="main-template">
-                                    <ActiveHeader
-                                        className="main-heading"
-                                        activeHead={this.state.activeHead}
-                                        onClick={this.editHeader}
-                                    >
-                                        <FroalaEditorView
-                                            config={{
-                                                key: FroalaKey
-                                            }}
-                                            model={this.state.headingvalue}
-                                        />
-                                    </ActiveHeader>
-                                    <ActiveVideo
-                                        className="main-video"
-                                        activeVideo={this.state.activeVideo}
-                                        onClick={this.editVideo}
-                                    >
-                                        {this.state.videoStr ? <div className="video-style" dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(this.state.videoStr, { ALLOWED_TAGS: ['iframe'], ALLOWED_ATTR: ['width', 'height', 'src'] }) }} /> : <img src={this.state.videoSrcPlaceholder} />}
-                                    </ActiveVideo>
-
+                                    <div id="section-zero">
+                                        <div id="delete-button">
+                                            <IconButton
+                                                aria-label="delete"
+                                                onClick={() => this.handleDeleteSection("section-zero")}
+                                            >
+                                                <Delete />
+                                            </IconButton>
+                                        </div>
+                                        <ActiveHeader
+                                            className="main-heading"
+                                            activeHead={this.state.activeHead}
+                                            onClick={this.editHeader}
+                                        >
+                                            <FroalaEditorView
+                                                config={{
+                                                    key: FroalaKey
+                                                }}
+                                                model={this.state.headingvalue}
+                                            />
+                                        </ActiveHeader>
+                                        <ActiveVideo
+                                            className="main-video"
+                                            activeVideo={this.state.activeVideo}
+                                            onClick={this.editVideo}
+                                        >
+                                            {this.state.videoStr ? <div className="video-style" dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(this.state.videoStr, { ALLOWED_TAGS: ['iframe'], ALLOWED_ATTR: ['width', 'height', 'src'] }) }} /> : <img src={this.state.videoSrcPlaceholder} />}
+                                        </ActiveVideo>
+                                    </div>
                                     <div id="section-one">
                                         <div id="delete-button">
                                             <IconButton
