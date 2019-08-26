@@ -37,24 +37,25 @@ var promiseOptions = inputValue =>
         } else {
             var basicAuthValue = localStorage.getItem('token');
         }
-        fetch(productSearchAPI + "?term=" + inputValue, {
-            method: "GET",
-            headers: {
-                [AuthKey]: basicAuthValue,
-                'X-Requested-With': 'XMLHttpRequest'
-            }
-        }).
-            then(res => {
-                if (res.status == 200) {
-                    return res.json();
+        if (/^\d+$/.test(inputValue)) {
+            fetch(productSearchAPI + "?term=" + inputValue, {
+                method: "GET",
+                headers: {
+                    [AuthKey]: basicAuthValue,
+                    'X-Requested-With': 'XMLHttpRequest'
                 }
-                else {
-                    throw Error(res.statusText);
-                }
-            })
-            .then(result => {
-                var prodArr = result.results.data;
-                if (/^\d+$/.test(inputValue)) {
+            }).
+                then(res => {
+                    if (res.status == 200) {
+                        return res.json();
+                    }
+                    else {
+                        throw Error(res.statusText);
+                    }
+                })
+                .then(result => {
+                    var prodArr = result.results.data;
+
                     if (prodArr.length != 0) {
                         prodArr.forEach(function (arrayItem) {
                             var prodName = arrayItem.name;
@@ -76,15 +77,17 @@ var promiseOptions = inputValue =>
                             resolve(productSuggestions);
                         }, 1000);
                     }
-                }
-                else {
-                    reject(null);
-                }
-            })
-            .catch((error) => {
-                reject(null);
-                console.log('Looks like there was a problem in fetching products \n');
-            });
+                })
+                .catch((error) => {
+                    productSuggestions.push({ value: inputValue, label: inputValue });
+                    setTimeout(() => {
+                        resolve(productSuggestions);
+                    }, 1000);
+                });
+        }
+        else {
+            reject(null);
+        }
     });
 
 class SaveTempName extends Component {
@@ -238,7 +241,7 @@ class SaveTempName extends Component {
                     "heading": this.props.headingvalue,
                     "imageSrc": this.props.imgsrcvalue,
                     "visible": this.props.toggleSectionZero
-                    
+
                 },
                 "hihspM": {
                     "tag": "header-image-anotherHeader-subheader-para",
