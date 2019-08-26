@@ -236,7 +236,8 @@ class SaveTempNameTwo extends Component {
                 "hvT": {
                     "tag": "header-video",
                     "heading": this.props.headingvalue,
-                    "videoSrc": this.props.videoStr
+                    "videoSrc": this.props.videoStr,
+                    "visible": this.props.toggleSectionZero
                 },
                 "hihspM": {
                     "tag": "header-image-anotherHeader-subheader-para",
@@ -371,7 +372,8 @@ class SaveTempNameTwo extends Component {
                 "hvT": {
                     "tag": "header-video",
                     "heading": this.props.headingvalue,
-                    "videoSrc": this.props.videoStr
+                    "videoSrc": this.props.videoStr,
+                    "visible": this.props.toggleSectionZero
                 },
                 "hihspM": {
                     "tag": "header-image-anotherHeader-subheader-para",
@@ -505,7 +507,8 @@ class SaveTempNameTwo extends Component {
                 "hvT": {
                     "tag": "header-video",
                     "heading": this.props.headingvalue,
-                    "videoSrc": this.props.videoStr
+                    "videoSrc": this.props.videoStr,
+                    "visible": this.props.toggleSectionZero
                 },
                 "hihspM": {
                     "tag": "header-image-anotherHeader-subheader-para",
@@ -637,7 +640,8 @@ class SaveTempNameTwo extends Component {
                 "hvT": {
                     "tag": "header-video",
                     "heading": this.props.headingvalue,
-                    "videoSrc": this.props.videoStr
+                    "videoSrc": this.props.videoStr,
+                    "visible": this.props.toggleSectionZero
                 },
                 "hihspM": {
                     "tag": "header-image-anotherHeader-subheader-para",
@@ -772,7 +776,8 @@ class SaveTempNameTwo extends Component {
                 "hvT": {
                     "tag": "header-video",
                     "heading": this.props.headingvalue,
-                    "videoSrc": this.props.videoStr
+                    "videoSrc": this.props.videoStr,
+                    "visible": this.props.toggleSectionZero
                 },
                 "hihspM": {
                     "tag": "header-image-anotherHeader-subheader-para",
