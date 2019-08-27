@@ -71,6 +71,7 @@ module.exports = {
     new webpack.DefinePlugin({
       "clientPort": JSON.stringify(process.env.CLIENT_PORT),
       "clientHost": JSON.stringify(process.env.CLIENT_HOST),
+      "partnerHost": JSON.stringify(process.env.PARTNER_HOST),
       "catalogHost": JSON.stringify(process.env.CATALOG_HOST),
       "imageHost": JSON.stringify(process.env.IMAGE_HOST),
       "partnerLogoutUrl": JSON.stringify(process.env.PARTNER_LOGOUT_URL),
