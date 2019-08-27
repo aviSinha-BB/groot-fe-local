@@ -51,6 +51,7 @@ typings/
 
 # dotenv environment variables file
 .env
+.properties
 
 
 .idea/
@@ -60,5 +61,6 @@ build
 dev
 config.js
 content-fe-pod.yaml
+deploy.sh
 .DS_Store
 /.changelog

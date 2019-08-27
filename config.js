@@ -3,6 +3,8 @@ const main_config= {
 
     "clientHost": process.env.CLIENT_HOST,
 
+    "partnerHost": process.env.PARTNER_HOST,
+
     "catalogHost": process.env.CATALOG_HOST,
 
     "imageHost": process.env.IMAGE_HOST,

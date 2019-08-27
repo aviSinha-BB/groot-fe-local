@@ -334,7 +334,12 @@ class SaveTempNameTwo extends Component {
                             this.setState({
                                 successReviewSnack: false
                             });
-                            window.location.replace(clientHost);
+                            if (localStorage.getItem('source_host') === 'partner') {      
+                                window.location.replace(partnerHost);
+                            }
+                            else {
+                                window.location.replace(clientHost);
+                            }
                         }, timeout);
                         return;
                     }
@@ -469,7 +474,12 @@ class SaveTempNameTwo extends Component {
                             this.setState({
                                 successRevisionSnack: false
                             });
-                            window.location.replace(clientHost);
+                            if (localStorage.getItem('source_host') === 'partner') {      
+                                window.location.replace(partnerHost);
+                            }
+                            else {
+                                window.location.replace(clientHost);
+                            }
                         }, timeout);
                         return;
                     }
@@ -602,7 +612,12 @@ class SaveTempNameTwo extends Component {
                             this.setState({
                                 successDraftSnack: false
                             });
-                            window.location.replace(clientHost);
+                            if (localStorage.getItem('source_host') === 'partner') {      
+                                window.location.replace(partnerHost);
+                            }
+                            else {
+                                window.location.replace(clientHost);
+                            }
                         }, timeout);
                         return;
                     }
@@ -738,7 +753,12 @@ class SaveTempNameTwo extends Component {
                             this.setState({
                                 successSaveSnack: false
                             });
-                            window.location.replace(clientHost);
+                            if (localStorage.getItem('source_host') === 'partner') {      
+                                window.location.replace(partnerHost);
+                            }
+                            else {
+                                window.location.replace(clientHost);
+                            }
                         }, timeout);
                         return;
                     }
@@ -874,7 +894,12 @@ class SaveTempNameTwo extends Component {
                             this.setState({
                                 successPublishSnack: false
                             });
-                            window.location.replace(clientHost + "all");
+                            if (localStorage.getItem('source_host') === 'partner') {      
+                                window.location.replace(partnerHost+"all");
+                            }
+                            else {
+                                window.location.replace(clientHost+"all");
+                            }
                         }, timeout);
                         return;
                     }
@@ -901,7 +926,12 @@ class SaveTempNameTwo extends Component {
                         this.setState({
                             errorPublishSnack: false
                         });
-                        window.location.replace(clientHost + "all");
+                        if (localStorage.getItem('source_host') === 'partner') {      
+                            window.location.replace(partnerHost+"all");
+                        }
+                        else {
+                            window.location.replace(clientHost+"all");
+                        }
                     }, timeout);
 
                 }

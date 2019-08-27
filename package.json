@@ -23,7 +23,6 @@
     "@babel/preset-env": "7.3.4",
     "@babel/preset-react": "7.0.0",
     "@material-ui/icons": "3.0.2",
-    "async": "3.0.0",
     "axios": "0.18.0",
     "babel-loader": "8.0.5",
     "babel-plugin-styled-components": "1.10.0",
@@ -60,7 +59,6 @@
     "react": "16.8.4",
     "react-dom": "16.8.4",
     "react-jss": "8.6.1",
-    "react-redux": "7.0.3",
     "react-router-dom": "5.0.0",
     "react-select": "3.0.4"
   }
