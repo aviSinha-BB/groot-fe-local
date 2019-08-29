@@ -4,7 +4,7 @@ import Loader from './Loading';
 import styled from 'styled-components';
 import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
-import Delete from '@material-ui/icons/Close';
+import Switch from '@material-ui/core/Switch';
 import IconButton from '@material-ui/core/IconButton';
 import { withStyles } from '@material-ui/core/styles';
 import { styles } from './ComponentStyle/TemplateStyle';
@@ -16,7 +16,6 @@ import 'font-awesome/css/font-awesome.css';
 import videoPlaceholder from '../assets/images/video-placeholder.png';
 import placeholderTwo from '../assets/images/placeholder-600x300.png';
 import placeholderThree from '../assets/images/placeholder-350x350.jpg';
-import FroalaEditorView from "react-froala-wysiwyg/FroalaEditorView";
 import ErrorToast from './ErrorToast';
 import WarningToast from '../components/WarningToast';
 import DOMPurify from 'dompurify';
@@ -300,7 +299,7 @@ class TemplateTwo extends Component {
                             subheadingvalue: result.data.hihspM.subHeading,
                             paravalue: result.data.hihspM.paragraph,
                             toggleSectionOne: result.data.hihspM.visible,
-                            headingThreevalue: result.data.hspihB.heading,
+                            headingThreevalue: result.data.ispLT.heading,
                             imgsrcThreevalue: result.data.hspihB.imageSrc,
                             anotherHeadingTwovalue: result.data.hspihB.anotherHeading,
                             subheadingTwovalue: result.data.hspihB.subHeading,
@@ -495,6 +494,9 @@ class TemplateTwo extends Component {
         e.preventDefault();
         var data = e.dataTransfer.getData("bmd");
         var source = document.getElementById(data).src;
+        var imgNameExt = source.split("images/")[1];
+        var imgName = imgNameExt.split(".")[0];
+        document.getElementById("placedImageTwo").alt = imgName;
         document.getElementById("placedImageTwo").src = source;
 
         this.updateBannerTwo(source);
@@ -504,6 +506,9 @@ class TemplateTwo extends Component {
         e.preventDefault();
         var data = e.dataTransfer.getData("bmd");
         var source = document.getElementById(data).src;
+        var imgNameExt = source.split("images/")[1];
+        var imgName = imgNameExt.split(".")[0];
+        document.getElementById("placedImageThree").alt = imgName;
         document.getElementById("placedImageThree").src = source;
 
         this.updateBannerThree(source);
@@ -513,6 +518,9 @@ class TemplateTwo extends Component {
         e.preventDefault();
         var data = e.dataTransfer.getData("bsm");
         var source = document.getElementById(data).src;
+        var imgNameExt = source.split("images/")[1];
+        var imgName = imgNameExt.split(".")[0];
+        document.getElementById("placedImageFour").alt = imgName;
         document.getElementById("placedImageFour").src = source;
 
         this.updateBannerFour(source);
@@ -522,6 +530,9 @@ class TemplateTwo extends Component {
         e.preventDefault();
         var data = e.dataTransfer.getData("bsm");
         var source = document.getElementById(data).src;
+        var imgNameExt = source.split("images/")[1];
+        var imgName = imgNameExt.split(".")[0];
+        document.getElementById("placedImageFive").alt = imgName;
         document.getElementById("placedImageFive").src = source;
 
         this.updateBannerFive(source);
@@ -531,6 +542,9 @@ class TemplateTwo extends Component {
         e.preventDefault();
         var data = e.dataTransfer.getData("bsm");
         var source = document.getElementById(data).src;
+        var imgNameExt = source.split("images/")[1];
+        var imgName = imgNameExt.split(".")[0];
+        document.getElementById("placedImageSix").alt = imgName;
         document.getElementById("placedImageSix").src = source;
 
         this.updateBannerSix(source);
@@ -540,6 +554,9 @@ class TemplateTwo extends Component {
         e.preventDefault();
         var data = e.dataTransfer.getData("bsm");
         var source = document.getElementById(data).src;
+        var imgNameExt = source.split("images/")[1];
+        var imgName = imgNameExt.split(".")[0];
+        document.getElementById("placedImageSeven").alt = imgName;
         document.getElementById("placedImageSeven").src = source;
 
         this.updateBannerSeven(source);
@@ -549,6 +566,9 @@ class TemplateTwo extends Component {
         e.preventDefault();
         var data = e.dataTransfer.getData("bsm");
         var source = document.getElementById(data).src;
+        var imgNameExt = source.split("images/")[1];
+        var imgName = imgNameExt.split(".")[0];
+        document.getElementById("placedImageEight").alt = imgName;
         document.getElementById("placedImageEight").src = source;
 
         this.updateBannerEight(source);
@@ -558,6 +578,9 @@ class TemplateTwo extends Component {
         e.preventDefault();
         var data = e.dataTransfer.getData("bsm");
         var source = document.getElementById(data).src;
+        var imgNameExt = source.split("images/")[1];
+        var imgName = imgNameExt.split(".")[0];
+        document.getElementById("placedImageNine").alt = imgName;
         document.getElementById("placedImageNine").src = source;
 
         this.updateBannerNine(source);
@@ -1689,6 +1712,44 @@ class TemplateTwo extends Component {
         }
     }
 
+    handleVisiblitySection = (valbool, section) => {
+        if (valbool) {
+            document.getElementById(section).style.display = 'block';
+        }
+        else {
+            document.getElementById(section).style.display = 'none';
+        }
+    }
+
+    handleSection = (section) => {
+        switch (section) {
+            case "section-zero":
+                this.setState({ toggleSectionZero: !this.state.toggleSectionZero },()=>{
+                    this.handleVisiblitySection(this.state.toggleSectionZero,"section-zero");
+                });
+                break;
+            case "section-one":
+                this.setState({ toggleSectionOne: !this.state.toggleSectionOne },()=>{
+                    this.handleVisiblitySection(this.state.toggleSectionOne,"section-one");
+                });    
+                break;
+            case "section-two":
+                this.setState({ toggleSectionTwo: !this.state.toggleSectionTwo },()=>{
+                    this.handleVisiblitySection(this.state.toggleSectionTwo,"section-two");
+                });
+                break;
+            case "section-three":
+                this.setState({ toggleSectionThree: !this.state.toggleSectionThree, toggleSectionFour: !this.state.toggleSectionFour, toggleSectionFive: !this.state.toggleSectionFive },()=>{this.handleVisiblitySection(this.state.toggleSectionThree,"section-three");
+                }); 
+                break;
+            case "section-four":
+                this.setState({ toggleSectionSix: !this.state.toggleSectionSix, toggleSectionSeven: !this.state.toggleSectionSeven, toggleSectionEight: !this.state.toggleSectionEight },()=>{
+                    this.handleVisiblitySection(this.state.toggleSectionSix,"section-four");
+                });
+                break;
+        };
+    }
+
     handleDeleteSection = (section) => {
         if (section === "initial-mount") {
             if (!this.state.toggleSectionZero) {
@@ -1726,32 +1787,32 @@ class TemplateTwo extends Component {
             }
 
             if (count === 4) {
-                this.setState({ errorSnackThree: true });
-                setTimeout(() => {
-                    this.setState({
-                        errorSnackThree: false
-                    })
-                }, timeout);
+                if (!this.state.toggleSectionZero && section === "section-zero") {
+                    this.handleSection(section);
+                }
+                else if (!this.state.toggleSectionOne  && section === "section-one") {
+                    this.handleSection(section);
+                }
+                else if (!this.state.toggleSectionTwo && section === "section-two") {
+                    this.handleSection(section);
+                }
+                else if (!this.state.toggleSectionThree && section === "section-three") {
+                    this.handleSection(section);
+                }
+                else if (!this.state.toggleSectionSix && section === "section-four") {
+                    this.handleSection(section);
+                }
+                else {
+                    this.setState({ errorSnackThree: true });
+                    setTimeout(() => {
+                        this.setState({
+                            errorSnackThree: false
+                        })
+                    }, timeout);
+                }
             }
             else {
-                switch (section) {
-                    case "section-zero":
-                        this.setState({ toggleSectionZero: false });
-                        break;
-                    case "section-one":
-                        this.setState({ toggleSectionOne: false });
-                        break;
-                    case "section-two":
-                        this.setState({ toggleSectionTwo: false });
-                        break;
-                    case "section-three":
-                        this.setState({ toggleSectionThree: false, toggleSectionFour: false, toggleSectionFive: false });
-                        break;
-                    case "section-four":
-                        this.setState({ toggleSectionSix: false, toggleSectionSeven: false, toggleSectionEight: false });
-                        break;
-                };
-                this.handleDelete(section);
+                this.handleSection(section);
             }
         }
     }
@@ -1849,28 +1910,24 @@ class TemplateTwo extends Component {
                     <Grid item xs={9} className={classes.gridStyle}>
                         <div id="template" className={classes.paper}>
                             <Paper >
-                                <style dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize("\n      * {\n        box-sizing: border-box;\n      }\n      .main-template {\n        line-height: 20px;\n        font-size: 20px;\n      }\n           .main-video {\n       text-align: center;\n    }\n    .video-style {\n    display: flex;\n    justify-content: center;\n    }\n      img {\n        max-width: 100%;\n        max-height: 100%;\n      }\n           .main-heading {\n        font-family: ProximaNova-Semibold;\n        color: #110f0f;\n        margin: 10px 0 20px;\n      }\n      .feature-heading,\n      .feature-sub-heading,\n      p {\n        margin: 10px 0;\n        line-height: 20px;\n      }\n      .feature-heading {\n        color: #222222;\n        font-size: 18px;\n        font-family: ProximaNova-Semibold;\n      }\n      .feature-sub-heading {\n        font-size: 16px;\n        font-family: ProximaNova-Semibold;\n        color: #444444;\n      }\n      .para-1 {\n        color: #666666;\n        font-size: 14px;\n         font-family: ProximaNova-Regular;\n      }\n\n      .full-view-img,\n      .half-view-img,\n      .small-view-img {\n        display: block;\n      }\n      .full-view-img,\n      .half-view-img {\n        margin: 0 auto;\n        height: 300px;\n      }\n      .small-view-img {\n        height: 350px;\n      }\n      .flex-block-2 {\n        display: flex;\n        margin: 20px 0;\n        align-items: flex-start;\n        justify-content: space-evenly;\n      }\n      .flex-block-2 div {\n        flex-basis: 50%;\n        flex-grow: 0;\n        flex-shrink: 0;\n      }\n      .flex-block-3 {\n        display: flex;\n        margin: 20px 0;\n        align-items: flex-start;\n        justify-content: space-between;\n      }\n      .flex-block-3 div {\n        flex-basis: 30%;\n      }\n      .flex-block div.mar-20-left {\n        margin-left: 20px;\n      }\n      .flex-block div.mar-20-right {\n        margin-right: 20px;\n      }\n      ul {\n        padding-left: 18px;\n      }\n     @media (max-width: 700px) {\n        .flex-block-2 {\n          display: block;\n        }\n        .flex-block-3 {\n          display: block;\n        }\n        .reverse {\n          flex-direction: row-reverse;\n        }\n        .half-view-img {\n          margin: 0 auto;\n        }\n        .flex-block-3 img {\n          margin: 0 auto;\n        }\n        .full-view-img {\n          max-height: 85px;\n        }\n        .half-view-img {\n          margin: 0 auto;\n          max-height: 170px;\n        }\n        .small-view-img {\n          max-height: 200px;\n        } \n      }\n    ") }} />
+                                <style dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize("\n      * {\n        box-sizing: border-box;\n      }\n      .main-template {\n        line-height: 20px;\n        font-size: 17px;\n      }\n        h3,h4 {\nmargin-top: 0px;\n    font-weight: 500;\n    margin-bottom: 0px;\n}\n           .main-video {\n       text-align: center;\n    }\n    .video-style {\n    display: flex;\n    justify-content: center;\n    }\n      img {\n        max-width: 100%;\n        max-height: 100%;\n      }\n           .main-heading {\n        font-family: ProximaNova-Semibold;\n        color: #110f0f;\n        margin: 40px 0 20px;\n      }\n      .feature-heading,\n      .feature-sub-heading,\n      p {\n        margin: 10px 0;\n        line-height: 20px;\n      }\n      .feature-heading {\n        color: #222222;\n        font-size: 18px;\n        font-family: ProximaNova-Semibold;\n      }\n      .feature-sub-heading {\n        font-size: 16px;\n        font-family: ProximaNova-Semibold;\n        color: #444444;\n      }\n      .para-1 {\n        color: #666666;\n        font-size: 14px;\n         font-family: ProximaNova-Regular;\n      }\n\n      .full-view-img,\n      .half-view-img,\n      .small-view-img {\n        display: block;\n      }\n      .full-view-img,\n      .half-view-img {\n        margin: 0 auto;\n        height: 300px;\n      }\n      .small-view-img {\n        height: 350px;\n      }\n      .flex-block-2 {\n        display: flex;\n        margin: 20px 0;\n        align-items: flex-start;\n        justify-content: space-evenly;\n      }\n      .flex-block-2 div {\n        flex-basis: 50%;\n        flex-grow: 0;\n        flex-shrink: 0;\n      }\n      .flex-block-3 {\n        display: flex;\n        margin: 20px 0;\n        align-items: flex-start;\n        justify-content: space-between;\n      }\n      .flex-block-3 div {\n        flex-basis: 30%;\n      }\n      .flex-block div.mar-20-left {\n        margin-left: 20px;\n      }\n      .flex-block div.mar-20-right {\n        margin-right: 20px;\n      }\n      ul {\n        padding-left: 18px;\n      }\n     @media (max-width: 700px) {\n        .flex-block-2 {\n          display: block;\n        }\n        .flex-block-3 {\n          display: block;\n        }\n        .reverse {\n          flex-direction: row-reverse;\n        }\n        .half-view-img {\n          margin: 0 auto;\n        }\n        .flex-block-3 img {\n          margin: 0 auto;\n        }\n        .full-view-img {\n          max-height: 85px;\n        }\n        .half-view-img {\n          margin: 0 auto;\n          max-height: 170px;\n        }\n        .small-view-img {\n          max-height: 200px;\n        } \n      }\n    ") }} />
                                 <div className="main-template">
+                                    <div id="delete-button">
+                                        <IconButton
+                                            aria-label="delete"
+                                            onClick={() => this.handleDeleteSection("section-zero")}
+                                        >
+                                            <Switch size="small" classes={{switchBase: classes.switchBase,checked: classes.checked,bar: classes.bar,}} checked={this.state.toggleSectionZero}/>
+                                        </IconButton>
+                                    </div>
                                     <div id="section-zero">
-                                        <div id="delete-button">
-                                            <IconButton
-                                                aria-label="delete"
-                                                onClick={() => this.handleDeleteSection("section-zero")}
-                                            >
-                                                <Delete />
-                                            </IconButton>
-                                        </div>
                                         <ActiveHeader
                                             className="main-heading"
                                             activeHead={this.state.activeHead}
                                             onClick={this.editHeader}
+                                            style={{marginTop: '10px'}}
                                         >
-                                            <FroalaEditorView
-                                                config={{
-                                                    key: FroalaKey
-                                                }}
-                                                model={this.state.headingvalue}
-                                            />
+                                            <h3 dangerouslySetInnerHTML={{__html: DOMPurify.sanitize(this.state.headingvalue)}} />
                                         </ActiveHeader>
                                         <ActiveVideo
                                             className="main-video"
@@ -1880,31 +1937,27 @@ class TemplateTwo extends Component {
                                             {this.state.videoStr ? <div className="video-style" dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(this.state.videoStr, { ALLOWED_TAGS: ['iframe'], ALLOWED_ATTR: ['width', 'height', 'src'] }) }} /> : <img src={this.state.videoSrcPlaceholder} />}
                                         </ActiveVideo>
                                     </div>
+                                    <div id="delete-button">
+                                        <IconButton
+                                            aria-label="delete"
+                                            onClick={() => this.handleDeleteSection("section-one")}
+                                        >
+                                            <Switch size="small" classes={{switchBase: classes.switchBase,checked: classes.checked,bar: classes.bar,}} checked={this.state.toggleSectionOne}/>
+                                        </IconButton>
+                                    </div>
                                     <div id="section-one">
-                                        <div id="delete-button">
-                                            <IconButton
-                                                aria-label="delete"
-                                                onClick={() => this.handleDeleteSection("section-one")}
-                                            >
-                                                <Delete />
-                                            </IconButton>
-                                        </div>
                                         <ActiveHeaderTwo
                                             className="main-heading"
                                             activeHeadTwo={this.state.activeHeadTwo}
                                             onClick={this.editHeaderTwo}
                                         >
-                                            <FroalaEditorView
-                                                config={{
-                                                    key: FroalaKey
-                                                }}
-                                                model={this.state.headingTwovalue}
-                                            />
+                                            <h3 dangerouslySetInnerHTML={{__html: DOMPurify.sanitize(this.state.headingTwovalue)}} />
                                         </ActiveHeaderTwo>
                                         <div className="flex-block flex-block-2">
                                             <ActivePara
                                                 onDrop={this.dropTwo}
                                                 onDragOver={this.allowDrop}
+                                                style={{paddingRight:'20px'}}
                                             >
                                                 <ActiveBannerTwo
                                                     src={this.state.imgsrcTwovalue}
@@ -1922,86 +1975,58 @@ class TemplateTwo extends Component {
                                                     onClick={this.editAnotherHead}
                                                     className="feature-heading"
                                                 >
-                                                    <FroalaEditorView
-                                                        config={{
-                                                            key: FroalaKey
-                                                        }}
-                                                        model={this.state.anotherHeadingvalue}
-                                                    />
+                                                    <h4 dangerouslySetInnerHTML={{__html: DOMPurify.sanitize(this.state.anotherHeadingvalue)}} />
                                                 </ActiveAnotherHeader>
                                                 <ActiveSubHeader
                                                     activeSubHead={this.state.activeSubHead}
                                                     onClick={this.editSubHead}
                                                     className="feature-sub-heading"
                                                 >
-                                                    <FroalaEditorView
-                                                        config={{
-                                                            key: FroalaKey
-                                                        }}
-                                                        model={this.state.subheadingvalue}
-                                                    />
+                                                    <h4 dangerouslySetInnerHTML={{__html: DOMPurify.sanitize(this.state.subheadingvalue)}} />
                                                 </ActiveSubHeader>
                                                 <ActivePara
                                                     activeParagraph={this.state.activeParagraph}
                                                     onClick={this.editPara}
                                                     className="para-1"
                                                 >
-                                                    <FroalaEditorView
-                                                        config={{
-                                                            key: FroalaKey
-                                                        }}
-                                                        model={this.state.paravalue}
-                                                    />
+                                                    <p dangerouslySetInnerHTML={{__html: DOMPurify.sanitize(this.state.paravalue)}} />
                                                 </ActivePara>
                                             </div>
                                         </div>
                                     </div>
+                                    <div id="delete-button">
+                                        <IconButton
+                                            aria-label="delete"
+                                            onClick={() => this.handleDeleteSection("section-two")}
+                                        >
+                                            <Switch size="small" classes={{switchBase: classes.switchBase,checked: classes.checked,bar: classes.bar,}} checked={this.state.toggleSectionTwo}/>
+                                        </IconButton>
+                                    </div>
                                     <div id="section-two">
-                                        <div id="delete-button">
-                                            <IconButton
-                                                aria-label="delete"
-                                                onClick={() => this.handleDeleteSection("section-two")}
-                                            >
-                                                <Delete />
-                                            </IconButton>
-                                        </div>
                                         <div className="flex-block flex-block-2 reverse">
-                                            <div>
+                                            <div style={{paddingRight:'20px'}}>
                                                 <ActiveAnotherHeaderTwo
                                                     activeanotherHeadTwo={this.state.activeanotherHeadTwo}
                                                     onClick={this.editAnotherHeadTwo}
                                                     className="feature-heading"
                                                 >
-                                                    <FroalaEditorView
-                                                        config={{
-                                                            key: FroalaKey
-                                                        }}
-                                                        model={this.state.anotherHeadingTwovalue}
-                                                    />
+                                                
+                                                <h4 dangerouslySetInnerHTML={{__html: DOMPurify.sanitize(this.state.anotherHeadingTwovalue)}} />
+                                                
                                                 </ActiveAnotherHeaderTwo>
                                                 <ActiveSubHeaderTwo
                                                     activeSubHeadTwo={this.state.activeSubHeadTwo}
                                                     onClick={this.editSubHeadTwo}
                                                     className="feature-sub-heading"
                                                 >
-                                                    <FroalaEditorView
-                                                        config={{
-                                                            key: FroalaKey
-                                                        }}
-                                                        model={this.state.subheadingTwovalue}
-                                                    />
+                                                    <h4 dangerouslySetInnerHTML={{__html: DOMPurify.sanitize(this.state.subheadingTwovalue)}} />
                                                 </ActiveSubHeaderTwo>
                                                 <ActiveParaTwo
                                                     activeParagraphTwo={this.state.activeParagraphTwo}
                                                     onClick={this.editParaTwo}
                                                     className="para-1"
                                                 >
-                                                    <FroalaEditorView
-                                                        config={{
-                                                            key: FroalaKey
-                                                        }}
-                                                        model={this.state.paraTwovalue}
-                                                    />
+                                                    <p dangerouslySetInnerHTML={{__html: DOMPurify.sanitize(this.state.paraTwovalue)}} />
                                                 </ActiveParaTwo>
                                             </div>
                                             <ActivePara
@@ -2019,29 +2044,24 @@ class TemplateTwo extends Component {
                                                 />
                                             </ActivePara>
                                         </div>
+                                    </div>
+                                    <div id="delete-button">
+                                        <IconButton
+                                            aria-label="delete"
+                                            onClick={() => this.handleDeleteSection("section-three")}
+                                        >
+                                            <Switch size="small" classes={{switchBase: classes.switchBase,checked: classes.checked,bar: classes.bar,}} checked={this.state.toggleSectionThree}/>
+                                        </IconButton>
+                                    </div>
+                                    <div id="section-three">
                                         <ActiveHeaderThree
                                             className="main-heading"
                                             activeHeadThree={this.state.activeHeadThree}
                                             onClick={this.editHeaderThree}
                                         >
-                                            <FroalaEditorView
-                                                config={{
-                                                    key: FroalaKey
-                                                }}
-                                                model={this.state.headingThreevalue}
-                                            />
+                                            <h3 dangerouslySetInnerHTML={{__html: DOMPurify.sanitize(this.state.headingThreevalue)}} />
                                         </ActiveHeaderThree>
-                                    </div>
-                                    <div id="section-three">
-                                        <div id="delete-button">
-                                            <IconButton
-                                                aria-label="delete"
-                                                onClick={() => this.handleDeleteSection("section-three")}
-                                            >
-                                                <Delete />
-                                            </IconButton>
-                                        </div>
-                                        <div className="flex-block flex-block-3">
+                                        <div className="flex-block flex-block-3" style={{marginBottom: '30px'}}>
                                             <div>
                                                 <ActivePara
                                                     onDrop={this.dropFour}
@@ -2061,25 +2081,16 @@ class TemplateTwo extends Component {
                                                     activeSubHeadThree={this.state.activeSubHeadThree}
                                                     onClick={this.editSubHeadThree}
                                                     className="feature-sub-heading"
+                                                    style={{marginTop: '15px',marginBottom: '10px'}}
                                                 >
-                                                    <FroalaEditorView
-                                                        config={{
-                                                            key: FroalaKey
-                                                        }}
-                                                        model={this.state.subheadingThreevalue}
-                                                    />
+                                                    <h4 dangerouslySetInnerHTML={{__html: DOMPurify.sanitize(this.state.subheadingThreevalue)}} />
                                                 </ActiveSubHeaderThree>
                                                 <ActiveParaThree
                                                     activeParagraphThree={this.state.activeParagraphThree}
                                                     onClick={this.editParaThree}
                                                     className="para-1"
                                                 >
-                                                    <FroalaEditorView
-                                                        config={{
-                                                            key: FroalaKey
-                                                        }}
-                                                        model={this.state.paraThreevalue}
-                                                    />
+                                                <p dangerouslySetInnerHTML={{__html: DOMPurify.sanitize(this.state.paraThreevalue)}} />
                                                 </ActiveParaThree>
                                             </div>
                                             <div>
@@ -2101,25 +2112,16 @@ class TemplateTwo extends Component {
                                                     activeSubHeadFour={this.state.activeSubHeadFour}
                                                     onClick={this.editSubHeadFour}
                                                     className="feature-sub-heading"
+                                                    style={{marginTop: '15px',marginBottom: '10px'}}
                                                 >
-                                                    <FroalaEditorView
-                                                        config={{
-                                                            key: FroalaKey
-                                                        }}
-                                                        model={this.state.subheadingFourvalue}
-                                                    />
+                                                    <h4 dangerouslySetInnerHTML={{__html: DOMPurify.sanitize(this.state.subheadingFourvalue)}} />
                                                 </ActiveSubHeaderFour>
                                                 <ActiveParaFour
                                                     activeParagraphFour={this.state.activeParagraphFour}
                                                     onClick={this.editParaFour}
                                                     className="para-1"
                                                 >
-                                                    <FroalaEditorView
-                                                        config={{
-                                                            key: FroalaKey
-                                                        }}
-                                                        model={this.state.paraFourvalue}
-                                                    />
+                                                <p dangerouslySetInnerHTML={{__html: DOMPurify.sanitize(this.state.paraFourvalue)}} />
                                                 </ActiveParaFour>
                                             </div>
                                             <div>
@@ -2141,39 +2143,30 @@ class TemplateTwo extends Component {
                                                     activeSubHeadFive={this.state.activeSubHeadFive}
                                                     onClick={this.editSubHeadFive}
                                                     className="feature-sub-heading"
+                                                    style={{marginTop: '15px',marginBottom: '10px'}}
                                                 >
-                                                    <FroalaEditorView
-                                                        config={{
-                                                            key: FroalaKey
-                                                        }}
-                                                        model={this.state.subheadingFivevalue}
-                                                    />
+                                                    <h4 dangerouslySetInnerHTML={{__html: DOMPurify.sanitize(this.state.subheadingFivevalue)}} />
                                                 </ActiveSubHeaderFive>
                                                 <ActiveParaFive
                                                     activeParagraphFive={this.state.activeParagraphFive}
                                                     onClick={this.editParaFive}
                                                     className="para-1"
                                                 >
-                                                    <FroalaEditorView
-                                                        config={{
-                                                            key: FroalaKey
-                                                        }}
-                                                        model={this.state.paraFivevalue}
-                                                    />
+                                                <p dangerouslySetInnerHTML={{__html: DOMPurify.sanitize(this.state.paraFivevalue)}} />
                                                 </ActiveParaFive>
                                             </div>
                                         </div>
                                     </div>
+                                    <div id="delete-button">
+                                        <IconButton
+                                            aria-label="delete"
+                                            onClick={() => this.handleDeleteSection("section-four")}
+                                        >
+                                            <Switch size="small" classes={{switchBase: classes.switchBase,checked: classes.checked,bar: classes.bar,}} checked={this.state.toggleSectionSix}/>
+                                        </IconButton>
+                                    </div>
                                     <div id="section-four">
-                                        <div id="delete-button">
-                                            <IconButton
-                                                aria-label="delete"
-                                                onClick={() => this.handleDeleteSection("section-four")}
-                                            >
-                                                <Delete />
-                                            </IconButton>
-                                        </div>
-                                        <div className="flex-block flex-block-3">
+                                        <div className="flex-block flex-block-3" style={{marginBottom: '40px'}}>
                                             <div>
                                                 <ActivePara
                                                     onDrop={this.dropSeven}
@@ -2193,25 +2186,16 @@ class TemplateTwo extends Component {
                                                     activeSubHeadSix={this.state.activeSubHeadSix}
                                                     onClick={this.editSubHeadSix}
                                                     className="feature-sub-heading"
+                                                    style={{marginTop: '15px',marginBottom: '10px'}}
                                                 >
-                                                    <FroalaEditorView
-                                                        config={{
-                                                            key: FroalaKey
-                                                        }}
-                                                        model={this.state.subheadingSixvalue}
-                                                    />
+                                                    <h4 dangerouslySetInnerHTML={{__html: DOMPurify.sanitize(this.state.subheadingSixvalue)}} />
                                                 </ActiveSubHeaderSix>
                                                 <ActiveParaSix
                                                     activeParagraphSix={this.state.activeParagraphSix}
                                                     onClick={this.editParaSix}
                                                     className="para-1"
                                                 >
-                                                    <FroalaEditorView
-                                                        config={{
-                                                            key: FroalaKey
-                                                        }}
-                                                        model={this.state.paraSixvalue}
-                                                    />
+                                                <p dangerouslySetInnerHTML={{__html: DOMPurify.sanitize(this.state.paraSixvalue)}} />
                                                 </ActiveParaSix>
                                             </div>
                                             <div>
@@ -2233,25 +2217,16 @@ class TemplateTwo extends Component {
                                                     activeSubHeadSeven={this.state.activeSubHeadSeven}
                                                     onClick={this.editSubHeadSeven}
                                                     className="feature-sub-heading"
+                                                    style={{marginTop: '15px',marginBottom: '10px'}}
                                                 >
-                                                    <FroalaEditorView
-                                                        config={{
-                                                            key: FroalaKey
-                                                        }}
-                                                        model={this.state.subheadingSevenvalue}
-                                                    />
+                                                    <h4 dangerouslySetInnerHTML={{__html: DOMPurify.sanitize(this.state.subheadingSevenvalue)}} />
                                                 </ActiveSubHeaderSeven>
                                                 <ActiveParaSeven
                                                     activeParagraphSeven={this.state.activeParagraphSeven}
                                                     onClick={this.editParaSeven}
                                                     className="para-1"
                                                 >
-                                                    <FroalaEditorView
-                                                        config={{
-                                                            key: FroalaKey
-                                                        }}
-                                                        model={this.state.paraSevenvalue}
-                                                    />
+                                                <p dangerouslySetInnerHTML={{__html: DOMPurify.sanitize(this.state.paraSevenvalue)}} />
                                                 </ActiveParaSeven>
                                             </div>
                                             <div>
@@ -2273,25 +2248,16 @@ class TemplateTwo extends Component {
                                                     activeSubHeadEight={this.state.activeSubHeadEight}
                                                     onClick={this.editSubHeadEight}
                                                     className="feature-sub-heading"
+                                                    style={{marginTop: '15px',marginBottom: '10px'}}
                                                 >
-                                                    <FroalaEditorView
-                                                        config={{
-                                                            key: FroalaKey
-                                                        }}
-                                                        model={this.state.subheadingEightvalue}
-                                                    />
+                                                    <h4 dangerouslySetInnerHTML={{__html: DOMPurify.sanitize(this.state.subheadingEightvalue)}} />
                                                 </ActiveSubHeaderEight>
                                                 <ActiveParaEight
                                                     activeParagraphEight={this.state.activeParagraphEight}
                                                     onClick={this.editParaEight}
                                                     className="para-1"
                                                 >
-                                                    <FroalaEditorView
-                                                        config={{
-                                                            key: FroalaKey
-                                                        }}
-                                                        model={this.state.paraEightvalue}
-                                                    />
+                                                <p dangerouslySetInnerHTML={{__html: DOMPurify.sanitize(this.state.paraEightvalue)}} />
                                                 </ActiveParaEight>
                                             </div>
                                         </div>

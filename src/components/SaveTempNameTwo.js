@@ -228,7 +228,33 @@ class SaveTempNameTwo extends Component {
         }
     }
 
+    handleDelete = (section) => {
+        var parent = document.getElementById(section);
+        while (parent.firstChild) {
+            parent.removeChild(parent.firstChild);
+        }
+    }
+
+    handleDeleteSection = () => {
+        if (!this.props.toggleSectionZero) {
+            this.handleDelete("section-zero")
+        }
+        if (!this.props.toggleSectionOne) {
+            this.handleDelete("section-one")
+        }
+        if (!this.props.toggleSectionTwo) {
+            this.handleDelete("section-two")
+        }
+        if (!this.props.toggleSectionThree) {
+            this.handleDelete("section-three")
+        }
+        if (!this.props.toggleSectionSix) {
+            this.handleDelete("section-four")
+        }
+    }
+
     handleReview = () => {
+        this.handleDeleteSection();
         this.handleDeleteButtons();
         var tempHTML = document.getElementById('template').innerHTML;
         var tempFile = new File([tempHTML], this.state.name + ".html", { type: "text/html" });
@@ -257,11 +283,11 @@ class SaveTempNameTwo extends Component {
                     "subHeading": this.props.subheadingTwovalue,
                     "paragraph": this.props.paraTwovalue,
                     "imageSrc": this.props.imgsrcThreevalue,
-                    "heading": this.props.headingThreevalue,
                     "visible": this.props.toggleSectionTwo
                 },
                 "ispLT": {
                     "tag": "image-subheading-para",
+                    "heading": this.props.headingThreevalue,
                     "imageSrc": this.props.imgsrcFourvalue,
                     "subHeading": this.props.subheadingThreevalue,
                     "paragraph": this.props.paraThreevalue,
@@ -370,6 +396,7 @@ class SaveTempNameTwo extends Component {
     }
 
     handleRevision = () => {
+        this.handleDeleteSection();
         this.handleDeleteButtons();
         var tempHTML = document.getElementById('template').innerHTML;
         var tempFile = new File([tempHTML], this.state.name + ".html", { type: "text/html" });
@@ -398,11 +425,11 @@ class SaveTempNameTwo extends Component {
                     "subHeading": this.props.subheadingTwovalue,
                     "paragraph": this.props.paraTwovalue,
                     "imageSrc": this.props.imgsrcThreevalue,
-                    "heading": this.props.headingThreevalue,
                     "visible": this.props.toggleSectionTwo
                 },
                 "ispLT": {
                     "tag": "image-subheading-para",
+                    "heading": this.props.headingThreevalue,
                     "imageSrc": this.props.imgsrcFourvalue,
                     "subHeading": this.props.subheadingThreevalue,
                     "paragraph": this.props.paraThreevalue,
@@ -510,6 +537,7 @@ class SaveTempNameTwo extends Component {
     }
 
     handleDraft = () => {
+        this.handleDeleteSection();
         this.handleDeleteButtons();
         var tempHTML = document.getElementById('template').innerHTML;
         var tempFile = new File([tempHTML], this.state.name + ".html", { type: "text/html" });
@@ -538,11 +566,11 @@ class SaveTempNameTwo extends Component {
                     "subHeading": this.props.subheadingTwovalue,
                     "paragraph": this.props.paraTwovalue,
                     "imageSrc": this.props.imgsrcThreevalue,
-                    "heading": this.props.headingThreevalue,
                     "visible": this.props.toggleSectionTwo
                 },
                 "ispLT": {
                     "tag": "image-subheading-para",
+                    "heading": this.props.headingThreevalue,
                     "imageSrc": this.props.imgsrcFourvalue,
                     "subHeading": this.props.subheadingThreevalue,
                     "paragraph": this.props.paraThreevalue,
@@ -648,6 +676,7 @@ class SaveTempNameTwo extends Component {
     }
 
     handleSave = () => {
+        this.handleDeleteSection();
         this.handleDeleteButtons();
         var tempHTML = document.getElementById('template').innerHTML;
         var tempFile = new File([tempHTML], this.state.name + ".html", { type: "text/html" });
@@ -676,11 +705,11 @@ class SaveTempNameTwo extends Component {
                     "subHeading": this.props.subheadingTwovalue,
                     "paragraph": this.props.paraTwovalue,
                     "imageSrc": this.props.imgsrcThreevalue,
-                    "heading": this.props.headingThreevalue,
                     "visible": this.props.toggleSectionTwo
                 },
                 "ispLT": {
                     "tag": "image-subheading-para",
+                    "heading": this.props.headingThreevalue,
                     "imageSrc": this.props.imgsrcFourvalue,
                     "subHeading": this.props.subheadingThreevalue,
                     "paragraph": this.props.paraThreevalue,
@@ -789,6 +818,7 @@ class SaveTempNameTwo extends Component {
     }
 
     handlePublish = () => {
+        this.handleDeleteSection();
         this.handleDeleteButtons();
         var tempHTML = document.getElementById('template').innerHTML;
         var tempFile = new File([tempHTML], this.state.name + ".html", { type: "text/html" });
@@ -817,11 +847,11 @@ class SaveTempNameTwo extends Component {
                     "subHeading": this.props.subheadingTwovalue,
                     "paragraph": this.props.paraTwovalue,
                     "imageSrc": this.props.imgsrcThreevalue,
-                    "heading": this.props.headingThreevalue,
                     "visible": this.props.toggleSectionTwo
                 },
                 "ispLT": {
                     "tag": "image-subheading-para",
+                    "heading": this.props.headingThreevalue,
                     "imageSrc": this.props.imgsrcFourvalue,
                     "subHeading": this.props.subheadingThreevalue,
                     "paragraph": this.props.paraThreevalue,

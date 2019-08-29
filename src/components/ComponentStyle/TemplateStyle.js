@@ -1,3 +1,5 @@
+import { green } from "@material-ui/core/colors";
+
 export const styles = theme => ({
     root: {
         display: 'flex',
@@ -13,6 +15,25 @@ export const styles = theme => ({
         overflowX: "scroll",
         overflowY: "hidden"
     },
+
+    switchBase: {
+        color: green[300],
+        '&$checked': {
+          color: green[500],
+        },
+        '&$checked + $track': {
+          backgroundColor: green[500],
+        },
+        '&$checked + $bar': {
+            backgroundColor: green[500],
+        },
+    },
+
+    checked: {},
+
+    track: {},
+
+    bar: {},
 
     toolspaper: {
         height: "calc(100vh - 75px)",
