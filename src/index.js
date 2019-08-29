@@ -31,18 +31,17 @@ class Main extends Component {
     let paramUrl = url.split("sessionId=")[1];
     let authToken = null;
     let sourceHost = null;
+
     if (typeof paramUrl !== "undefined") {
       authToken = paramUrl.split("&source=")[0];
       sourceHost = paramUrl.split("&source=")[1];
-      if (localStorage.getItem('token') !== authToken)
-        this.handlePermission();
     }
 
-    if (typeof authToken !== "undefined") {
+    if (typeof authToken !== "undefined" && authToken !== null) {
       localStorage.setItem('token', authToken);
     }
 
-    if (typeof sourceHost !== "undefined") {
+    if (typeof sourceHost !== "undefined" && sourceHost !== null) {
       localStorage.setItem('source_host', sourceHost);
     }
 
@@ -55,73 +54,74 @@ class Main extends Component {
       }
     }
 
-    if (localStorage.getItem('userPermission') === null && localStorage.getItem('token')) {
-      this.handlePermission();
+    if (localStorage.getItem('userPermission') === null || ( localStorage.getItem('token') !== authToken && authToken !== null)) {
+      this.setState({ loading: true });
+      apitimeout(pendingTimeout, fetch(templateAPI + '/permissions', {
+        method: "GET",
+        headers: {
+          'Content-Type': 'application/json',
+          "X-Requested-With": "XMLHttpRequest",
+          [AuthKey]: localStorage.getItem('token')
+        }
+      })).then(response => {
+        if (response.status == 200) {
+          this.setState({ toggleApp: true, loading: false });
+          return response.json();
+        }
+        else if (response.status == 401) {
+          this.setState({ permissionSnack: true, toggleApp: false, loading: false });
+          setTimeout(() => {
+            this.setState({
+              permissionSnack: false
+            });
+            if (localStorage.getItem('source_host') === 'partner') {
+              window.location.replace(partnerLogoutUrl);
+            }
+            else {
+              window.location.replace(catalogHost);
+            }
+          }, timeout);
+        }
+        else {
+          this.setState({ toggleApp: false });
+          throw Error(response.statusText);
+        }
+      })
+        .then(result => {
+          if (result) {
+            localStorage.setItem('userPermission', result.roles);
+            if (result.externalUser !== null && result.externalUser !== "") {
+              localStorage.setItem('userManufacturer', result.externalUser.marketeer_name);
+            }
+            if (localStorage.getItem('userPermission').includes(creatorPermission)) {
+              this.setState({ togglePerm: true });
+            }
+            else {
+              this.setState({ togglePerm: false });
+            }
+          }
+          else {
+            this.setState({ errorSnackTwo: true });
+            setTimeout(() => {
+              this.setState({
+                errorSnackTwo: false
+              })
+            }, timeout);
+          }
+        })
+        .catch((error) => {
+          this.setState({ errorSnack: true, loading: false });
+          setTimeout(() => {
+            this.setState({
+              errorSnack: false
+            })
+          }, timeout);
+          console.log('Looks like there was a problem in fetching permissions \n', error);
+        });
     }
 
     if (localStorage.getItem('userPermission') && localStorage.getItem('token'))
       this.setState({ toggleApp: true });
-  }
-
-  handlePermission = () => {
-    this.setState({ loading: true });
-    apitimeout(pendingTimeout, fetch(templateAPI + '/permissions', {
-      method: "GET",
-      headers: {
-        'Content-Type': 'application/json',
-        "X-Requested-With": "XMLHttpRequest",
-        [AuthKey]: localStorage.getItem('token')
-      }
-    })).then(response => {
-      if (response.status == 200) {
-        this.setState({ toggleApp: true, loading: false });
-        return response.json();
-      }
-      else if (response.status == 401) {
-        this.setState({ permissionSnack: true, toggleApp: false, loading: false });
-        setTimeout(() => {
-          this.setState({
-            permissionSnack: false
-          });
-          window.location.replace(catalogHost);
-        }, timeout);
-      }
-      else {
-        this.setState({ toggleApp: false });
-        throw Error(response.statusText);
-      }
-    })
-      .then(result => {
-        if (result) {
-          localStorage.setItem('userPermission', result.roles);
-          if (result.externalUser !== null && result.externalUser !== "") {
-            localStorage.setItem('userManufacturer', result.externalUser.marketeer_name);
-          }
-          if (localStorage.getItem('userPermission').includes(creatorPermission)) {
-            this.setState({ togglePerm: true });
-          }
-          else {
-            this.setState({ togglePerm: false });
-          }
-        }
-        else {
-          this.setState({ errorSnackTwo: true });
-          setTimeout(() => {
-            this.setState({
-              errorSnackTwo: false
-            })
-          }, timeout);
-        }
-      })
-      .catch((error) => {
-        this.setState({ errorSnack: true, loading: false });
-        setTimeout(() => {
-          this.setState({
-            errorSnack: false
-          })
-        }, timeout);
-        console.log('Looks like there was a problem in fetching permissions \n', error);
-      });
   }
 
   render() {
