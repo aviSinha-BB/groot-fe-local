@@ -36,8 +36,13 @@ class Main extends Component {
       authToken = paramUrl.split("&source=")[0];
       sourceHost = paramUrl.split("&source=")[1];
     }
-
+    
     if (localStorage.getItem('userPermission') === null || (localStorage.getItem('token') !== authToken && authToken !== null)) {
+
+      if (typeof authToken !== "undefined" && authToken !== null) {
+        localStorage.setItem('token', authToken);
+      }
+      
       this.setState({ loading: true });
       apitimeout(pendingTimeout, fetch(templateAPI + '/permissions', {
         method: "GET",
@@ -101,10 +106,6 @@ class Main extends Component {
           }, timeout);
           console.log('Looks like there was a problem in fetching permissions \n', error);
         });
-    }
-
-    if (typeof authToken !== "undefined" && authToken !== null) {
-      localStorage.setItem('token', authToken);
     }
 
     if (typeof sourceHost !== "undefined" && sourceHost !== null) {
