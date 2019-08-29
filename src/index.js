@@ -29,76 +29,12 @@ class Main extends Component {
   componentDidMount() {
     let url = window.location.href;
     let paramUrl = url.split("sessionId=")[1];
-    let authToken = null;
-    let sourceHost = null;
+    let authToken = undefined;
+    let sourceHost = undefined;
+
     if (typeof paramUrl !== "undefined") {
       authToken = paramUrl.split("&source=")[0];
       sourceHost = paramUrl.split("&source=")[1];
-      if (localStorage.getItem('token') !== authToken) {
-        this.setState({ loading: true });
-        apitimeout(pendingTimeout, fetch(templateAPI + '/permissions', {
-          method: "GET",
-          headers: {
-            'Content-Type': 'application/json',
-            "X-Requested-With": "XMLHttpRequest",
-            [AuthKey]: localStorage.getItem('token')
-          }
-        })).then(response => {
-          if (response.status == 200) {
-            this.setState({ toggleApp: true, loading: false });
-            return response.json();
-          }
-          else if (response.status == 401) {
-            this.setState({ permissionSnack: true, toggleApp: false, loading: false });
-            setTimeout(() => {
-              this.setState({
-                permissionSnack: false
-              });
-              if (localStorage.getItem('source_host') === 'partner') {
-                window.location.replace(partnerLogoutUrl);
-              }
-              else {
-                window.location.replace(catalogHost);
-              }
-            }, timeout);
-          }
-          else {
-            this.setState({ toggleApp: false });
-            throw Error(response.statusText);
-          }
-        })
-          .then(result => {
-            if (result) {
-              localStorage.setItem('userPermission', result.roles);
-              if (result.externalUser !== null && result.externalUser !== "") {
-                localStorage.setItem('userManufacturer', result.externalUser.marketeer_name);
-              }
-              if (localStorage.getItem('userPermission').includes(creatorPermission)) {
-                this.setState({ togglePerm: true });
-              }
-              else {
-                this.setState({ togglePerm: false });
-              }
-            }
-            else {
-              this.setState({ errorSnackTwo: true });
-              setTimeout(() => {
-                this.setState({
-                  errorSnackTwo: false
-                })
-              }, timeout);
-            }
-          })
-          .catch((error) => {
-            this.setState({ errorSnack: true, loading: false });
-            setTimeout(() => {
-              this.setState({
-                errorSnack: false
-              })
-            }, timeout);
-            console.log('Looks like there was a problem in fetching permissions \n', error);
-          });
-      }
     }
 
     if (typeof authToken !== "undefined") {
@@ -118,7 +54,7 @@ class Main extends Component {
       }
     }
 
-    if (localStorage.getItem('userPermission') === null && localStorage.getItem('token')) {
+    if (localStorage.getItem('userPermission') === null || ( localStorage.getItem('token') !== authToken && typeof authToken !== "undefined")) {
       this.setState({ loading: true });
       apitimeout(pendingTimeout, fetch(templateAPI + '/permissions', {
         method: "GET",
