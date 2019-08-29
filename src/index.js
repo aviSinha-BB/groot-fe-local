@@ -29,19 +29,19 @@ class Main extends Component {
   componentDidMount() {
     let url = window.location.href;
     let paramUrl = url.split("sessionId=")[1];
-    let authToken = undefined;
-    let sourceHost = undefined;
+    let authToken = null;
+    let sourceHost = null;
 
     if (typeof paramUrl !== "undefined") {
       authToken = paramUrl.split("&source=")[0];
       sourceHost = paramUrl.split("&source=")[1];
     }
 
-    if (typeof authToken !== "undefined") {
+    if (typeof authToken !== "undefined" && authToken !== null) {
       localStorage.setItem('token', authToken);
     }
 
-    if (typeof sourceHost !== "undefined") {
+    if (typeof sourceHost !== "undefined" && sourceHost !== null) {
       localStorage.setItem('source_host', sourceHost);
     }
 
@@ -54,7 +54,7 @@ class Main extends Component {
       }
     }
 
-    if (localStorage.getItem('userPermission') === null || ( localStorage.getItem('token') !== authToken && typeof authToken !== "undefined")) {
+    if (localStorage.getItem('userPermission') === null || ( localStorage.getItem('token') !== authToken && authToken !== null)) {
       this.setState({ loading: true });
       apitimeout(pendingTimeout, fetch(templateAPI + '/permissions', {
         method: "GET",
