@@ -1717,13 +1717,6 @@ class TemplateOne extends Component {
         }, pendingTimeout);
     }
 
-    handleDelete = (section) => {
-        var parent = document.getElementById(section);
-        while (parent.firstChild) {
-            parent.removeChild(parent.firstChild);
-        }
-    }
-
     handleVisiblitySection = (valbool, section) => {
         if (valbool) {
             document.getElementById(section).style.display = 'block';
@@ -1765,19 +1758,19 @@ class TemplateOne extends Component {
     handleDeleteSection = (section) => {
         if (section === "initial-mount") {
             if (!this.state.toggleSectionZero) {
-                this.handleDelete("section-zero")
+                this.handleVisiblitySection(this.state.toggleSectionZero,"section-zero")
             }
             if (!this.state.toggleSectionOne) {
-                this.handleDelete("section-one")
+                this.handleVisiblitySection(this.state.toggleSectionOne,"section-one")
             }
             if (!this.state.toggleSectionTwo) {
-                this.handleDelete("section-two")
+                this.handleVisiblitySection(this.state.toggleSectionTwo,"section-two")
             }
             if (!this.state.toggleSectionThree) {
-                this.handleDelete("section-three")
+                this.handleVisiblitySection(this.state.toggleSectionThree,"section-three")
             }
             if (!this.state.toggleSectionSix) {
-                this.handleDelete("section-four")
+                this.handleVisiblitySection(this.state.toggleSectionSix,"section-four")
             }
         }
         else {
