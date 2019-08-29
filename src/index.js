@@ -37,31 +37,14 @@ class Main extends Component {
       sourceHost = paramUrl.split("&source=")[1];
     }
 
-    if (typeof authToken !== "undefined" && authToken !== null) {
-      localStorage.setItem('token', authToken);
-    }
-
-    if (typeof sourceHost !== "undefined" && sourceHost !== null) {
-      localStorage.setItem('source_host', sourceHost);
-    }
-
-    if (localStorage.getItem('token') === null) {
-      if (localStorage.getItem('source_host') === 'partner') {
-        window.location.replace(partnerLogoutUrl);
-      }
-      else {
-        window.location.replace(catalogHost);
-      }
-    }
-
-    if (localStorage.getItem('userPermission') === null || ( localStorage.getItem('token') !== authToken && authToken !== null)) {
+    if (localStorage.getItem('userPermission') === null || (localStorage.getItem('token') !== authToken && authToken !== null)) {
       this.setState({ loading: true });
       apitimeout(pendingTimeout, fetch(templateAPI + '/permissions', {
         method: "GET",
         headers: {
           'Content-Type': 'application/json',
           "X-Requested-With": "XMLHttpRequest",
-          [AuthKey]: localStorage.getItem('token')
+          [AuthKey]: authToken
         }
       })).then(response => {
         if (response.status == 200) {
@@ -118,6 +101,23 @@ class Main extends Component {
           }, timeout);
           console.log('Looks like there was a problem in fetching permissions \n', error);
         });
+    }
+
+    if (typeof authToken !== "undefined" && authToken !== null) {
+      localStorage.setItem('token', authToken);
+    }
+
+    if (typeof sourceHost !== "undefined" && sourceHost !== null) {
+      localStorage.setItem('source_host', sourceHost);
+    }
+
+    if (localStorage.getItem('token') === null) {
+      if (localStorage.getItem('source_host') === 'partner') {
+        window.location.replace(partnerLogoutUrl);
+      }
+      else {
+        window.location.replace(catalogHost);
+      }
     }
 
     if (localStorage.getItem('userPermission') && localStorage.getItem('token'))
