@@ -8,7 +8,8 @@ export const styles = theme => ({
     },
 
     paper: {
-        width: '1286px',
+        maxWidth: '1200px',
+        margin: '0 auto'
     },
 
     gridStyle: {
