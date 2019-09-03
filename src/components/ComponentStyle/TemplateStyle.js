@@ -7,11 +7,6 @@ export const styles = theme => ({
         paddingTop: '61px'
     },
 
-    paper: {
-        maxWidth: '1200px',
-        margin: '0 auto'
-    },
-
     gridStyle: {
         overflowX: "scroll",
         overflowY: "hidden"
