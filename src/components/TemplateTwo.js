@@ -332,6 +332,14 @@ class TemplateTwo extends Component {
                             taskId: result.metaData.taskId
                         });
 
+                        this.handlingAltImage("placedImageTwo", this.state.imgsrcTwovalue);
+                        this.handlingAltImage("placedImageThree", this.state.imgsrcThreevalue);
+                        this.handlingAltImage("placedImageFour", this.state.imgsrcFourvalue);
+                        this.handlingAltImage("placedImageFive", this.state.imgsrcFivevalue);
+                        this.handlingAltImage("placedImageSix", this.state.imgsrcSixvalue);
+                        this.handlingAltImage("placedImageSeven", this.state.imgsrcSevenvalue);
+                        this.handlingAltImage("placedImageEight", this.state.imgsrcEightvalue);
+                        this.handlingAltImage("placedImageNine", this.state.imgsrcNinevalue);
                         this.handleDeleteSection("initial-mount")
                     }
                     else {
@@ -356,6 +364,13 @@ class TemplateTwo extends Component {
         else {
             this.setState({ loading: false });
         }
+    }
+
+    //setting alt text
+    handlingAltImage = (section, source) => {
+        var imgNameExt = source.split("images/")[1];
+        var imgName = imgNameExt.split(".")[0];
+        document.getElementById(section).alt = imgName;
     }
 
     //setting the value of header
