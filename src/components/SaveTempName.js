@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import ReactDOM from 'react-dom';
-import AsyncSelect from 'react-select/async';
+import SyncSelect from 'react-select';
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 import { styles } from './ComponentStyle/SaveTempStyle';
@@ -22,73 +22,8 @@ const selectStyle = {
     container: () => ({
         padding: 10,
         width: 287
-    }),
-    menu: () => ({
-        zIndex: 9999
     })
 };
-
-var promiseOptions = inputValue =>
-    new Promise((resolve, reject) => {
-        var productSuggestions = [];
-        var authVal = new Buffer(BasicAuthVal).toString('base64');
-        if (debug) {
-            var basicAuthValue = 'Basic ' + authVal;
-        } else {
-            var basicAuthValue = localStorage.getItem('token');
-        }
-        if (/^\d+$/.test(inputValue)) {
-            fetch(productSearchAPI + "?term=" + inputValue, {
-                method: "GET",
-                headers: {
-                    [AuthKey]: basicAuthValue,
-                    'X-Requested-With': 'XMLHttpRequest'
-                }
-            }).
-                then(res => {
-                    if (res.status == 200) {
-                        return res.json();
-                    }
-                    else {
-                        throw Error(res.statusText);
-                    }
-                })
-                .then(result => {
-                    var prodArr = result.results.data;
-
-                    if (prodArr.length != 0) {
-                        prodArr.forEach(function (arrayItem) {
-                            var prodName = arrayItem.name;
-                            var prodId = arrayItem.pid;
-                            productSuggestions.push({ value: prodId, label: prodName });
-                        });
-                        var filterOption = (inputValue) => {
-                            return productSuggestions.filter(i =>
-                                i.value.toString().includes(inputValue.toString())
-                            );
-                        };
-                        setTimeout(() => {
-                            resolve(filterOption(inputValue));
-                        }, 1000);
-                    }
-                    else {
-                        productSuggestions.push({ value: inputValue, label: inputValue });
-                        setTimeout(() => {
-                            resolve(productSuggestions);
-                        }, 1000);
-                    }
-                })
-                .catch((error) => {
-                    productSuggestions.push({ value: inputValue, label: inputValue });
-                    setTimeout(() => {
-                        resolve(productSuggestions);
-                    }, 1000);
-                });
-        }
-        else {
-            reject(null);
-        }
-    });
 
 class SaveTempName extends Component {
     constructor(props) {
@@ -97,6 +32,8 @@ class SaveTempName extends Component {
             name: this.props.aplusname,
             maunfactName: '',
             pids: null,
+            xlsFile: null,
+            xlsFileName: null,
             commentVal: '',
             productAction: 'override',
             tempId: '',
@@ -107,6 +44,8 @@ class SaveTempName extends Component {
             toggleRevision: true,
             toggleDraft: true,
             toggleSave: true,
+            toggleXlsUpload: false,
+            toggleXlsValidation: false,
             errorSnack: false,
             warningPidLenSnack: false,
             errorTempData: false,
@@ -119,7 +58,8 @@ class SaveTempName extends Component {
             successSaveSnack: false,
             errorSaveSnack: false,
             successPublishSnack: false,
-            errorPublishSnack: false
+            errorPublishSnack: false,
+            errorDownload: false
         };
         this.el = document.createElement('div');
     }
@@ -185,23 +125,23 @@ class SaveTempName extends Component {
                 });
 
             if (get_sname == statusReview) {
-                this.setState({ toggleRevision: false, togglePending: false, toggleDraft: false });
+                this.setState({ toggleRevision: false, togglePending: false, toggleDraft: false, toggleXlsUpload: true, toggleXlsValidation: false });
             }
             else if (get_sname == statusDraft) {
-                this.setState({ toggleRevision: false, togglePending: false, toggleSave: false });
+                this.setState({ toggleRevision: false, togglePending: false, toggleSave: false, toggleXlsUpload: true, toggleXlsValidation: false });
             }
             else if (get_sname == statusRevision || get_sname == statusSentForPublish) {
-                this.setState({ toggleReview: false, toggleDraft: false });
+                this.setState({ toggleReview: false, toggleDraft: false, toggleXlsUpload: false, toggleXlsValidation: false });
             }
             else if (get_sname == statusPending) {
-                this.setState({ toggleReview: false, togglePending: false, toggleDraft: false, toggleSave: false });
+                this.setState({ toggleReview: false, togglePending: false, toggleDraft: false, toggleSave: false, toggleXlsUpload: false, toggleXlsValidation: false });
             }
         }
         else {
             if (localStorage.getItem('userManufacturer') !== null) {
                 this.setState({ maunfactName: localStorage.getItem('userManufacturer') });
             }
-            this.setState({ toggleRevision: false, togglePending: false, toggleSave: false });
+            this.setState({ toggleRevision: false, togglePending: false, toggleSave: false, toggleXlsUpload: true, toggleXlsValidation: true });
         }
     }
 
@@ -212,7 +152,7 @@ class SaveTempName extends Component {
     handleMaxProductIds = (prodIdStr) => {
         var prodIdLength = prodIdStr.length;
 
-        if (prodIdLength <= 20)
+        if (prodIdLength >= 1)
             return true;
         else
             return false;
@@ -260,6 +200,7 @@ class SaveTempName extends Component {
         var tempFile = new File([tempHTML], this.state.name + ".html", { type: "text/html" });
         var formData = new FormData();
         formData.append('file', tempFile);
+        formData.append('xlsx', this.state.xlsFile);
         formData.append("data", JSON.stringify({
             "data": {
                 "hiT": {
@@ -345,55 +286,43 @@ class SaveTempName extends Component {
             "comment": this.state.commentVal
         }));
 
-        if (this.handleMaxProductIds(this.state.pids)) {
-            this.setState({ loading: true, successReviewSnack: false, errorReviewSnack: false });
-            apitimeout(pendingTimeout, fetch(templateAPI + "/change/state/create", {
-                method: "POST",
-                headers: {
-                    [AuthKey]: localStorage.getItem('token')
-                },
-                body: formData
-            })).then(
-                response => {
-                    if (response.status == 200) {
-                        this.setState({ loading: false, successReviewSnack: true });
-                        setTimeout(() => {
-                            this.setState({
-                                successReviewSnack: false
-                            });
-                            if (localStorage.getItem('source_host') === 'partner') {
-                                window.location.replace(partnerHost);
-                            }
-                            else {
-                                window.location.replace(clientHost);
-                            }
-                        }, timeout);
-                        return;
-                    }
-                    else {
-                        throw Error(response.status);
-                    }
+        this.setState({ loading: true, successReviewSnack: false, errorReviewSnack: false });
+        apitimeout(pendingTimeout, fetch(templateAPI + "/change/state/create", {
+            method: "POST",
+            headers: {
+                [AuthKey]: localStorage.getItem('token')
+            },
+            body: formData
+        })).then(
+            response => {
+                if (response.status == 200) {
+                    this.setState({ loading: false, successReviewSnack: true });
+                    setTimeout(() => {
+                        this.setState({
+                            successReviewSnack: false
+                        });
+                        if (localStorage.getItem('source_host') === 'partner') {
+                            window.location.replace(partnerHost);
+                        }
+                        else {
+                            window.location.replace(clientHost);
+                        }
+                    }, timeout);
+                    return;
                 }
-            ).catch((error) => {
-                this.setState({ loading: false, errorReviewSnack: true });
-                setTimeout(() => {
-                    this.setState({
-                        errorReviewSnack: false
-                    })
-                }, timeout);
-                console.log('Looks like there was a problem in sending for review \n');
-            });
-        }
-        else {
-            this.setState({
-                warningPidLenSnack: true
-            });
+                else {
+                    throw Error(response.status);
+                }
+            }
+        ).catch((error) => {
+            this.setState({ loading: false, errorReviewSnack: true });
             setTimeout(() => {
                 this.setState({
-                    warningPidLenSnack: false
+                    errorReviewSnack: false
                 })
             }, timeout);
-        }
+            console.log('Looks like there was a problem in sending for review \n');
+        });
     }
 
     handleRevision = () => {
@@ -403,6 +332,7 @@ class SaveTempName extends Component {
         var tempFile = new File([tempHTML], this.state.name + ".html", { type: "text/html" });
         var formData = new FormData();
         formData.append('file', tempFile);
+        formData.append('xlsx', null);
         formData.append("data", JSON.stringify({
             "data": {
                 "hiT": {
@@ -544,6 +474,7 @@ class SaveTempName extends Component {
         var tempFile = new File([tempHTML], this.state.name + ".html", { type: "text/html" });
         var formData = new FormData();
         formData.append('file', tempFile);
+        formData.append('xlsx', this.state.xlsFile);
         formData.append("data", JSON.stringify({
             "data": {
                 "hiT": {
@@ -625,64 +556,55 @@ class SaveTempName extends Component {
             },
             "comment": this.state.commentVal
         }));
-        if (this.handleMaxProductIds(this.state.pids)) {
-            this.setState({ loading: true, successDraftSnack: false, errorDraftSnack: false });
-            apitimeout(pendingTimeout, fetch(templateAPI + "/draft/", {
-                method: "PUT",
-                headers: {
-                    [AuthKey]: localStorage.getItem('token')
-                },
-                body: formData
-            })).then(
-                response => {
-                    if (response.status == 200) {
-                        this.setState({ loading: false, successDraftSnack: true });
-                        setTimeout(() => {
-                            this.setState({
-                                successDraftSnack: false
-                            });
-                            if (localStorage.getItem('source_host') === 'partner') {
-                                window.location.replace(partnerHost);
-                            }
-                            else {
-                                window.location.replace(clientHost);
-                            }
-                        }, timeout);
-                        return;
-                    }
-                    else {
-                        throw Error(response.status);
-                    }
+        this.setState({ loading: true, successDraftSnack: false, errorDraftSnack: false });
+        apitimeout(pendingTimeout, fetch(templateAPI + "/draft/", {
+            method: "PUT",
+            headers: {
+                [AuthKey]: localStorage.getItem('token')
+            },
+            body: formData
+        })).then(
+            response => {
+                if (response.status == 200) {
+                    this.setState({ loading: false, successDraftSnack: true });
+                    setTimeout(() => {
+                        this.setState({
+                            successDraftSnack: false
+                        });
+                        if (localStorage.getItem('source_host') === 'partner') {
+                            window.location.replace(partnerHost);
+                        }
+                        else {
+                            window.location.replace(clientHost);
+                        }
+                    }, timeout);
+                    return;
                 }
-            ).catch((error) => {
-                this.setState({ loading: false, errorDraftSnack: true });
-                setTimeout(() => {
-                    this.setState({
-                        errorDraftSnack: false
-                    })
-                }, timeout);
-                console.log('Looks like there was a problem in saving template \n');
-            });
-        }
-        else {
-            this.setState({
-                warningPidLenSnack: true
-            });
+                else {
+                    throw Error(response.status);
+                }
+            }
+        ).catch((error) => {
+            this.setState({ loading: false, errorDraftSnack: true });
             setTimeout(() => {
                 this.setState({
-                    warningPidLenSnack: false
+                    errorDraftSnack: false
                 })
             }, timeout);
-        }
+            console.log('Looks like there was a problem in saving template \n');
+        });
+
     }
 
     handleSave = () => {
+        
         this.handleDeleteSection();
         this.handleDeleteButtons();
         var tempHTML = document.getElementById('template').innerHTML;
         var tempFile = new File([tempHTML], this.state.name + ".html", { type: "text/html" });
         var formData = new FormData();
         formData.append('file', tempFile);
+        formData.append('xlsx', this.state.xlsFile);
         formData.append("data", JSON.stringify({
             "data": {
                 "hiT": {
@@ -766,56 +688,45 @@ class SaveTempName extends Component {
             },
             "comment": this.state.commentVal
         }));
-        if (this.handleMaxProductIds(this.state.pids)) {
-            this.setState({ loading: true, successSaveSnack: false, errorSaveSnack: false });
-            apitimeout(pendingTimeout, fetch(templateAPI + "/save/", {
-                method: "POST",
-                headers: {
-                    [AuthKey]: localStorage.getItem('token')
-                },
-                body: formData
-            })).then(
-                response => {
-                    if (response.status == 200) {
-                        this.setState({ loading: false });
-                        this.setState({ successSaveSnack: true });
-                        setTimeout(() => {
-                            this.setState({
-                                successSaveSnack: false
-                            });
-                            if (localStorage.getItem('source_host') === 'partner') {
-                                window.location.replace(partnerHost);
-                            }
-                            else {
-                                window.location.replace(clientHost);
-                            }
-                        }, timeout);
-                        return;
-                    }
-                    else {
-                        throw Error(response.status);
-                    }
+
+        this.setState({ loading: true, successSaveSnack: false, errorSaveSnack: false });
+        apitimeout(pendingTimeout, fetch(templateAPI + "/save/", {
+            method: "POST",
+            headers: {
+                [AuthKey]: localStorage.getItem('token')
+            },
+            body: formData
+        })).then(
+            response => {
+                if (response.status == 200) {
+                    this.setState({ loading: false });
+                    this.setState({ successSaveSnack: true });
+                    setTimeout(() => {
+                        this.setState({
+                            successSaveSnack: false
+                        });
+                        if (localStorage.getItem('source_host') === 'partner') {
+                            window.location.replace(partnerHost);
+                        }
+                        else {
+                            window.location.replace(clientHost);
+                        }
+                    }, timeout);
+                    return;
                 }
-            ).catch((error) => {
-                this.setState({ loading: false, errorSaveSnack: true });
-                setTimeout(() => {
-                    this.setState({
-                        errorSaveSnack: false
-                    })
-                }, timeout);
-                console.log('Looks like there was a problem in saving template \n');
-            });
-        }
-        else {
-            this.setState({
-                warningPidLenSnack: true
-            });
+                else {
+                    throw Error(response.status);
+                }
+            }
+        ).catch((error) => {
+            this.setState({ loading: false, errorSaveSnack: true });
             setTimeout(() => {
                 this.setState({
-                    warningPidLenSnack: false
+                    errorSaveSnack: false
                 })
             }, timeout);
-        }
+            console.log('Looks like there was a problem in saving template \n');
+        });
     }
 
     handlePublish = () => {
@@ -825,6 +736,7 @@ class SaveTempName extends Component {
         var tempFile = new File([tempHTML], this.state.name + ".html", { type: "text/html" });
         var formData = new FormData();
         formData.append('file', tempFile);
+        formData.append('xlsx', null);
         formData.append("data", JSON.stringify({
             "data": {
                 "hiT": {
@@ -994,6 +906,51 @@ class SaveTempName extends Component {
         }
     }
 
+    readXLS = (e) => {
+        e.preventDefault();
+
+        this.setState({ xlsFile: e.target.files[0] });
+        this.setState({ xlsFileName: e.target.files[0].name });
+    }
+
+    handleUploadedXLSDownload = (tempid) => {
+        this.setState({ loading: true, errorDownload: false });
+        apitimeout(pendingTimeout, fetch(templateAPI + "/download/" + tempid, {
+            method: "GET",
+            headers: {
+                [AuthKey]: localStorage.getItem('token')
+            }
+        })).
+            then(res => {
+                if (res.status == 200) {
+                    return res.blob();
+                }
+                else {
+                    throw Error(res.statusText);
+                }
+            })
+            .then(result => {
+                const url = window.URL.createObjectURL(new Blob([result]));
+                const link = document.createElement('a');
+                link.href = url;
+                link.setAttribute('download', `uploaded_sku.xlsx`);
+                document.body.appendChild(link);
+                link.click();
+                link.parentNode.removeChild(link);
+                this.setState({ loading: false });
+            })
+            .catch((error) => {
+                this.setState({ loading: false });
+                this.setState({ errorDownload: true });
+                setTimeout(() => {
+                    this.setState({
+                        errorDownload: false
+                    })
+                }, timeout);
+                console.log('Looks like there was a problem in downloading excel file \n');
+            });
+    }
+
     handleChangeComment = commentVal => e => {
         this.setState({ [commentVal]: e.target.value });
     }
@@ -1005,7 +962,7 @@ class SaveTempName extends Component {
     render() {
         const { classes } = this.props;
         let allfilled = true;
-        allfilled = this.state.pids && this.state.productAction && this.state.maunfactName;
+        allfilled = this.state.toggleXlsValidation ? this.state.xlsFile && this.state.productAction && this.state.maunfactName : this.state.productAction && this.state.maunfactName;
         let toggleManufacturer = false;
         if (localStorage.getItem('userManufacturer') === null) {
             toggleManufacturer = false;
@@ -1037,19 +994,47 @@ class SaveTempName extends Component {
                     }}
                     required
                 />
-                <span style={{ paddingLeft: 10 }} className={classes.labelStyle}>Enter Products</span><br />
-                <AsyncSelect
-                    isMulti
-                    cacheOptions
-                    defaultOptions
-                    name="product-ids"
-                    styles={selectStyle}
-                    loadOptions={promiseOptions}
-                    className="basic-multi-select"
-                    classNamePrefix="select"
-                    value={this.state.pids}
-                    onChange={this.handleChangeId}
-                />
+                {this.state.toggleXlsUpload ?
+                    <div>
+                        <span style={{ paddingLeft: 10 }} className={classes.labelStyle}>Choose SKU XSL</span><br />
+                        <input
+                            type="file"
+                            id="uploadXLS"
+                            className={classes.uploadInputStyle}
+                            accept=".csv,.xlsx,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel"
+                            onChange={this.readXLS}
+                        />
+                        <label htmlFor="uploadXLS">
+                            <Button component="span" className={classes.buttonRevStyle}>
+                                Choose XLSX
+                        </Button>
+                        </label>
+                        <span style={{ paddingLeft: 10 }} className={classes.labelStyle}>{this.state.xlsFileName}</span>
+                    </div>
+                    :
+                    <div>
+                        <span style={{ paddingLeft: 10 }} className={classes.labelStyle}>Products<br />
+                            <SyncSelect
+                                className="productid-multi"
+                                value={this.state.pids}
+                                onChange={this.handleChangeId}
+                                isClearable={true}
+                                menuIsOpen={false}
+                                isSearchable={false}
+                                isMulti
+                                styles={selectStyle}
+                                name="product-ids"
+                            />
+                        </span>
+                    </div>
+                }
+                {!this.state.toggleXlsValidation &&
+                    <span style={{ paddingLeft: 10 }} className={classes.labelStyle}>
+                        <a href={'#'} onClick={() => this.handleUploadedXLSDownload(this.state.tempId)}>
+                            Download
+                        </a>
+                    </span>
+                }
                 <FormControl className={classes.formControl}>
                     <InputLabel htmlFor="paction-simple" className={classes.labelStyle}>Select Action for Product</InputLabel>
                     <Select
@@ -1115,7 +1100,7 @@ class SaveTempName extends Component {
                     }
                 </div>
                 {this.state.errorSnack && ReactDOM.createPortal(<ErrorToast message="Error in Processing" />, this.el)}
-                {this.state.warningPidLenSnack && ReactDOM.createPortal(<WarningToast message="Product Ids should not be more than 20" />, this.el)}
+                {this.state.warningPidLenSnack && ReactDOM.createPortal(<WarningToast message="Product Ids cannot be empty" />, this.el)}
                 {this.state.errorTempData && ReactDOM.createPortal(<ErrorToast message="Error in processing" />, this.el)}
                 {this.state.successReviewSnack && ReactDOM.createPortal(<SuccessToast message="Aplus Template is Send for Review" />, this.el)}
                 {this.state.errorReviewSnack && ReactDOM.createPortal(<ErrorToast message="Error in sending for request" />, this.el)}
@@ -1127,6 +1112,7 @@ class SaveTempName extends Component {
                 {this.state.errorSaveSnack && ReactDOM.createPortal(<ErrorToast message="Error in Saving" />, this.el)}
                 {this.state.successPublishSnack && ReactDOM.createPortal(<SuccessToast message="Aplus Template is Published" />, this.el)}
                 {this.state.errorPublishSnack && ReactDOM.createPortal(<ErrorToast message="Error in Publishing" />, this.el)}
+                {this.state.errorDownload && <ErrorToast message="Error while downloading" />}
             </form>
         );
     }
