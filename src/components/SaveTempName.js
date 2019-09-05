@@ -83,7 +83,7 @@ class SaveTempName extends Component {
 
             this.setState({ tempId: getTid, statusPermission: get_sname });
             this.setState({ loading: true, errorTempData: false });
-            apitimeout(pendingTimeout, fetch(this.state.clientHost + templateAPI + '/' + getTid + '/' + getSid, {
+            apitimeout(pendingTimeout, fetch(host + templateAPI + '/' + getTid + '/' + getSid, {
                 method: "GET",
                 headers: {
                     "Content-Type": "application/json",

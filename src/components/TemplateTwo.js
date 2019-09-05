@@ -255,7 +255,6 @@ class TemplateTwo extends Component {
             toggleSectionSix: true,
             toggleSectionSeven: true,
             toggleSectionEight: true,
-            clientHost: null,
         };
     }
 
@@ -263,7 +262,6 @@ class TemplateTwo extends Component {
 
         var url = window.location.href;
         var host = url.split('/content-svc')[0];
-        this.setState({ clientHost: host });
         var url_get = url.split("tempview?")[1];
         var url_tid = url_get.split("&")[1];
         var url_sid = url_get.split("&")[2];
@@ -273,7 +271,7 @@ class TemplateTwo extends Component {
             var getSid = url_sid.split("=")[1];
             var getTid = url_tid.split("=")[1];
 
-            apitimeout(pendingTimeout, fetch(this.state.clientHost + templateAPI + '/' + getTid + '/' + getSid, {
+            apitimeout(pendingTimeout, fetch(host + templateAPI + '/' + getTid + '/' + getSid, {
                 method: "GET",
                 headers: {
                     "Content-Type": "application/json",

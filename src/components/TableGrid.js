@@ -102,9 +102,9 @@ class TableGrid extends Component {
         this.setState({ loading: true, overallErrorFive: false });
 
         if (url_get.includes('all'))
-            table_url = this.state.clientHost + templateAPI + "/all";
+            table_url = host + templateAPI + "/all";
         else
-            table_url = this.state.clientHost + templateAPI + "/";
+            table_url = host + templateAPI + "/";
 
         apitimeout(pendingTimeout, fetch(table_url, {
             method: "GET",
