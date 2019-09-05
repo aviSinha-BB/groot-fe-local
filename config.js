@@ -1,13 +1,7 @@
 const main_config= {
     "clientPort": process.env.CLIENT_PORT,
 
-    "clientHost": process.env.CLIENT_HOST,
-
-    "partnerHost": process.env.PARTNER_HOST,
-
     "catalogHost": process.env.CATALOG_HOST,
-
-    "imageHost": process.env.IMAGE_HOST,
 
     "partnerLogoutUrl": process.env.PARTNER_LOGOUT_URL,
 
@@ -56,8 +50,6 @@ const main_config= {
     "pageListSize": process.env.PAGE_LIST_SIZE,
 
     "templateAPI": process.env.TEMPLATE_API,
-    
-    "productSearchAPI": process.env.PRODUCT_SEARCH_API,
 
     "getGroupUserUrl": process.env.GET_GROUP_USER_URL
 }

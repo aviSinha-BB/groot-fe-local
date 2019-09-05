@@ -84,6 +84,7 @@ class TableGrid extends Component {
             openMobile: false,
             openUpload: false,
             htmlLocation: '',
+            clientHost: null,
             name: '',
             productAction: 'override',
             excelFile: null,
@@ -94,6 +95,8 @@ class TableGrid extends Component {
 
     componentDidMount = () => {
         var url = window.location.href;
+        var host = url.split('/content-svc')[0];
+        this.setState({ clientHost: host });
         var url_get = url.split("apluscontent/")[1];
         var table_url = '';
         this.setState({ loading: true, overallErrorFive: false });
@@ -193,7 +196,7 @@ class TableGrid extends Component {
                     this.setState({
                         successUnpublishSnack: false
                     });
-                    window.location.replace(clientHost + 'all');
+                    window.location.replace(this.state.clientHost+preUrl+'/apluscontent/all');
                 }, timeout);
             }
             else {
@@ -239,7 +242,7 @@ class TableGrid extends Component {
                             this.setState({
                                 successUpload: false
                             });
-                            window.location.replace(clientHost + 'all');
+                            window.location.replace(this.state.clientHost+preUrl+'/apluscontent/all');
                         }, timeout);
                     }
                     else {
@@ -371,7 +374,7 @@ class TableGrid extends Component {
                                     this.setState({
                                         successCloneSnack: false
                                     });
-                                    window.location.replace(clientHost);
+                                    window.location.replace(this.state.clientHost+preUrl+'/apluscontent/');
                                 }, timeout);
                             }
                             else {
@@ -545,10 +548,10 @@ class TableGrid extends Component {
                                         block = '';
                                     }
                                     else if (statusname === statusActive) {
-                                        block = <span><a href='#' onClick={() => this.handleMobileOpen(htmlloc)}>{app}</a>/<a href={imageHost + htmlloc} target="_blank">{web}</a>/<a href={'#'} onClick={() => this.handleUploadedExcelDownload(templateId)}>{dwnld}</a></span>;
+                                        block = <span><a href='#' onClick={() => this.handleMobileOpen(htmlloc)}>{app}</a>/<a href={this.state.clientHost + htmlloc} target="_blank">{web}</a>/<a href={'#'} onClick={() => this.handleUploadedExcelDownload(templateId)}>{dwnld}</a></span>;
                                     }
                                     else {
-                                        block = <span><a href='#' onClick={() => this.handleMobileOpen(htmlloc)}>{app}</a>/<a href={imageHost + htmlloc} target="_blank">{web}</a></span>;
+                                        block = <span><a href='#' onClick={() => this.handleMobileOpen(htmlloc)}>{app}</a>/<a href={this.state.clientHost + htmlloc} target="_blank">{web}</a></span>;
                                     }
                                     return (
                                         <span>
@@ -668,7 +671,7 @@ class TableGrid extends Component {
                             <div className={classes.rootFrame}>
                                 <div className={classes.frame}>
                                     <div className={classes.inner}>
-                                        <iframe src={imageHost + this.state.htmlLocation} height="500" width="263" name={dateObj.getSeconds()} className={classes.iframeStyle}>
+                                        <iframe src={this.state.clientHost + this.state.htmlLocation} height="500" width="263" name={dateObj.getSeconds()} className={classes.iframeStyle}>
                                         </iframe>
                                     </div>
                                 </div>
