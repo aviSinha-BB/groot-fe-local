@@ -1,6 +1,7 @@
 const main_config= {
     "clientPort": process.env.CLIENT_PORT,
     "catalogHost": process.env.CATALOG_HOST,
+    "monolithHost": process.env.MONOLITH_HOST,
     "grootHost": process.env.GROOT_HOST,
     "partnerLogoutUrl": process.env.PARTNER_LOGOUT_URL,
     "AuthKey": process.env.AUTH_KEY,
