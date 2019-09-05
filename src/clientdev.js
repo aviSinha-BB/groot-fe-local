@@ -48,11 +48,10 @@ app.post(main_config.grootHost + "/userspermission", (req, res, next) => {
     const groups = req.body.groups;
     console.log("[Content_Fe_WAPI]: Workflow is calling.. ");
     console.log("[Content_Fe_WAPI]: Requested Group from Workflow: ", req.body.groups);
-    console.log("[Content_Fe_WAPI]: Requested Host: ", req.headers.host);
     const bbSignkey = bbsign.generate_bbsign(main_config.signKey, ['group_name'], [groups]);
     axios({
         method: 'post',
-        url: "https://"+req.headers.host+main_config.getGroupUserUrl,
+        url: main_config.monolithHost + main_config.getGroupUserUrl,
         headers: {
             'Content-Type': 'application/json'
         },
