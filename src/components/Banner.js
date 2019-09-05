@@ -46,7 +46,7 @@ class Banner extends Component {
 
   uploadImage = (imgData, imageType) => {
     this.setState({ loading: true });
-    apitimeout(pendingTimeout, fetch(templateAPI + "/image/upload", {
+    apitimeout(pendingTimeout, fetch(this.state.clientHost + templateAPI + "/image/upload", {
       method: "POST",
       headers: {
         [AuthKey]: localStorage.getItem('token')

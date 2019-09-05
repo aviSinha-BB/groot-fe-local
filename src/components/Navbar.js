@@ -79,8 +79,15 @@ class Navbar extends Component {
         this.state = {
             setAnchor: null,
             loading: false,
-            errorDownload: false
+            errorDownload: false,
+            clientHost: null,
         }
+    }
+
+    componentDidMount() {
+        var url = window.location.href;
+        var host = url.split('/content-svc')[0];
+        this.setState({ clientHost: host });
     }
 
     handleMenuClick = (event) => {
@@ -93,7 +100,7 @@ class Navbar extends Component {
 
     handleExcelDownload = () => {
         this.setState({ loading: true, errorDownload: false });
-        apitimeout(pendingTimeout, fetch(templateAPI + "/sample/download", {
+        apitimeout(pendingTimeout, fetch(this.state.clientHost + templateAPI + "/sample/download", {
             method: "GET",
             headers: {
                 [AuthKey]: localStorage.getItem('token')
@@ -133,11 +140,11 @@ class Navbar extends Component {
         this.handleMenuClose;
         if (localStorage.getItem('source_host') === 'partner') {
             localStorage.clear();
-            window.location.replace(partnerLogoutUrl);
+            window.location.replace(this.state.clientHost + partnerLogoutUrl);
         }
         else {
             localStorage.clear();
-            window.location.replace(catalogHost);
+            window.location.replace(this.state.clientHost + catalogHost);
         }
     }
 
@@ -162,13 +169,13 @@ class Navbar extends Component {
                             <img src={LogoIcon} width="120px" height="40px" />
                         </div>
                         <div className={classes.navlinkStyle}>
-                            <NavLink exact to={preUrl + "/apluscontent/"} className={classes.link} >
+                            <NavLink exact to={grootHost + "/"} className={classes.link} >
                                 <Button color="primary" className={classes.buttonStyle}>
                                     <Home className={classes.IconStyle} />
                                     Home
                                 </Button>
                             </NavLink>
-                            {toggle && <NavLink exact to={preUrl + "/apluscontent/choosetemp"} className={classes.link}>
+                            {toggle && <NavLink exact to={grootHost + "/choosetemp"} className={classes.link}>
                                 <Button color="primary" className={classes.buttonStyle} >
                                     <AddCircle className={classes.IconStyle} />
                                     Create New

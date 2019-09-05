@@ -83,7 +83,7 @@ class SaveTempName extends Component {
 
             this.setState({ tempId: getTid, statusPermission: get_sname });
             this.setState({ loading: true, errorTempData: false });
-            apitimeout(pendingTimeout, fetch(templateAPI + '/' + getTid + '/' + getSid, {
+            apitimeout(pendingTimeout, fetch(this.state.clientHost + templateAPI + '/' + getTid + '/' + getSid, {
                 method: "GET",
                 headers: {
                     "Content-Type": "application/json",
@@ -290,7 +290,7 @@ class SaveTempName extends Component {
         }));
 
         this.setState({ loading: true, successReviewSnack: false, errorReviewSnack: false });
-        apitimeout(pendingTimeout, fetch(templateAPI + "/change/state/create", {
+        apitimeout(pendingTimeout, fetch(this.state.clientHost + templateAPI + "/change/state/create", {
             method: "POST",
             headers: {
                 [AuthKey]: localStorage.getItem('token')
@@ -304,7 +304,7 @@ class SaveTempName extends Component {
                         this.setState({
                             successReviewSnack: false
                         });
-                        window.location.replace(this.state.clientHost+preUrl+'/apluscontent/');
+                        window.location.replace(this.state.clientHost+grootHost+'/');
                     }, timeout);
                     return;
                 }
@@ -416,7 +416,7 @@ class SaveTempName extends Component {
         }));
         if (this.handleMaxProductIds(this.state.pids)) {
             this.setState({ loading: true, successRevisionSnack: false, errorRevisionSnack: false });
-            apitimeout(pendingTimeout, fetch(templateAPI + "/change/state/review", {
+            apitimeout(pendingTimeout, fetch(this.state.clientHost + templateAPI + "/change/state/review", {
                 method: "POST",
                 headers: {
                     [AuthKey]: localStorage.getItem('token')
@@ -430,7 +430,7 @@ class SaveTempName extends Component {
                             this.setState({
                                 successRevisionSnack: false
                             });
-                            window.location.replace(this.state.clientHost+preUrl+'/apluscontent/');
+                            window.location.replace(this.state.clientHost+grootHost+'/');
                         }, timeout);
                         return;
                     }
@@ -550,7 +550,7 @@ class SaveTempName extends Component {
             "comment": this.state.commentVal
         }));
         this.setState({ loading: true, successDraftSnack: false, errorDraftSnack: false });
-        apitimeout(pendingTimeout, fetch(templateAPI + "/draft/", {
+        apitimeout(pendingTimeout, fetch(this.state.clientHost + templateAPI + "/draft/", {
             method: "PUT",
             headers: {
                 [AuthKey]: localStorage.getItem('token')
@@ -564,7 +564,7 @@ class SaveTempName extends Component {
                         this.setState({
                             successDraftSnack: false
                         });
-                        window.location.replace(this.state.clientHost+preUrl+'/apluscontent/');
+                        window.location.replace(this.state.clientHost+grootHost+'/');
                     }, timeout);
                     return;
                 }
@@ -678,7 +678,7 @@ class SaveTempName extends Component {
         }));
 
         this.setState({ loading: true, successSaveSnack: false, errorSaveSnack: false });
-        apitimeout(pendingTimeout, fetch(templateAPI + "/save/", {
+        apitimeout(pendingTimeout, fetch(this.state.clientHost + templateAPI + "/save/", {
             method: "POST",
             headers: {
                 [AuthKey]: localStorage.getItem('token')
@@ -693,7 +693,7 @@ class SaveTempName extends Component {
                         this.setState({
                             successSaveSnack: false
                         });
-                        window.location.replace(this.state.clientHost+preUrl+'/apluscontent/');
+                        window.location.replace(this.state.clientHost+grootHost+'/');
                     }, timeout);
                     return;
                 }
@@ -806,7 +806,7 @@ class SaveTempName extends Component {
 
         if (this.handleMaxProductIds(this.state.pids)) {
             this.setState({ loading: true, successPublishSnack: false, errorPublishSnack: false });
-            apitimeout(pendingTimeout, fetch(templateAPI + '/publish', {
+            apitimeout(pendingTimeout, fetch(this.state.clientHost + templateAPI + '/publish', {
                 method: "POST",
                 headers: {
                     [AuthKey]: localStorage.getItem('token')
@@ -820,7 +820,7 @@ class SaveTempName extends Component {
                             this.setState({
                                 successPublishSnack: false
                             });
-                            window.location.replace(this.state.clientHost+preUrl+'/apluscontent/all');
+                            window.location.replace(this.state.clientHost+grootHost+'/all');
                         }, timeout);
                         return;
                     }
@@ -847,7 +847,7 @@ class SaveTempName extends Component {
                         this.setState({
                             errorPublishSnack: false
                         });
-                        window.location.replace(this.state.clientHost+preUrl+'/apluscontent/all');
+                        window.location.replace(this.state.clientHost+grootHost+'/all');
                     }, timeout);
 
                 }
@@ -888,7 +888,7 @@ class SaveTempName extends Component {
 
     handleUploadedXLSDownload = (tempid) => {
         this.setState({ loading: true, errorDownload: false });
-        apitimeout(pendingTimeout, fetch(templateAPI + "/download/" + tempid, {
+        apitimeout(pendingTimeout, fetch(this.state.clientHost + templateAPI + "/download/" + tempid, {
             method: "GET",
             headers: {
                 [AuthKey]: localStorage.getItem('token')

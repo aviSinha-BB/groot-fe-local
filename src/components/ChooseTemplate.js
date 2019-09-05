@@ -65,11 +65,18 @@ class ChooseTemplate extends Component {
             open: false,
             name: '',
             loading: false,
+            clientHost: null,
             errorCloneSnackTwo: false,
             warningCloneSnack: false,
             warningCloneSnackTwo: false,
             warningCloneSnackThree: false
         }
+    }
+
+    componentDidMount() {
+        var url = window.location.href;
+        var host = url.split('/content-svc')[0];
+        this.setState({ clientHost: host });
     }
 
     countUpperCaseChars = (str) => {
@@ -102,7 +109,7 @@ class ChooseTemplate extends Component {
 
         else if (this.countUpperCaseChars(this.state.name) == 0) {
             this.setState({ loading: true, errorCloneSnackTwo: false, warningCloneSnack: false, warningCloneSnackThree: false, warningCloneSnackTwo: false });
-            apitimeout(pendingTimeout, fetch(templateAPI + "/" + slugify(this.state.name) + "-" + dd + "-" + mm + "-" + yyyy + "/is-unique", {
+            apitimeout(pendingTimeout, fetch(this.state.clientHost + templateAPI + "/" + slugify(this.state.name) + "-" + dd + "-" + mm + "-" + yyyy + "/is-unique", {
                 method: "GET",
                 headers: {
                     "Content-Type": "application/json",
@@ -122,7 +129,7 @@ class ChooseTemplate extends Component {
                 }
 
                 if (valid == true) {
-                    this.props.history.push(preUrl + '/apluscontent/tempview?' + slugify(this.state.name) + "-" + dd + "-" + mm + "-" + yyyy + "&");
+                    this.props.history.push(grootHost + '/tempview?' + slugify(this.state.name) + "-" + dd + "-" + mm + "-" + yyyy + "&");
                 }
                 else if (valid == false) {
                     this.setState({ warningCloneSnackTwo: true });
