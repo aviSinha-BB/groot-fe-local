@@ -12,8 +12,7 @@ class TemplateView extends Component {
             current_props: "",
             loading: false,
             errorSnack: false,
-            errorSnackTwo: false,
-            clientHost: null
+            errorSnackTwo: false
         }
     }
 
@@ -22,7 +21,6 @@ class TemplateView extends Component {
         var url = window.location.href;
         var url_get = url.split("tempview?")[1];
         var host = url.split('/content-svc')[0];
-        this.setState({ clientHost: host });
         var url_tid = url_get.split("&")[1];
         var url_sid = url_get.split("&")[2];
         this.setState({ loading: true });
@@ -30,7 +28,7 @@ class TemplateView extends Component {
         if (url_tid) {
             var getSid = url_sid.split("=")[1];
             var getTid = url_tid.split("=")[1];
-            apitimeout(pendingTimeout, fetch(this.state.clientHost + templateAPI + '/' + getTid + '/' + getSid, {
+            apitimeout(pendingTimeout, fetch(host + templateAPI + '/' + getTid + '/' + getSid, {
                 method: "GET",
                 headers: {
                     "Content-Type": "application/json",
