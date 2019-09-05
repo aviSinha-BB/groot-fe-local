@@ -52,7 +52,7 @@ app.post(main_config.grootHost + "/userspermission", (req, res, next) => {
         const bbSignkey = bbsign.generate_bbsign(main_config.signKey, ['group_name'], [groups]);
         axios({
             method: 'post',
-            url: req.headers.host+main_config.getGroupUserUrl,
+            url: "https://"+req.headers.host+main_config.getGroupUserUrl,
             headers: {
                 'Content-Type': 'application/json'
             },
