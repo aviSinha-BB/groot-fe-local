@@ -66,6 +66,7 @@ module: {
 
     new webpack.DefinePlugin({
       "catalogHost": JSON.stringify(process.env.CATALOG_HOST),
+      "grootHost": JSON.stringify(process.env.GROOT_HOST),
       "partnerLogoutUrl": JSON.stringify(process.env.PARTNER_LOGOUT_URL),
       "AuthKey": JSON.stringify(process.env.AUTH_KEY),
       "ttl": JSON.stringify(process.env.TTL),
@@ -84,7 +85,6 @@ module: {
       "imageSize": JSON.stringify(process.env.IMAGE_SIZE),   //1024*1024 = 1MB
       "FroalaKey": JSON.stringify(process.env.FROALA_KEY),
       "timeout": JSON.stringify(process.env.TIMEOUT),
-      "preUrl": JSON.stringify(process.env.PRE_URL),
       "pendingTimeout": JSON.stringify(process.env.PENDING_TIMEOUT),
       "pageListSize": JSON.stringify(process.env.PAGE_LIST_SIZE),
       "templateAPI": JSON.stringify(process.env.TEMPLATE_API),

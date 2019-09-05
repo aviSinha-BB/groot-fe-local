@@ -22,12 +22,15 @@ class Main extends Component {
       togglePerm: '',
       errorSnackTwo: false,
       toggleApp: '',
+      clientHost: null,
       loading: false
     }
   }
 
   componentDidMount() {
     let url = window.location.href;
+    let host = url.split('/content-svc')[0];
+    this.setState({ clientHost: host });
     let paramUrl = url.split("sessionId=")[1];
     let authToken = null;
     let sourceHost = null;
@@ -44,7 +47,7 @@ class Main extends Component {
       }
       
       this.setState({ loading: true });
-      apitimeout(pendingTimeout, fetch(templateAPI + '/permissions', {
+      apitimeout(pendingTimeout, fetch(this.state.clientHost + templateAPI + '/permissions', {
         method: "GET",
         headers: {
           'Content-Type': 'application/json',
@@ -63,10 +66,10 @@ class Main extends Component {
               permissionSnack: false
             });
             if (localStorage.getItem('source_host') === 'partner') {
-              window.location.replace(partnerLogoutUrl);
+              window.location.replace(this.state.clientHost + partnerLogoutUrl);
             }
             else {
-              window.location.replace(catalogHost);
+              window.location.replace(this.state.clientHost + catalogHost);
             }
           }, timeout);
         }
@@ -114,10 +117,10 @@ class Main extends Component {
 
     if (localStorage.getItem('token') === null) {
       if (localStorage.getItem('source_host') === 'partner') {
-        window.location.replace(partnerLogoutUrl);
+        window.location.replace(this.state.clientHost + partnerLogoutUrl);
       }
       else {
-        window.location.replace(catalogHost);
+        window.location.replace(this.state.clientHost + catalogHost);
       }
     }
 
