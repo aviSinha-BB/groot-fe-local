@@ -37,6 +37,7 @@ class SaveTempNameTwo extends Component {
             commentVal: '',
             productAction: 'override',
             tempId: '',
+            clientHost: null,
             statusPermission: '',
             loading: false,
             toggleReview: true,
@@ -66,6 +67,8 @@ class SaveTempNameTwo extends Component {
 
     componentDidMount = () => {
         var url = window.location.href;
+        var host = url.split('/content-svc')[0];
+        this.setState({ clientHost: host });
         var url_get = url.split("tempview?")[1];
         var url_tid = url_get.split("&")[1];
         var url_sid = url_get.split("&")[2];
@@ -300,12 +303,7 @@ class SaveTempNameTwo extends Component {
                         this.setState({
                             successReviewSnack: false
                         });
-                        if (localStorage.getItem('source_host') === 'partner') {
-                            window.location.replace(partnerHost);
-                        }
-                        else {
-                            window.location.replace(clientHost);
-                        }
+                        window.location.replace(this.state.clientHost+preUrl+'/apluscontent/');
                     }, timeout);
                     return;
                 }
@@ -431,12 +429,7 @@ class SaveTempNameTwo extends Component {
                             this.setState({
                                 successRevisionSnack: false
                             });
-                            if (localStorage.getItem('source_host') === 'partner') {
-                                window.location.replace(partnerHost);
-                            }
-                            else {
-                                window.location.replace(clientHost);
-                            }
+                            window.location.replace(this.state.clientHost+preUrl+'/apluscontent/');
                         }, timeout);
                         return;
                     }
@@ -571,12 +564,7 @@ class SaveTempNameTwo extends Component {
                         this.setState({
                             successDraftSnack: false
                         });
-                        if (localStorage.getItem('source_host') === 'partner') {
-                            window.location.replace(partnerHost);
-                        }
-                        else {
-                            window.location.replace(clientHost);
-                        }
+                        window.location.replace(this.state.clientHost+preUrl+'/apluscontent/');
                     }, timeout);
                     return;
                 }
@@ -703,12 +691,7 @@ class SaveTempNameTwo extends Component {
                         this.setState({
                             successSaveSnack: false
                         });
-                        if (localStorage.getItem('source_host') === 'partner') {
-                            window.location.replace(partnerHost);
-                        }
-                        else {
-                            window.location.replace(clientHost);
-                        }
+                        window.location.replace(this.state.clientHost+preUrl+'/apluscontent/');
                     }, timeout);
                     return;
                 }
@@ -835,12 +818,7 @@ class SaveTempNameTwo extends Component {
                             this.setState({
                                 successPublishSnack: false
                             });
-                            if (localStorage.getItem('source_host') === 'partner') {
-                                window.location.replace(partnerHost + "all");
-                            }
-                            else {
-                                window.location.replace(clientHost + "all");
-                            }
+                            window.location.replace(this.state.clientHost+preUrl+'/apluscontent/all');
                         }, timeout);
                         return;
                     }
@@ -867,12 +845,7 @@ class SaveTempNameTwo extends Component {
                         this.setState({
                             errorPublishSnack: false
                         });
-                        if (localStorage.getItem('source_host') === 'partner') {
-                            window.location.replace(partnerHost + "all");
-                        }
-                        else {
-                            window.location.replace(clientHost + "all");
-                        }
+                        window.location.replace(this.state.clientHost+preUrl+'/apluscontent/all');
                     }, timeout);
 
                 }
