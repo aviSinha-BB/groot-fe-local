@@ -83,12 +83,12 @@ class ManageAplusTemplate extends Component {
                         <Tabs value={this.state.tabValue} onChange={this.handleChangeTab}>
                             <Tab
                                 component={NavLink}
-                                to={preUrl + "/apluscontent/"}
+                                to={grootHost + "/"}
                                 disableRipple
                                 label={<span className={classes.tabNameStyle}>On-Going AplusContent</span>}
                             />
                             <Tab component={NavLink}
-                                to={preUrl + "/apluscontent/all"}
+                                to={grootHost + "/all"}
                                 disableRipple
                                 label={<span className={classes.tabNameStyle}>All AplusContent</span>}
                             />

@@ -69,16 +69,12 @@ module.exports = {
     }),
 
     new webpack.DefinePlugin({
-      "clientPort": JSON.stringify(process.env.CLIENT_PORT),
-      "clientHost": JSON.stringify(process.env.CLIENT_HOST),
-      "partnerHost": JSON.stringify(process.env.PARTNER_HOST),
       "catalogHost": JSON.stringify(process.env.CATALOG_HOST),
-      "imageHost": JSON.stringify(process.env.IMAGE_HOST),
+      "grootHost": JSON.stringify(process.env.GROOT_HOST),
       "partnerLogoutUrl": JSON.stringify(process.env.PARTNER_LOGOUT_URL),
       "AuthKey": JSON.stringify(process.env.AUTH_KEY),
       "ttl": JSON.stringify(process.env.TTL),
       "debug": JSON.stringify(process.env.DEBUG),
-      "BasicAuthVal": JSON.stringify(process.env.BASIC_AUTH),
       "statusDraft": JSON.stringify(process.env.STATUS_DRAFT),
       "statusRevision": JSON.stringify(process.env.STATUS_REVISION),
       "statusReview": JSON.stringify(process.env.STATUS_REVIEW),
@@ -92,13 +88,10 @@ module.exports = {
       "unpublisherPermission": JSON.stringify(process.env.UNPUBLISHER_PERMISSION),
       "imageSize": JSON.stringify(process.env.IMAGE_SIZE),   //1024*1024 = 1MB
       "FroalaKey": JSON.stringify(process.env.FROALA_KEY),
-      "signKey": JSON.stringify(process.env.SIGN_KEY),
       "timeout": JSON.stringify(process.env.TIMEOUT),
-      "preUrl": JSON.stringify(process.env.PRE_URL),
       "pendingTimeout": JSON.stringify(process.env.PENDING_TIMEOUT),
       "pageListSize": JSON.stringify(process.env.PAGE_LIST_SIZE),
       "templateAPI": JSON.stringify(process.env.TEMPLATE_API),
-      "productSearchAPI": JSON.stringify(process.env.PRODUCT_SEARCH_API),
       "getGroupUserUrl": JSON.stringify(process.env.GET_GROUP_USER_URL)
     }),
 

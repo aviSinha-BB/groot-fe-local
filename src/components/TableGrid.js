@@ -84,6 +84,7 @@ class TableGrid extends Component {
             openMobile: false,
             openUpload: false,
             htmlLocation: '',
+            clientHost: null,
             name: '',
             productAction: 'override',
             excelFile: null,
@@ -94,14 +95,16 @@ class TableGrid extends Component {
 
     componentDidMount = () => {
         var url = window.location.href;
+        var host = url.split('/content-svc')[0];
+        this.setState({ clientHost: host });
         var url_get = url.split("apluscontent/")[1];
         var table_url = '';
         this.setState({ loading: true, overallErrorFive: false });
 
         if (url_get.includes('all'))
-            table_url = templateAPI + "/all";
+            table_url = this.state.clientHost + templateAPI + "/all";
         else
-            table_url = templateAPI + "/";
+            table_url = this.state.clientHost + templateAPI + "/";
 
         apitimeout(pendingTimeout, fetch(table_url, {
             method: "GET",
@@ -180,7 +183,7 @@ class TableGrid extends Component {
         var tempid = url.split("#")[1];
         this.setState({ loading: true, successUnpublishSnack: false, errorUnpublishSnack: false, openUnpublish: false });
 
-        apitimeout(pendingTimeout, fetch(templateAPI + '/deactivate/' + tempid, {
+        apitimeout(pendingTimeout, fetch(this.state.clientHost + templateAPI + '/deactivate/' + tempid, {
             method: "POST",
             headers: {
                 [AuthKey]: localStorage.getItem('token')
@@ -193,7 +196,7 @@ class TableGrid extends Component {
                     this.setState({
                         successUnpublishSnack: false
                     });
-                    window.location.replace(clientHost + 'all');
+                    window.location.replace(this.state.clientHost+grootHost+'/all');
                 }, timeout);
             }
             else {
@@ -224,7 +227,7 @@ class TableGrid extends Component {
                 "action": this.state.productAction
             }));
             this.setState({ loading: true, successUpload: false, errorUpload: false });
-            apitimeout(pendingTimeout, fetch(templateAPI + "/upload/sku", {
+            apitimeout(pendingTimeout, fetch(this.state.clientHost + templateAPI + "/upload/sku", {
                 method: "POST",
                 headers: {
                     [AuthKey]: localStorage.getItem('token')
@@ -239,7 +242,7 @@ class TableGrid extends Component {
                             this.setState({
                                 successUpload: false
                             });
-                            window.location.replace(clientHost + 'all');
+                            window.location.replace(this.state.clientHost+grootHost+'/all');
                         }, timeout);
                     }
                     else {
@@ -269,7 +272,7 @@ class TableGrid extends Component {
 
     handleUploadedExcelDownload = (tempid) => {
         this.setState({ loading: true, errorDownload: false });
-        apitimeout(pendingTimeout, fetch(templateAPI + "/download/" + tempid, {
+        apitimeout(pendingTimeout, fetch(this.state.clientHost + templateAPI + "/download/" + tempid, {
             method: "GET",
             headers: {
                 [AuthKey]: localStorage.getItem('token')
@@ -328,7 +331,7 @@ class TableGrid extends Component {
         else if (this.countUpperCaseChars(this.state.name) == 0) {
             this.setState({ loading: true });
             let slugName = slugify(this.state.name);
-            apitimeout(pendingTimeout, fetch(templateAPI + "/" + slugName + "-" + dd + "-" + mm + "-" + yyyy + "/is-unique", {
+            apitimeout(pendingTimeout, fetch(this.state.clientHost + templateAPI + "/" + slugName + "-" + dd + "-" + mm + "-" + yyyy + "/is-unique", {
                 method: "GET",
                 headers: {
                     "Content-Type": "application/json",
@@ -348,7 +351,7 @@ class TableGrid extends Component {
                     throw Error(response.status);
                 }
                 if (valid == true) {
-                    apitimeout(pendingTimeout, fetch(templateAPI + '/clone/' + tempid + '/' + slugName + "-" + dd + "-" + mm + "-" + yyyy, {
+                    apitimeout(pendingTimeout, fetch(this.state.clientHost + templateAPI + '/clone/' + tempid + '/' + slugName + "-" + dd + "-" + mm + "-" + yyyy, {
                         method: "GET",
                         headers: {
                             'Content-Type': 'application/json',
@@ -371,7 +374,7 @@ class TableGrid extends Component {
                                     this.setState({
                                         successCloneSnack: false
                                     });
-                                    window.location.replace(clientHost);
+                                    window.location.replace(this.state.clientHost+grootHost+'/');
                                 }, timeout);
                             }
                             else {
@@ -450,7 +453,7 @@ class TableGrid extends Component {
                                         block = val;
                                     }
                                     else {
-                                        block = <NavLink exact to={preUrl + "/apluscontent/tempview?" + val + "&tid=" + id + "&sid=" + statusid + "&sname=" + statusname}>
+                                        block = <NavLink exact to={grootHost + "/tempview?" + val + "&tid=" + id + "&sid=" + statusid + "&sname=" + statusname}>
                                             <span>
                                                 {val}
                                             </span>
@@ -510,7 +513,7 @@ class TableGrid extends Component {
                                         }
                                         else if (statusname === statusSentForPublish || statusname === statusPending) {
                                             if (permActions.has('Republish')) {
-                                                block = <span><NavLink exact to={preUrl + "/apluscontent/tempview?" + val + "&tid=" + id + "&sid=" + statusid + "&sname=" + statusname}>Republish</NavLink>/<a href={'#' + rowData.id} onClick={this.handleClickOpen} >Clone</a></span>
+                                                block = <span><NavLink exact to={grootHost + "/tempview?" + val + "&tid=" + id + "&sid=" + statusid + "&sname=" + statusname}>Republish</NavLink>/<a href={'#' + rowData.id} onClick={this.handleClickOpen} >Clone</a></span>
                                             }
                                             else {
                                                 block = <span><a href={'#' + rowData.id} onClick={this.handleClickOpen} >Clone</a></span>
@@ -545,10 +548,10 @@ class TableGrid extends Component {
                                         block = '';
                                     }
                                     else if (statusname === statusActive) {
-                                        block = <span><a href='#' onClick={() => this.handleMobileOpen(htmlloc)}>{app}</a>/<a href={imageHost + htmlloc} target="_blank">{web}</a>/<a href={'#'} onClick={() => this.handleUploadedExcelDownload(templateId)}>{dwnld}</a></span>;
+                                        block = <span><a href='#' onClick={() => this.handleMobileOpen(htmlloc)}>{app}</a>/<a href={this.state.clientHost + htmlloc} target="_blank">{web}</a>/<a href={'#'} onClick={() => this.handleUploadedExcelDownload(templateId)}>{dwnld}</a></span>;
                                     }
                                     else {
-                                        block = <span><a href='#' onClick={() => this.handleMobileOpen(htmlloc)}>{app}</a>/<a href={imageHost + htmlloc} target="_blank">{web}</a></span>;
+                                        block = <span><a href='#' onClick={() => this.handleMobileOpen(htmlloc)}>{app}</a>/<a href={this.state.clientHost + htmlloc} target="_blank">{web}</a></span>;
                                     }
                                     return (
                                         <span>
@@ -668,7 +671,7 @@ class TableGrid extends Component {
                             <div className={classes.rootFrame}>
                                 <div className={classes.frame}>
                                     <div className={classes.inner}>
-                                        <iframe src={imageHost + this.state.htmlLocation} height="500" width="263" name={dateObj.getSeconds()} className={classes.iframeStyle}>
+                                        <iframe src={this.state.clientHost + this.state.htmlLocation} height="500" width="263" name={dateObj.getSeconds()} className={classes.iframeStyle}>
                                         </iframe>
                                     </div>
                                 </div>

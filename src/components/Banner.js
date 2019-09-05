@@ -16,6 +16,7 @@ class Banner extends Component {
     this.state = {
       tempFile: null,
       imgSrc: false,
+      clientHost: null,
       loading: false,
       errorSnack: false,
       errorSnackTwo: false,
@@ -28,11 +29,14 @@ class Banner extends Component {
   }
 
   componentDidUpdate(prevProps) {
-    if(this.props.bannerType !== prevProps.bannerType)
-      this.setState({imgSrc:false});
+    if (this.props.bannerType !== prevProps.bannerType)
+      this.setState({ imgSrc: false });
   }
 
   componentDidMount() {
+    var url = window.location.href;
+    var host = url.split('/content-svc')[0];
+    this.setState({ clientHost: host });
     modalRoot.appendChild(this.el);
   }
 
@@ -42,7 +46,7 @@ class Banner extends Component {
 
   uploadImage = (imgData, imageType) => {
     this.setState({ loading: true });
-    apitimeout(pendingTimeout, fetch(templateAPI + "/image/upload", {
+    apitimeout(pendingTimeout, fetch(this.state.clientHost + templateAPI + "/image/upload", {
       method: "POST",
       headers: {
         [AuthKey]: localStorage.getItem('token')
@@ -78,7 +82,7 @@ class Banner extends Component {
         this.setState({ loading: false });
         if (result.location) {
           this.setState({
-            imgSrc: imageHost + result.location
+            imgSrc: this.state.clientHost + result.location
           })
         }
         else {
@@ -105,7 +109,7 @@ class Banner extends Component {
 
   uploadAction = () => {
     var imgfile = this.state.tempFile;
-    if(imgfile) {
+    if (imgfile) {
       var fileName = imgfile.name;
       var fileExtension, fileSize;
       var imgData = new FormData();

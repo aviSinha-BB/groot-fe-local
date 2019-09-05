@@ -16,10 +16,10 @@ app.use(bodyParser.urlencoded({
     extended: true
 }));
 
-app.use(main_config.preUrl + '/apluscontent', express.static(path.join(__dirname, '../build')));
+app.use(main_config.grootHost, express.static(path.join(__dirname, '../build')));
 app.use(cors());
 
-app.get(main_config.preUrl + '/apluscontent/*',
+app.get(main_config.grootHost + '/*',
     function (req, res) {
         res.sendFile(path.join(__dirname, '../build', 'index.html'));
     });
@@ -45,14 +45,14 @@ function checkAuth(authStr) {
 const formUrlEncoded = x =>
     Object.keys(x).reduce((p, c) => p + `&${c}=${encodeURIComponent(x[c])}`, '');
 
-app.post(main_config.preUrl + "/apluscontent/userspermission", (req, res, next) => {
+app.post(main_config.grootHost + "/userspermission", (req, res, next) => {
     const groups = req.body.groups;
     if (checkAuth(req.get('Authorization'))) {
         console.log("[Content_Fe_WAPI]: Requested Group from Workflow: ", req.body.groups);
         const bbSignkey = bbsign.generate_bbsign(main_config.signKey, ['group_name'], [groups]);
         axios({
             method: 'post',
-            url: main_config.getGroupUserUrl,
+            url: req.headers.host+main_config.getGroupUserUrl,
             headers: {
                 'Content-Type': 'application/json'
             },
@@ -109,7 +109,7 @@ app.post(main_config.preUrl + "/apluscontent/userspermission", (req, res, next) 
     }
 });
 
-app.get(main_config.preUrl + "/health-fe", (req, res) => {
+app.get("/content-svc/health-fe", (req, res) => {
     request
         .get('http://localhost:8081/content-svc/health-check')
         .on('response', function (response) {
