@@ -5,6 +5,7 @@ import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 import { styles } from './ComponentStyle/SaveTempStyle';
 import { apitimeout } from './api_timeout';
+import { connect } from "react-redux";
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 import InputLabel from '@material-ui/core/InputLabel';
@@ -47,9 +48,7 @@ class SaveTempName extends Component {
             toggleSave: true,
             toggleXlsUpload: false,
             toggleXlsValidation: false,
-            errorSnack: false,
             warningPidLenSnack: false,
-            errorTempData: false,
             successReviewSnack: false,
             errorReviewSnack: false,
             successRevisionSnack: false,
@@ -60,7 +59,8 @@ class SaveTempName extends Component {
             errorSaveSnack: false,
             successPublishSnack: false,
             errorPublishSnack: false,
-            errorDownload: false
+            errorDownload: false,
+            pageData: this.props.page_data
         };
         this.el = document.createElement('div');
     }
@@ -71,7 +71,6 @@ class SaveTempName extends Component {
         this.setState({ clientHost: host });
         var url_get = url.split("tempview?")[1];
         var url_tid = url_get.split("&")[1];
-        var url_sid = url_get.split("&")[2];
 
         modalRoot.appendChild(this.el);
 
@@ -79,53 +78,14 @@ class SaveTempName extends Component {
             var url_sname = url_get.split("&")[3];
             var get_sname = url_sname.split("=")[1];
             var getTid = url_tid.split("=")[1];
-            var getSid = url_sid.split("=")[1];
 
             this.setState({ tempId: getTid, statusPermission: get_sname });
-            this.setState({ loading: true, errorTempData: false });
-            apitimeout(pendingTimeout, fetch(host + templateAPI + '/' + getTid + '/' + getSid, {
-                method: "GET",
-                headers: {
-                    "Content-Type": "application/json",
-                    "X-Requested-With": "XMLHttpRequest",
-                    [AuthKey]: localStorage.getItem('token')
-                }
-            })).then(res => {
-                if (res.status == 200)
-                    return res.json();
-                else {
-                    this.setState({ loading: false });
-                    throw Error(response.statusText);
-                }
-            })
-                .then(result => {
-                    this.setState({ loading: false });
-                    if (result) {
-                        this.setState({
-                            maunfactName: result.metaData.manufacturer,
-                            pids: result.association.products,
-                            commentVal: result.comment,
-                            productAction: result.association.action
-                        });
-                    }
-                    else {
-                        this.setState({ errorSnack: true });
-                        setTimeout(() => {
-                            this.setState({
-                                errorSnack: false
-                            });
-                        }, timeout);
-                    }
-                })
-                .catch((error) => {
-                    this.setState({ errorTempData: true, loading: false });
-                    setTimeout(() => {
-                        this.setState({
-                            errorTempData: false
-                        })
-                    }, timeout);
-                    console.log('Problem in fetching template data in SaveTempOne \n');
-                });
+            this.setState({
+                maunfactName: this.state.pageData.metaData.manufacturer,
+                pids: this.state.pageData.association.products,
+                commentVal: this.state.pageData.comment,
+                productAction: this.state.pageData.association.action
+            });
 
             if (get_sname == statusReview) {
                 this.setState({ toggleRevision: false, togglePending: false, toggleDraft: false, toggleXlsUpload: true, toggleXlsValidation: false });
@@ -1072,9 +1032,7 @@ class SaveTempName extends Component {
                         </Button>
                     }
                 </div>
-                {this.state.errorSnack && ReactDOM.createPortal(<ErrorToast message="Error in Processing" />, this.el)}
                 {this.state.warningPidLenSnack && ReactDOM.createPortal(<WarningToast message="Product Ids cannot be empty" />, this.el)}
-                {this.state.errorTempData && ReactDOM.createPortal(<ErrorToast message="Error in processing" />, this.el)}
                 {this.state.successReviewSnack && ReactDOM.createPortal(<SuccessToast message="Aplus Template is Send for Review" />, this.el)}
                 {this.state.errorReviewSnack && ReactDOM.createPortal(<ErrorToast message="Error in sending for request" />, this.el)}
                 {this.state.successRevisionSnack && ReactDOM.createPortal(<SuccessToast message="Aplus Template is Send for Revision" />, this.el)}
@@ -1095,4 +1053,10 @@ SaveTempName.propTypes = {
     classes: PropTypes.object.isRequired,
 }
 
-export default withStyles(styles)(SaveTempName);
+function mapStateToProps(state) {
+    return {
+        page_data: state.page_data
+    };
+}
+
+export default connect(mapStateToProps)(withStyles(styles)(SaveTempName));
