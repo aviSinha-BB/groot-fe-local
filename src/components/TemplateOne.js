@@ -304,17 +304,18 @@ class TemplateOne extends Component {
                 paraEightvalue: this.state.pageData.ispRB.paragraph,
                 toggleSectionEight: this.state.pageData.ispRB.visible,
                 taskId: this.state.pageData.metaData.taskId
+            }, () => {
+                this.handlingAltImage("placedImage", this.state.imgsrcvalue);
+                this.handlingAltImage("placedImageTwo", this.state.imgsrcTwovalue);
+                this.handlingAltImage("placedImageThree", this.state.imgsrcThreevalue);
+                this.handlingAltImage("placedImageFour", this.state.imgsrcFourvalue);
+                this.handlingAltImage("placedImageFive", this.state.imgsrcFivevalue);
+                this.handlingAltImage("placedImageSix", this.state.imgsrcSixvalue);
+                this.handlingAltImage("placedImageSeven", this.state.imgsrcSevenvalue);
+                this.handlingAltImage("placedImageEight", this.state.imgsrcEightvalue);
+                this.handlingAltImage("placedImageNine", this.state.imgsrcNinevalue);
+                this.handleDeleteSection("initial-mount");
             });
-            this.handlingAltImage("placedImage", this.state.imgsrcvalue);
-            this.handlingAltImage("placedImageTwo", this.state.imgsrcTwovalue);
-            this.handlingAltImage("placedImageThree", this.state.imgsrcThreevalue);
-            this.handlingAltImage("placedImageFour", this.state.imgsrcFourvalue);
-            this.handlingAltImage("placedImageFive", this.state.imgsrcFivevalue);
-            this.handlingAltImage("placedImageSix", this.state.imgsrcSixvalue);
-            this.handlingAltImage("placedImageSeven", this.state.imgsrcSevenvalue);
-            this.handlingAltImage("placedImageEight", this.state.imgsrcEightvalue);
-            this.handlingAltImage("placedImageNine", this.state.imgsrcNinevalue);
-            this.handleDeleteSection("initial-mount");
         }
         else {
             this.setState({ loading: false });
@@ -1732,16 +1733,16 @@ class TemplateOne extends Component {
             if (!this.state.toggleSectionZero) {
                 this.handleVisiblitySection(this.state.toggleSectionZero, "section-zero")
             }
-            if (!this.state.toggleSectionOne) {
+            else if (!this.state.toggleSectionOne) {
                 this.handleVisiblitySection(this.state.toggleSectionOne, "section-one")
             }
-            if (!this.state.toggleSectionTwo) {
+            else if (!this.state.toggleSectionTwo) {
                 this.handleVisiblitySection(this.state.toggleSectionTwo, "section-two")
             }
-            if (!this.state.toggleSectionThree) {
+            else if (!this.state.toggleSectionThree) {
                 this.handleVisiblitySection(this.state.toggleSectionThree, "section-three")
             }
-            if (!this.state.toggleSectionSix) {
+            else if (!this.state.toggleSectionSix) {
                 this.handleVisiblitySection(this.state.toggleSectionSix, "section-four")
             }
         }
