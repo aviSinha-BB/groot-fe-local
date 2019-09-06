@@ -1733,16 +1733,16 @@ class TemplateOne extends Component {
             if (!this.state.toggleSectionZero) {
                 this.handleVisiblitySection(this.state.toggleSectionZero, "section-zero")
             }
-            else if (!this.state.toggleSectionOne) {
+            if (!this.state.toggleSectionOne) {
                 this.handleVisiblitySection(this.state.toggleSectionOne, "section-one")
             }
-            else if (!this.state.toggleSectionTwo) {
+            if (!this.state.toggleSectionTwo) {
                 this.handleVisiblitySection(this.state.toggleSectionTwo, "section-two")
             }
-            else if (!this.state.toggleSectionThree) {
+            if (!this.state.toggleSectionThree) {
                 this.handleVisiblitySection(this.state.toggleSectionThree, "section-three")
             }
-            else if (!this.state.toggleSectionSix) {
+            if (!this.state.toggleSectionSix) {
                 this.handleVisiblitySection(this.state.toggleSectionSix, "section-four")
             }
         }
