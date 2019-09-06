@@ -306,7 +306,6 @@ class TemplateTwo extends Component {
                 toggleSectionEight: this.state.pageData.ispRB.visible,
                 taskId: this.state.pageData.metaData.taskId
             });
-            this.handlingAltImage("placedImage", this.state.imgsrcvalue);
             this.handlingAltImage("placedImageTwo", this.state.imgsrcTwovalue);
             this.handlingAltImage("placedImageThree", this.state.imgsrcThreevalue);
             this.handlingAltImage("placedImageFour", this.state.imgsrcFourvalue);
