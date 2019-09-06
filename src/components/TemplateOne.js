@@ -6,9 +6,9 @@ import Paper from '@material-ui/core/Paper';
 import Switch from '@material-ui/core/Switch';
 import IconButton from '@material-ui/core/IconButton';
 import Loader from './Loading';
+import { connect } from "react-redux";
 import { withStyles } from '@material-ui/core/styles';
 import { styles } from './ComponentStyle/TemplateStyle';
-import { apitimeout } from './api_timeout';
 import 'froala-editor/css/froala_editor.min.css';
 import 'froala-editor/css/froala_editor.pkgd.min.css';
 import 'froala-editor/js/froala_editor.pkgd.min.js';
@@ -242,8 +242,6 @@ class TemplateOne extends Component {
             activeParagraphSix: false,
             activeParagraphSeven: false,
             activeParagraphEight: false,
-            errorSnack: false,
-            errorSnackTwo: false,
             errorSnackThree: false,
             toggleSectionZero: true,
             toggleSectionOne: true,
@@ -254,112 +252,69 @@ class TemplateOne extends Component {
             toggleSectionSix: true,
             toggleSectionSeven: true,
             toggleSectionEight: true,
+            pageData: this.props.page_data
         };
     }
 
     componentDidMount() {
 
         var url = window.location.href;
-        var host = url.split('/content-svc')[0];
         var url_get = url.split("tempview?")[1];
         var url_tid = url_get.split("&")[1];
-        var url_sid = url_get.split("&")[2];
-        this.setState({ loading: true });
 
         if (url_tid) {
-            var getSid = url_sid.split("=")[1];
-            var getTid = url_tid.split("=")[1];
-
-            apitimeout(pendingTimeout, fetch(host + templateAPI + '/' + getTid + '/' + getSid, {
-                method: "GET",
-                headers: {
-                    "Content-Type": "application/json",
-                    "X-Requested-With": "XMLHttpRequest",
-                    [AuthKey]: localStorage.getItem('token')
-                }
-            })).then(res => {
-                if (res.status == 200) {
-                    return res.json();
-                }
-                else {
-                    this.setState({ loading: false });
-                    throw Error(res.statusText);
-                }
-            })
-                .then(result => {
-                    this.setState({ loading: false });
-                    if (result) {
-                        this.setState({
-                            headingvalue: result.data.hiT.heading,
-                            imgsrcvalue: result.data.hiT.imageSrc,
-                            toggleSectionZero: result.data.hiT.visible,
-                            headingTwovalue: result.data.hihspM.heading,
-                            imgsrcTwovalue: result.data.hihspM.imageSrc,
-                            anotherHeadingvalue: result.data.hihspM.anotherHeading,
-                            subheadingvalue: result.data.hihspM.subHeading,
-                            paravalue: result.data.hihspM.paragraph,
-                            toggleSectionOne: result.data.hihspM.visible,
-                            headingThreevalue: result.data.ispLT.heading,
-                            imgsrcThreevalue: result.data.hspihB.imageSrc,
-                            anotherHeadingTwovalue: result.data.hspihB.anotherHeading,
-                            subheadingTwovalue: result.data.hspihB.subHeading,
-                            paraTwovalue: result.data.hspihB.paragraph,
-                            toggleSectionTwo: result.data.hspihB.visible,
-                            imgsrcFourvalue: result.data.ispLT.imageSrc,
-                            subheadingThreevalue: result.data.ispLT.subHeading,
-                            paraThreevalue: result.data.ispLT.paragraph,
-                            toggleSectionThree: result.data.ispLT.visible,
-                            imgsrcFivevalue: result.data.ispMT.imageSrc,
-                            subheadingFourvalue: result.data.ispMT.subHeading,
-                            paraFourvalue: result.data.ispMT.paragraph,
-                            toggleSectionFour: result.data.ispMT.visible,
-                            imgsrcSixvalue: result.data.ispRT.imageSrc,
-                            subheadingFivevalue: result.data.ispRT.subHeading,
-                            paraFivevalue: result.data.ispRT.paragraph,
-                            toggleSectionFive: result.data.ispRT.visible,
-                            imgsrcSevenvalue: result.data.ispLB.imageSrc,
-                            subheadingSixvalue: result.data.ispLB.subHeading,
-                            paraSixvalue: result.data.ispLB.paragraph,
-                            toggleSectionSix: result.data.ispLB.visible,
-                            imgsrcEightvalue: result.data.ispMB.imageSrc,
-                            subheadingSevenvalue: result.data.ispMB.subHeading,
-                            paraSevenvalue: result.data.ispMB.paragraph,
-                            toggleSectionSeven: result.data.ispMB.visible,
-                            imgsrcNinevalue: result.data.ispRB.imageSrc,
-                            subheadingEightvalue: result.data.ispRB.subHeading,
-                            paraEightvalue: result.data.ispRB.paragraph,
-                            toggleSectionEight: result.data.ispRB.visible,
-                            taskId: result.metaData.taskId
-                        });
-                        this.handlingAltImage("placedImage", this.state.imgsrcvalue);
-                        this.handlingAltImage("placedImageTwo", this.state.imgsrcTwovalue);
-                        this.handlingAltImage("placedImageThree", this.state.imgsrcThreevalue);
-                        this.handlingAltImage("placedImageFour", this.state.imgsrcFourvalue);
-                        this.handlingAltImage("placedImageFive", this.state.imgsrcFivevalue);
-                        this.handlingAltImage("placedImageSix", this.state.imgsrcSixvalue);
-                        this.handlingAltImage("placedImageSeven", this.state.imgsrcSevenvalue);
-                        this.handlingAltImage("placedImageEight", this.state.imgsrcEightvalue);
-                        this.handlingAltImage("placedImageNine", this.state.imgsrcNinevalue);
-                        this.handleDeleteSection("initial-mount")
-                    }
-                    else {
-                        this.setState({ errorSnack: true });
-                        setTimeout(() => {
-                            this.setState({
-                                errorSnack: false
-                            })
-                        }, timeout);
-                    }
-                })
-                .catch((error) => {
-                    this.setState({ errorSnackTwo: true, loading: false });
-                    setTimeout(() => {
-                        this.setState({
-                            errorSnackTwo: false
-                        })
-                    }, timeout);
-                    console.log('Problem in fetching template data in TemplateOne \n', error);
-                });
+            this.setState({
+                headingvalue: this.state.pageData.hiT.heading,
+                imgsrcvalue: this.state.pageData.hiT.imageSrc,
+                toggleSectionZero: this.state.pageData.hiT.visible,
+                headingTwovalue: this.state.pageData.hihspM.heading,
+                imgsrcTwovalue: this.state.pageData.hihspM.imageSrc,
+                anotherHeadingvalue: this.state.pageData.hihspM.anotherHeading,
+                subheadingvalue: this.state.pageData.hihspM.subHeading,
+                paravalue: this.state.pageData.hihspM.paragraph,
+                toggleSectionOne: this.state.pageData.hihspM.visible,
+                headingThreevalue: this.state.pageData.ispLT.heading,
+                imgsrcThreevalue: this.state.pageData.hspihB.imageSrc,
+                anotherHeadingTwovalue: this.state.pageData.hspihB.anotherHeading,
+                subheadingTwovalue: this.state.pageData.hspihB.subHeading,
+                paraTwovalue: this.state.pageData.hspihB.paragraph,
+                toggleSectionTwo: this.state.pageData.hspihB.visible,
+                imgsrcFourvalue: this.state.pageData.ispLT.imageSrc,
+                subheadingThreevalue: this.state.pageData.ispLT.subHeading,
+                paraThreevalue: this.state.pageData.ispLT.paragraph,
+                toggleSectionThree: this.state.pageData.ispLT.visible,
+                imgsrcFivevalue: this.state.pageData.ispMT.imageSrc,
+                subheadingFourvalue: this.state.pageData.ispMT.subHeading,
+                paraFourvalue: this.state.pageData.ispMT.paragraph,
+                toggleSectionFour: this.state.pageData.ispMT.visible,
+                imgsrcSixvalue: this.state.pageData.ispRT.imageSrc,
+                subheadingFivevalue: this.state.pageData.ispRT.subHeading,
+                paraFivevalue: this.state.pageData.ispRT.paragraph,
+                toggleSectionFive: this.state.pageData.ispRT.visible,
+                imgsrcSevenvalue: this.state.pageData.ispLB.imageSrc,
+                subheadingSixvalue: this.state.pageData.ispLB.subHeading,
+                paraSixvalue: this.state.pageData.ispLB.paragraph,
+                toggleSectionSix: this.state.pageData.ispLB.visible,
+                imgsrcEightvalue: this.state.pageData.ispMB.imageSrc,
+                subheadingSevenvalue: this.state.pageData.ispMB.subHeading,
+                paraSevenvalue: this.state.pageData.ispMB.paragraph,
+                toggleSectionSeven: this.state.pageData.ispMB.visible,
+                imgsrcNinevalue: this.state.pageData.ispRB.imageSrc,
+                subheadingEightvalue: this.state.pageData.ispRB.subHeading,
+                paraEightvalue: this.state.pageData.ispRB.paragraph,
+                toggleSectionEight: this.state.pageData.ispRB.visible,
+                taskId: this.state.pageData.metaData.taskId
+            });
+            this.handlingAltImage("placedImage", this.state.imgsrcvalue);
+            this.handlingAltImage("placedImageTwo", this.state.imgsrcTwovalue);
+            this.handlingAltImage("placedImageThree", this.state.imgsrcThreevalue);
+            this.handlingAltImage("placedImageFour", this.state.imgsrcFourvalue);
+            this.handlingAltImage("placedImageFive", this.state.imgsrcFivevalue);
+            this.handlingAltImage("placedImageSix", this.state.imgsrcSixvalue);
+            this.handlingAltImage("placedImageSeven", this.state.imgsrcSevenvalue);
+            this.handlingAltImage("placedImageEight", this.state.imgsrcEightvalue);
+            this.handlingAltImage("placedImageNine", this.state.imgsrcNinevalue);
+            this.handleDeleteSection("initial-mount");
         }
         else {
             this.setState({ loading: false });
@@ -1745,27 +1700,28 @@ class TemplateOne extends Component {
     handleSection = (section) => {
         switch (section) {
             case "section-zero":
-                this.setState({ toggleSectionZero: !this.state.toggleSectionZero },()=>{
-                    this.handleVisiblitySection(this.state.toggleSectionZero,"section-zero");
+                this.setState({ toggleSectionZero: !this.state.toggleSectionZero }, () => {
+                    this.handleVisiblitySection(this.state.toggleSectionZero, "section-zero");
                 });
                 break;
             case "section-one":
-                this.setState({ toggleSectionOne: !this.state.toggleSectionOne },()=>{
-                    this.handleVisiblitySection(this.state.toggleSectionOne,"section-one");
-                });    
+                this.setState({ toggleSectionOne: !this.state.toggleSectionOne }, () => {
+                    this.handleVisiblitySection(this.state.toggleSectionOne, "section-one");
+                });
                 break;
             case "section-two":
-                this.setState({ toggleSectionTwo: !this.state.toggleSectionTwo },()=>{
-                    this.handleVisiblitySection(this.state.toggleSectionTwo,"section-two");
+                this.setState({ toggleSectionTwo: !this.state.toggleSectionTwo }, () => {
+                    this.handleVisiblitySection(this.state.toggleSectionTwo, "section-two");
                 });
                 break;
             case "section-three":
-                this.setState({ toggleSectionThree: !this.state.toggleSectionThree, toggleSectionFour: !this.state.toggleSectionFour, toggleSectionFive: !this.state.toggleSectionFive },()=>{this.handleVisiblitySection(this.state.toggleSectionThree,"section-three");
-                }); 
+                this.setState({ toggleSectionThree: !this.state.toggleSectionThree, toggleSectionFour: !this.state.toggleSectionFour, toggleSectionFive: !this.state.toggleSectionFive }, () => {
+                    this.handleVisiblitySection(this.state.toggleSectionThree, "section-three");
+                });
                 break;
             case "section-four":
-                this.setState({ toggleSectionSix: !this.state.toggleSectionSix, toggleSectionSeven: !this.state.toggleSectionSeven, toggleSectionEight: !this.state.toggleSectionEight },()=>{
-                    this.handleVisiblitySection(this.state.toggleSectionSix,"section-four");
+                this.setState({ toggleSectionSix: !this.state.toggleSectionSix, toggleSectionSeven: !this.state.toggleSectionSeven, toggleSectionEight: !this.state.toggleSectionEight }, () => {
+                    this.handleVisiblitySection(this.state.toggleSectionSix, "section-four");
                 });
                 break;
         };
@@ -1774,19 +1730,19 @@ class TemplateOne extends Component {
     handleDeleteSection = (section) => {
         if (section === "initial-mount") {
             if (!this.state.toggleSectionZero) {
-                this.handleVisiblitySection(this.state.toggleSectionZero,"section-zero")
+                this.handleVisiblitySection(this.state.toggleSectionZero, "section-zero")
             }
             if (!this.state.toggleSectionOne) {
-                this.handleVisiblitySection(this.state.toggleSectionOne,"section-one")
+                this.handleVisiblitySection(this.state.toggleSectionOne, "section-one")
             }
             if (!this.state.toggleSectionTwo) {
-                this.handleVisiblitySection(this.state.toggleSectionTwo,"section-two")
+                this.handleVisiblitySection(this.state.toggleSectionTwo, "section-two")
             }
             if (!this.state.toggleSectionThree) {
-                this.handleVisiblitySection(this.state.toggleSectionThree,"section-three")
+                this.handleVisiblitySection(this.state.toggleSectionThree, "section-three")
             }
             if (!this.state.toggleSectionSix) {
-                this.handleVisiblitySection(this.state.toggleSectionSix,"section-four")
+                this.handleVisiblitySection(this.state.toggleSectionSix, "section-four")
             }
         }
         else {
@@ -1811,7 +1767,7 @@ class TemplateOne extends Component {
                 if (!this.state.toggleSectionZero && section === "section-zero") {
                     this.handleSection(section);
                 }
-                else if (!this.state.toggleSectionOne  && section === "section-one") {
+                else if (!this.state.toggleSectionOne && section === "section-one") {
                     this.handleSection(section);
                 }
                 else if (!this.state.toggleSectionTwo && section === "section-two") {
@@ -1842,8 +1798,6 @@ class TemplateOne extends Component {
         const { classes } = this.props;
         return (
             <div className={classes.root} >
-                {this.state.errorSnack && <ErrorToast message="Error in Processing" />}
-                {this.state.errorSnackTwo && <ErrorToast message="Error in Processing" />}
                 {this.state.errorSnackThree && <WarningToast message="Section cannot be deleted!" />}
                 {this.state.loading && <Loader />}
                 <Grid container >
@@ -1938,7 +1892,7 @@ class TemplateOne extends Component {
                                             aria-label="delete"
                                             onClick={() => this.handleDeleteSection("section-zero")}
                                         >
-                                            <Switch size="small" classes={{switchBase: classes.switchBase,checked: classes.checked,bar: classes.bar,}} checked={this.state.toggleSectionZero} />
+                                            <Switch size="small" classes={{ switchBase: classes.switchBase, checked: classes.checked, bar: classes.bar, }} checked={this.state.toggleSectionZero} />
                                         </IconButton>
                                     </div>
                                     <div id="section-zero">
@@ -1946,9 +1900,9 @@ class TemplateOne extends Component {
                                             className="main-heading"
                                             activeHead={this.state.activeHead}
                                             onClick={this.editHeader}
-                                            style={{marginTop: '10px'}}
+                                            style={{ marginTop: '10px' }}
                                         >
-                                            <h3 dangerouslySetInnerHTML={{__html: DOMPurify.sanitize(this.state.headingvalue)}} />
+                                            <h3 dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(this.state.headingvalue) }} />
                                         </ActiveHeader>
                                         <ActivePara
                                             onDrop={this.drop}
@@ -1971,7 +1925,7 @@ class TemplateOne extends Component {
                                             aria-label="delete"
                                             onClick={() => this.handleDeleteSection("section-one")}
                                         >
-                                            <Switch size="small" classes={{switchBase: classes.switchBase,checked: classes.checked,bar: classes.bar,}} checked={this.state.toggleSectionOne}/>
+                                            <Switch size="small" classes={{ switchBase: classes.switchBase, checked: classes.checked, bar: classes.bar, }} checked={this.state.toggleSectionOne} />
                                         </IconButton>
                                     </div>
                                     <div id="section-one">
@@ -1980,7 +1934,7 @@ class TemplateOne extends Component {
                                             activeHeadTwo={this.state.activeHeadTwo}
                                             onClick={this.editHeaderTwo}
                                         >
-                                            <h3 dangerouslySetInnerHTML={{__html: DOMPurify.sanitize(this.state.headingTwovalue)}} />
+                                            <h3 dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(this.state.headingTwovalue) }} />
                                         </ActiveHeaderTwo>
                                         <div className="flex-block flex-block-2">
                                             <ActivePara
@@ -2004,21 +1958,21 @@ class TemplateOne extends Component {
                                                     onClick={this.editAnotherHead}
                                                     className="feature-heading"
                                                 >
-                                                    <h4 dangerouslySetInnerHTML={{__html: DOMPurify.sanitize(this.state.anotherHeadingvalue)}} />
+                                                    <h4 dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(this.state.anotherHeadingvalue) }} />
                                                 </ActiveAnotherHeader>
                                                 <ActiveSubHeader
                                                     activeSubHead={this.state.activeSubHead}
                                                     onClick={this.editSubHead}
                                                     className="feature-sub-heading"
                                                 >
-                                                    <h4 dangerouslySetInnerHTML={{__html: DOMPurify.sanitize(this.state.subheadingvalue)}} />
+                                                    <h4 dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(this.state.subheadingvalue) }} />
                                                 </ActiveSubHeader>
                                                 <ActivePara
                                                     activeParagraph={this.state.activeParagraph}
                                                     onClick={this.editPara}
                                                     className="para-1"
                                                 >
-                                                    <p dangerouslySetInnerHTML={{__html: DOMPurify.sanitize(this.state.paravalue)}} />
+                                                    <p dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(this.state.paravalue) }} />
                                                 </ActivePara>
                                             </div>
                                         </div>
@@ -2028,34 +1982,34 @@ class TemplateOne extends Component {
                                             aria-label="delete"
                                             onClick={() => this.handleDeleteSection("section-two")}
                                         >
-                                            <Switch size="small" classes={{switchBase: classes.switchBase,checked: classes.checked,bar: classes.bar,}} checked={this.state.toggleSectionTwo}/>
+                                            <Switch size="small" classes={{ switchBase: classes.switchBase, checked: classes.checked, bar: classes.bar, }} checked={this.state.toggleSectionTwo} />
                                         </IconButton>
                                     </div>
                                     <div id="section-two">
                                         <div className="flex-block flex-block-2 reverse">
-                                            <div style={{paddingRight:'20px'}}>
+                                            <div style={{ paddingRight: '20px' }}>
                                                 <ActiveAnotherHeaderTwo
                                                     activeanotherHeadTwo={this.state.activeanotherHeadTwo}
                                                     onClick={this.editAnotherHeadTwo}
                                                     className="feature-heading"
                                                 >
-                                                
-                                                <h4 dangerouslySetInnerHTML={{__html: DOMPurify.sanitize(this.state.anotherHeadingTwovalue)}} />
-                                                
+
+                                                    <h4 dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(this.state.anotherHeadingTwovalue) }} />
+
                                                 </ActiveAnotherHeaderTwo>
                                                 <ActiveSubHeaderTwo
                                                     activeSubHeadTwo={this.state.activeSubHeadTwo}
                                                     onClick={this.editSubHeadTwo}
                                                     className="feature-sub-heading"
                                                 >
-                                                    <h4 dangerouslySetInnerHTML={{__html: DOMPurify.sanitize(this.state.subheadingTwovalue)}} />
+                                                    <h4 dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(this.state.subheadingTwovalue) }} />
                                                 </ActiveSubHeaderTwo>
                                                 <ActiveParaTwo
                                                     activeParagraphTwo={this.state.activeParagraphTwo}
                                                     onClick={this.editParaTwo}
                                                     className="para-1"
                                                 >
-                                                    <p dangerouslySetInnerHTML={{__html: DOMPurify.sanitize(this.state.paraTwovalue)}} />
+                                                    <p dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(this.state.paraTwovalue) }} />
                                                 </ActiveParaTwo>
                                             </div>
                                             <ActivePara
@@ -2079,18 +2033,18 @@ class TemplateOne extends Component {
                                             aria-label="delete"
                                             onClick={() => this.handleDeleteSection("section-three")}
                                         >
-                                            <Switch size="small" classes={{switchBase: classes.switchBase,checked: classes.checked,bar: classes.bar,}} checked={this.state.toggleSectionThree}/>
+                                            <Switch size="small" classes={{ switchBase: classes.switchBase, checked: classes.checked, bar: classes.bar, }} checked={this.state.toggleSectionThree} />
                                         </IconButton>
                                     </div>
-                                    <div id="section-three">    
+                                    <div id="section-three">
                                         <ActiveHeaderThree
                                             className="main-heading"
                                             activeHeadThree={this.state.activeHeadThree}
                                             onClick={this.editHeaderThree}
                                         >
-                                            <h3 dangerouslySetInnerHTML={{__html: DOMPurify.sanitize(this.state.headingThreevalue)}} />
+                                            <h3 dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(this.state.headingThreevalue) }} />
                                         </ActiveHeaderThree>
-                                        <div className="flex-block flex-block-3" style={{marginBottom: '30px'}}>
+                                        <div className="flex-block flex-block-3" style={{ marginBottom: '30px' }}>
                                             <div>
                                                 <ActivePara
                                                     onDrop={this.dropFour}
@@ -2110,16 +2064,16 @@ class TemplateOne extends Component {
                                                     activeSubHeadThree={this.state.activeSubHeadThree}
                                                     onClick={this.editSubHeadThree}
                                                     className="feature-sub-heading"
-                                                    style={{marginTop: '15px',marginBottom: '10px'}}
+                                                    style={{ marginTop: '15px', marginBottom: '10px' }}
                                                 >
-                                                    <h4 dangerouslySetInnerHTML={{__html: DOMPurify.sanitize(this.state.subheadingThreevalue)}} />
+                                                    <h4 dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(this.state.subheadingThreevalue) }} />
                                                 </ActiveSubHeaderThree>
                                                 <ActiveParaThree
                                                     activeParagraphThree={this.state.activeParagraphThree}
                                                     onClick={this.editParaThree}
                                                     className="para-1"
                                                 >
-                                                <p dangerouslySetInnerHTML={{__html: DOMPurify.sanitize(this.state.paraThreevalue)}} />
+                                                    <p dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(this.state.paraThreevalue) }} />
                                                 </ActiveParaThree>
                                             </div>
                                             <div>
@@ -2141,16 +2095,16 @@ class TemplateOne extends Component {
                                                     activeSubHeadFour={this.state.activeSubHeadFour}
                                                     onClick={this.editSubHeadFour}
                                                     className="feature-sub-heading"
-                                                    style={{marginTop: '15px',marginBottom: '10px'}}
+                                                    style={{ marginTop: '15px', marginBottom: '10px' }}
                                                 >
-                                                    <h4 dangerouslySetInnerHTML={{__html: DOMPurify.sanitize(this.state.subheadingFourvalue)}} />
+                                                    <h4 dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(this.state.subheadingFourvalue) }} />
                                                 </ActiveSubHeaderFour>
                                                 <ActiveParaFour
                                                     activeParagraphFour={this.state.activeParagraphFour}
                                                     onClick={this.editParaFour}
                                                     className="para-1"
                                                 >
-                                                <p dangerouslySetInnerHTML={{__html: DOMPurify.sanitize(this.state.paraFourvalue)}} />
+                                                    <p dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(this.state.paraFourvalue) }} />
                                                 </ActiveParaFour>
                                             </div>
                                             <div>
@@ -2172,16 +2126,16 @@ class TemplateOne extends Component {
                                                     activeSubHeadFive={this.state.activeSubHeadFive}
                                                     onClick={this.editSubHeadFive}
                                                     className="feature-sub-heading"
-                                                    style={{marginTop: '15px',marginBottom: '10px'}}
+                                                    style={{ marginTop: '15px', marginBottom: '10px' }}
                                                 >
-                                                    <h4 dangerouslySetInnerHTML={{__html: DOMPurify.sanitize(this.state.subheadingFivevalue)}} />
+                                                    <h4 dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(this.state.subheadingFivevalue) }} />
                                                 </ActiveSubHeaderFive>
                                                 <ActiveParaFive
                                                     activeParagraphFive={this.state.activeParagraphFive}
                                                     onClick={this.editParaFive}
                                                     className="para-1"
                                                 >
-                                                <p dangerouslySetInnerHTML={{__html: DOMPurify.sanitize(this.state.paraFivevalue)}} />
+                                                    <p dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(this.state.paraFivevalue) }} />
                                                 </ActiveParaFive>
                                             </div>
                                         </div>
@@ -2191,11 +2145,11 @@ class TemplateOne extends Component {
                                             aria-label="delete"
                                             onClick={() => this.handleDeleteSection("section-four")}
                                         >
-                                            <Switch size="small" classes={{switchBase: classes.switchBase,checked: classes.checked,bar: classes.bar,}} checked={this.state.toggleSectionSix}/>
+                                            <Switch size="small" classes={{ switchBase: classes.switchBase, checked: classes.checked, bar: classes.bar, }} checked={this.state.toggleSectionSix} />
                                         </IconButton>
                                     </div>
                                     <div id="section-four">
-                                        <div className="flex-block flex-block-3" style={{marginBottom: '40px'}}>
+                                        <div className="flex-block flex-block-3" style={{ marginBottom: '40px' }}>
                                             <div>
                                                 <ActivePara
                                                     onDrop={this.dropSeven}
@@ -2215,16 +2169,16 @@ class TemplateOne extends Component {
                                                     activeSubHeadSix={this.state.activeSubHeadSix}
                                                     onClick={this.editSubHeadSix}
                                                     className="feature-sub-heading"
-                                                    style={{marginTop: '15px',marginBottom: '10px'}}
+                                                    style={{ marginTop: '15px', marginBottom: '10px' }}
                                                 >
-                                                    <h4 dangerouslySetInnerHTML={{__html: DOMPurify.sanitize(this.state.subheadingSixvalue)}} />
+                                                    <h4 dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(this.state.subheadingSixvalue) }} />
                                                 </ActiveSubHeaderSix>
                                                 <ActiveParaSix
                                                     activeParagraphSix={this.state.activeParagraphSix}
                                                     onClick={this.editParaSix}
                                                     className="para-1"
                                                 >
-                                                <p dangerouslySetInnerHTML={{__html: DOMPurify.sanitize(this.state.paraSixvalue)}} />
+                                                    <p dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(this.state.paraSixvalue) }} />
                                                 </ActiveParaSix>
                                             </div>
                                             <div>
@@ -2246,16 +2200,16 @@ class TemplateOne extends Component {
                                                     activeSubHeadSeven={this.state.activeSubHeadSeven}
                                                     onClick={this.editSubHeadSeven}
                                                     className="feature-sub-heading"
-                                                    style={{marginTop: '15px',marginBottom: '10px'}}
+                                                    style={{ marginTop: '15px', marginBottom: '10px' }}
                                                 >
-                                                    <h4 dangerouslySetInnerHTML={{__html: DOMPurify.sanitize(this.state.subheadingSevenvalue)}} />
+                                                    <h4 dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(this.state.subheadingSevenvalue) }} />
                                                 </ActiveSubHeaderSeven>
                                                 <ActiveParaSeven
                                                     activeParagraphSeven={this.state.activeParagraphSeven}
                                                     onClick={this.editParaSeven}
                                                     className="para-1"
                                                 >
-                                                <p dangerouslySetInnerHTML={{__html: DOMPurify.sanitize(this.state.paraSevenvalue)}} />
+                                                    <p dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(this.state.paraSevenvalue) }} />
                                                 </ActiveParaSeven>
                                             </div>
                                             <div>
@@ -2277,16 +2231,16 @@ class TemplateOne extends Component {
                                                     activeSubHeadEight={this.state.activeSubHeadEight}
                                                     onClick={this.editSubHeadEight}
                                                     className="feature-sub-heading"
-                                                    style={{marginTop: '15px',marginBottom: '10px'}}
+                                                    style={{ marginTop: '15px', marginBottom: '10px' }}
                                                 >
-                                                    <h4 dangerouslySetInnerHTML={{__html: DOMPurify.sanitize(this.state.subheadingEightvalue)}} />
+                                                    <h4 dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(this.state.subheadingEightvalue) }} />
                                                 </ActiveSubHeaderEight>
                                                 <ActiveParaEight
                                                     activeParagraphEight={this.state.activeParagraphEight}
                                                     onClick={this.editParaEight}
                                                     className="para-1"
                                                 >
-                                                <p dangerouslySetInnerHTML={{__html: DOMPurify.sanitize(this.state.paraEightvalue)}} />
+                                                    <p dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(this.state.paraEightvalue) }} />
                                                 </ActiveParaEight>
                                             </div>
                                         </div>
@@ -2305,4 +2259,10 @@ TemplateOne.propTypes = {
     classes: PropTypes.object.isRequired,
 };
 
-export default withStyles(styles)(TemplateOne);
+function mapStateToProps(state) {
+    return {
+        page_data: state.page_data
+    };
+}
+
+export default connect(mapStateToProps)(withStyles(styles)(TemplateOne));
