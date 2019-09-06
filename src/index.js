@@ -11,6 +11,8 @@ import { apitimeout } from './components/api_timeout';
 import ErrorToast from './components/ErrorToast';
 import Loader from './components/Loading';
 import App from './containers/App';
+import { Provider } from "react-redux";
+import { store } from "./containers/redux/store";
 import './assets/styles/style.css';
 
 class Main extends Component {
@@ -130,9 +132,12 @@ class Main extends Component {
     return (
       <div>
         {this.state.loading && <Loader />}
-        {this.state.toggleApp && <BrowserRouter>
-          <App togglePerm={this.state.togglePerm} />
-        </BrowserRouter>}
+        {this.state.toggleApp && 
+        <Provider store={store}>
+          <BrowserRouter>
+            <App togglePerm={this.state.togglePerm} />
+          </BrowserRouter>
+        </Provider>}
         {this.state.errorSnack && <ErrorToast message="Error in Processing" />}
         {this.state.errorSnackTwo && <ErrorToast message="Error in Processing" />}
         {this.state.permissionSnack && <ErrorToast message="User is not Authorized!" />}

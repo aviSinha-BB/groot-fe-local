@@ -1,6 +1,7 @@
 import React, { Component, Suspense } from 'react';
 import PropTypes from 'prop-types';
 import Loader from './Loading';
+import { connect } from "react-redux";
 import styled from 'styled-components';
 import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
@@ -8,7 +9,6 @@ import Switch from '@material-ui/core/Switch';
 import IconButton from '@material-ui/core/IconButton';
 import { withStyles } from '@material-ui/core/styles';
 import { styles } from './ComponentStyle/TemplateStyle';
-import { apitimeout } from './api_timeout';
 import 'froala-editor/css/froala_editor.min.css';
 import 'froala-editor/css/froala_editor.pkgd.min.css';
 import 'froala-editor/js/froala_editor.pkgd.min.js';
@@ -243,8 +243,6 @@ class TemplateTwo extends Component {
             activeParagraphSix: false,
             activeParagraphSeven: false,
             activeParagraphEight: false,
-            errorSnack: false,
-            errorSnackTwo: false,
             errorSnackThree: false,
             toggleSectionZero: true,
             toggleSectionOne: true,
@@ -255,112 +253,69 @@ class TemplateTwo extends Component {
             toggleSectionSix: true,
             toggleSectionSeven: true,
             toggleSectionEight: true,
+            pageData: this.props.page_data
         };
     }
 
     componentDidMount() {
 
         var url = window.location.href;
-        var host = url.split('/content-svc')[0];
         var url_get = url.split("tempview?")[1];
         var url_tid = url_get.split("&")[1];
-        var url_sid = url_get.split("&")[2];
-        this.setState({ loading: true });
 
         if (url_tid) {
-            var getSid = url_sid.split("=")[1];
-            var getTid = url_tid.split("=")[1];
-
-            apitimeout(pendingTimeout, fetch(host + templateAPI + '/' + getTid + '/' + getSid, {
-                method: "GET",
-                headers: {
-                    "Content-Type": "application/json",
-                    "X-Requested-With": "XMLHttpRequest",
-                    [AuthKey]: localStorage.getItem('token')
-                }
-            })).then(res => {
-                if (res.status == 200) {
-                    return res.json();
-                }
-                else {
-                    this.setState({ loading: false });
-                    throw Error(res.statusText);
-                }
-            })
-                .then(result => {
-                    this.setState({ loading: false });
-                    if (result) {
-                        this.setState({
-                            headingvalue: result.data.hvT.heading,
-                            videoStr: result.data.hvT.videoSrc,
-                            toggleSectionZero: result.data.hvT.visible,
-                            headingTwovalue: result.data.hihspM.heading,
-                            imgsrcTwovalue: result.data.hihspM.imageSrc,
-                            anotherHeadingvalue: result.data.hihspM.anotherHeading,
-                            subheadingvalue: result.data.hihspM.subHeading,
-                            paravalue: result.data.hihspM.paragraph,
-                            toggleSectionOne: result.data.hihspM.visible,
-                            headingThreevalue: result.data.ispLT.heading,
-                            imgsrcThreevalue: result.data.hspihB.imageSrc,
-                            anotherHeadingTwovalue: result.data.hspihB.anotherHeading,
-                            subheadingTwovalue: result.data.hspihB.subHeading,
-                            paraTwovalue: result.data.hspihB.paragraph,
-                            toggleSectionTwo: result.data.hspihB.visible,
-                            imgsrcFourvalue: result.data.ispLT.imageSrc,
-                            subheadingThreevalue: result.data.ispLT.subHeading,
-                            paraThreevalue: result.data.ispLT.paragraph,
-                            toggleSectionThree: result.data.ispLT.visible,
-                            imgsrcFivevalue: result.data.ispMT.imageSrc,
-                            subheadingFourvalue: result.data.ispMT.subHeading,
-                            paraFourvalue: result.data.ispMT.paragraph,
-                            toggleSectionFour: result.data.ispMT.visible,
-                            imgsrcSixvalue: result.data.ispRT.imageSrc,
-                            subheadingFivevalue: result.data.ispRT.subHeading,
-                            paraFivevalue: result.data.ispRT.paragraph,
-                            toggleSectionFive: result.data.ispRT.visible,
-                            imgsrcSevenvalue: result.data.ispLB.imageSrc,
-                            subheadingSixvalue: result.data.ispLB.subHeading,
-                            paraSixvalue: result.data.ispLB.paragraph,
-                            toggleSectionSix: result.data.ispLB.visible,
-                            imgsrcEightvalue: result.data.ispMB.imageSrc,
-                            subheadingSevenvalue: result.data.ispMB.subHeading,
-                            paraSevenvalue: result.data.ispMB.paragraph,
-                            toggleSectionSeven: result.data.ispMB.visible,
-                            imgsrcNinevalue: result.data.ispRB.imageSrc,
-                            subheadingEightvalue: result.data.ispRB.subHeading,
-                            paraEightvalue: result.data.ispRB.paragraph,
-                            toggleSectionEight: result.data.ispRB.visible,
-                            taskId: result.metaData.taskId
-                        });
-
-                        this.handlingAltImage("placedImageTwo", this.state.imgsrcTwovalue);
-                        this.handlingAltImage("placedImageThree", this.state.imgsrcThreevalue);
-                        this.handlingAltImage("placedImageFour", this.state.imgsrcFourvalue);
-                        this.handlingAltImage("placedImageFive", this.state.imgsrcFivevalue);
-                        this.handlingAltImage("placedImageSix", this.state.imgsrcSixvalue);
-                        this.handlingAltImage("placedImageSeven", this.state.imgsrcSevenvalue);
-                        this.handlingAltImage("placedImageEight", this.state.imgsrcEightvalue);
-                        this.handlingAltImage("placedImageNine", this.state.imgsrcNinevalue);
-                        this.handleDeleteSection("initial-mount")
-                    }
-                    else {
-                        this.setState({ errorSnack: true });
-                        setTimeout(() => {
-                            this.setState({
-                                errorSnack: false
-                            })
-                        }, timeout);
-                    }
-                })
-                .catch((error) => {
-                    this.setState({ errorSnackTwo: true, loading: false });
-                    setTimeout(() => {
-                        this.setState({
-                            errorSnackTwo: false
-                        })
-                    }, timeout);
-                    console.log('Problem in fetching template data in TemplateTwo \n', error);
-                });
+            this.setState({
+                headingvalue: this.state.pageData.hiT.heading,
+                videoStr: this.state.pageData.hiT.videoStr,
+                toggleSectionZero: this.state.pageData.hiT.visible,
+                headingTwovalue: this.state.pageData.hihspM.heading,
+                imgsrcTwovalue: this.state.pageData.hihspM.imageSrc,
+                anotherHeadingvalue: this.state.pageData.hihspM.anotherHeading,
+                subheadingvalue: this.state.pageData.hihspM.subHeading,
+                paravalue: this.state.pageData.hihspM.paragraph,
+                toggleSectionOne: this.state.pageData.hihspM.visible,
+                headingThreevalue: this.state.pageData.ispLT.heading,
+                imgsrcThreevalue: this.state.pageData.hspihB.imageSrc,
+                anotherHeadingTwovalue: this.state.pageData.hspihB.anotherHeading,
+                subheadingTwovalue: this.state.pageData.hspihB.subHeading,
+                paraTwovalue: this.state.pageData.hspihB.paragraph,
+                toggleSectionTwo: this.state.pageData.hspihB.visible,
+                imgsrcFourvalue: this.state.pageData.ispLT.imageSrc,
+                subheadingThreevalue: this.state.pageData.ispLT.subHeading,
+                paraThreevalue: this.state.pageData.ispLT.paragraph,
+                toggleSectionThree: this.state.pageData.ispLT.visible,
+                imgsrcFivevalue: this.state.pageData.ispMT.imageSrc,
+                subheadingFourvalue: this.state.pageData.ispMT.subHeading,
+                paraFourvalue: this.state.pageData.ispMT.paragraph,
+                toggleSectionFour: this.state.pageData.ispMT.visible,
+                imgsrcSixvalue: this.state.pageData.ispRT.imageSrc,
+                subheadingFivevalue: this.state.pageData.ispRT.subHeading,
+                paraFivevalue: this.state.pageData.ispRT.paragraph,
+                toggleSectionFive: this.state.pageData.ispRT.visible,
+                imgsrcSevenvalue: this.state.pageData.ispLB.imageSrc,
+                subheadingSixvalue: this.state.pageData.ispLB.subHeading,
+                paraSixvalue: this.state.pageData.ispLB.paragraph,
+                toggleSectionSix: this.state.pageData.ispLB.visible,
+                imgsrcEightvalue: this.state.pageData.ispMB.imageSrc,
+                subheadingSevenvalue: this.state.pageData.ispMB.subHeading,
+                paraSevenvalue: this.state.pageData.ispMB.paragraph,
+                toggleSectionSeven: this.state.pageData.ispMB.visible,
+                imgsrcNinevalue: this.state.pageData.ispRB.imageSrc,
+                subheadingEightvalue: this.state.pageData.ispRB.subHeading,
+                paraEightvalue: this.state.pageData.ispRB.paragraph,
+                toggleSectionEight: this.state.pageData.ispRB.visible,
+                taskId: this.state.pageData.metaData.taskId
+            });
+            this.handlingAltImage("placedImage", this.state.imgsrcvalue);
+            this.handlingAltImage("placedImageTwo", this.state.imgsrcTwovalue);
+            this.handlingAltImage("placedImageThree", this.state.imgsrcThreevalue);
+            this.handlingAltImage("placedImageFour", this.state.imgsrcFourvalue);
+            this.handlingAltImage("placedImageFive", this.state.imgsrcFivevalue);
+            this.handlingAltImage("placedImageSix", this.state.imgsrcSixvalue);
+            this.handlingAltImage("placedImageSeven", this.state.imgsrcSevenvalue);
+            this.handlingAltImage("placedImageEight", this.state.imgsrcEightvalue);
+            this.handlingAltImage("placedImageNine", this.state.imgsrcNinevalue);
+            this.handleDeleteSection("initial-mount");
         }
         else {
             this.setState({ loading: false });
@@ -2285,4 +2240,10 @@ TemplateTwo.propTypes = {
     classes: PropTypes.object.isRequired,
 };
 
-export default withStyles(styles)(TemplateTwo);
+function mapStateToProps(state) {
+    return {
+        page_data: state.page_data
+    };
+}
+
+export default connect(mapStateToProps)(withStyles(styles)(TemplateTwo));
