@@ -2,7 +2,6 @@ import React, { Component, Suspense } from 'react';
 import Loader from '../components/Loading';
 import { apitimeout } from '../components/api_timeout';
 import ErrorToast from '../components/ErrorToast';
-import { connect } from "react-redux";
 import { store } from "./redux/store";
 import { SET_PAGE1_DATA } from "./redux/actions/page1Actions";
 const TemplateOne = React.lazy(() => import(/* webpackChunkName: "TemplateOne" */"../components/TemplateOne"));
@@ -19,7 +18,7 @@ class TemplateView extends Component {
         }
     }
 
-    componentWillMount() {
+    componentDidMount() {
 
         var url = window.location.href;
         var url_get = url.split("tempview?")[1];
@@ -27,6 +26,7 @@ class TemplateView extends Component {
         var url_tid = url_get.split("&")[1];
         var url_sid = url_get.split("&")[2];
         this.setState({ loading: true });
+        let hT = {};
 
         if (url_tid) {
             var getSid = url_sid.split("=")[1];
@@ -48,10 +48,8 @@ class TemplateView extends Component {
             })
                 .then(result => {
                     this.setState({ loading: false });
-                    if (result.metaData) {
-                        this.setState({ current_props: result.metaData.templateTag });
-                        let hT = {};
-                        if(result.metaData.templateTag === "Temp 1") {
+                    if (result) {
+                        if (result.metaData.templateTag === "Temp 1") {
                             hT = {
                                 heading: result.data.hiT.heading,
                                 imageSrc: result.data.hiT.imageSrc,
@@ -133,6 +131,7 @@ class TemplateView extends Component {
                             }
 
                         });
+                        this.setState({ current_props: result.metaData.templateTag });
                     }
                     else {
                         this.setState({ errorSnack: true });
@@ -172,6 +171,7 @@ class TemplateView extends Component {
     }
 
     render() {
+
         return (
             <div>
                 {this.state.loading && <Loader />}
@@ -185,10 +185,4 @@ class TemplateView extends Component {
     }
 }
 
-function mapStateToProps(state) {
-    return {
-        page_data: state.page_data
-    };
-}
-
-export default connect(mapStateToProps)(TemplateView);
+export default (TemplateView);
