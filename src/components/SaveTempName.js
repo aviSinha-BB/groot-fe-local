@@ -954,6 +954,7 @@ class SaveTempName extends Component {
                                 isClearable={true}
                                 menuIsOpen={false}
                                 isSearchable={false}
+                                placeholder=""
                                 isMulti
                                 styles={selectStyle}
                                 name="product-ids"
