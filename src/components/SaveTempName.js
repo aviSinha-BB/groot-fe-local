@@ -87,16 +87,16 @@ class SaveTempName extends Component {
                 productAction: this.state.pageData.association.action
             });
 
-            if (get_sname == statusReview) {
+            if (get_sname.includes(statusReview)) {
                 this.setState({ toggleRevision: false, togglePending: false, toggleDraft: false, toggleXlsUpload: true, toggleXlsValidation: false });
             }
-            else if (get_sname == statusDraft) {
+            else if (get_sname.includes(statusDraft)) {
                 this.setState({ toggleRevision: false, togglePending: false, toggleSave: false, toggleXlsUpload: true, toggleXlsValidation: false });
             }
-            else if (get_sname == statusRevision || get_sname == statusSentForPublish) {
+            else if (get_sname.includes(statusRevision) || get_sname.includes(statusSentForPublish)) {
                 this.setState({ toggleReview: false, toggleDraft: false, toggleXlsUpload: false, toggleXlsValidation: false });
             }
-            else if (get_sname == statusPending) {
+            else if (get_sname.includes(statusPending)) {
                 this.setState({ toggleReview: false, togglePending: false, toggleDraft: false, toggleSave: false, toggleXlsUpload: false, toggleXlsValidation: false });
             }
         }
@@ -636,7 +636,7 @@ class SaveTempName extends Component {
             },
             "comment": this.state.commentVal
         }));
-
+        if (this.handleMaxProductIds(this.state.pids)) {
         this.setState({ loading: true, successSaveSnack: false, errorSaveSnack: false });
         apitimeout(pendingTimeout, fetch(this.state.clientHost + templateAPI + "/save/", {
             method: "POST",
@@ -670,6 +670,17 @@ class SaveTempName extends Component {
             }, timeout);
             console.log('Looks like there was a problem in saving template \n');
         });
+        }
+        else {
+            this.setState({
+                warningPidLenSnack: true
+            });
+            setTimeout(() => {
+                this.setState({
+                    warningPidLenSnack: false
+                })
+            }, timeout);
+        }
     }
 
     handlePublish = () => {
