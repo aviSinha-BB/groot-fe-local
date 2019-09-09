@@ -636,7 +636,7 @@ class SaveTempName extends Component {
             },
             "comment": this.state.commentVal
         }));
-
+        if (this.handleMaxProductIds(this.state.pids)) {
         this.setState({ loading: true, successSaveSnack: false, errorSaveSnack: false });
         apitimeout(pendingTimeout, fetch(this.state.clientHost + templateAPI + "/save/", {
             method: "POST",
@@ -670,6 +670,17 @@ class SaveTempName extends Component {
             }, timeout);
             console.log('Looks like there was a problem in saving template \n');
         });
+        }
+        else {
+            this.setState({
+                warningPidLenSnack: true
+            });
+            setTimeout(() => {
+                this.setState({
+                    warningPidLenSnack: false
+                })
+            }, timeout);
+        }
     }
 
     handlePublish = () => {
