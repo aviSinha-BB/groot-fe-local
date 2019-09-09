@@ -87,16 +87,16 @@ class SaveTempName extends Component {
                 productAction: this.state.pageData.association.action
             });
 
-            if (get_sname == statusReview) {
+            if (get_sname.includes(statusReview)) {
                 this.setState({ toggleRevision: false, togglePending: false, toggleDraft: false, toggleXlsUpload: true, toggleXlsValidation: false });
             }
-            else if (get_sname == statusDraft) {
+            else if (get_sname.includes(statusDraft)) {
                 this.setState({ toggleRevision: false, togglePending: false, toggleSave: false, toggleXlsUpload: true, toggleXlsValidation: false });
             }
-            else if (get_sname == statusRevision || get_sname == statusSentForPublish) {
+            else if (get_sname.includes(statusRevision) || get_sname.includes(statusSentForPublish)) {
                 this.setState({ toggleReview: false, toggleDraft: false, toggleXlsUpload: false, toggleXlsValidation: false });
             }
-            else if (get_sname == statusPending) {
+            else if (get_sname.includes(statusPending)) {
                 this.setState({ toggleReview: false, togglePending: false, toggleDraft: false, toggleSave: false, toggleXlsUpload: false, toggleXlsValidation: false });
             }
         }
