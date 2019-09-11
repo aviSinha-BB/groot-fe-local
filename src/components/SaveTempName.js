@@ -61,6 +61,7 @@ class SaveTempName extends Component {
             errorPublishSnack: false,
             errorDownload: false,
             errorXlxSnack: false,
+            msgXlxSnack: '',
             pageData: this.props.page_data
         };
         this.el = document.createElement('div');
@@ -270,35 +271,41 @@ class SaveTempName extends Component {
                     return;
                 }
                 else if (response.status == 400) {
-                    let errorResponse = response.json();
-                    let errorMsg = errorResponse.message;
-                    if (errorMsg.includes('Your file appears not to be a valid xlsx file'))
-                        throw "Invalid Xlsx File";
-                    else
-                        throw Error(response.status);
+                    return response.json();
                 }
                 else {
                     throw Error(response.status);
                 }
             }
-        ).catch((error) => {
-            if (error == "Invalid Xlsx File") {
-                this.setState({ loading: false, errorXlxSnack: true });
-                setTimeout(() => {
-                    this.setState({
-                        errorXlxSnack: false
-                    })
-                }, timeout);
+        ).then(result => {
+            let errorResponse = result;
+            let errorMsg = errorResponse.message;
+            if (errorMsg && errorMsg.length > 0) {
+                let errorResp = new Error(errorMsg);
+                errorResp.code = 400;
+                throw errorResp;
             }
-            else {
-                this.setState({ loading: false, errorReviewSnack: true });
-                setTimeout(() => {
-                    this.setState({
-                        errorReviewSnack: false
-                    })
-                }, timeout);
-            }
-        });
+            else
+                throw Error(response.status);
+        })
+            .catch((error) => {
+                if (error.code == 400) {
+                    this.setState({ loading: false, errorXlxSnack: true, msgXlxSnack: error.message });
+                    setTimeout(() => {
+                        this.setState({
+                            errorXlxSnack: false
+                        })
+                    }, timeout);
+                }
+                else {
+                    this.setState({ loading: false, errorReviewSnack: true });
+                    setTimeout(() => {
+                        this.setState({
+                            errorReviewSnack: false
+                        })
+                    }, timeout);
+                }
+            });
     }
 
     handleRevision = () => {
@@ -547,20 +554,27 @@ class SaveTempName extends Component {
                     return;
                 }
                 else if (response.status == 400) {
-                    let errorResponse = response.json();
-                    let errorMsg = errorResponse.message;
-                    if (errorMsg.includes('Your file appears not to be a valid xlsx file'))
-                        throw "Invalid Xlsx File";
-                    else
-                        throw Error(response.status);
+                    return response.json();
                 }
                 else {
                     throw Error(response.status);
                 }
             }
-        ).catch((error) => {
-            if (error == "Invalid Xlsx File") {
-                this.setState({ loading: false, errorXlxSnack: true });
+        )
+        .then(result => {
+            let errorResponse = result;
+            let errorMsg = errorResponse.message;
+            if (errorMsg && errorMsg.length > 0) {
+                let errorResp = new Error(errorMsg);
+                errorResp.code = 400;
+                throw errorResp;
+            }
+            else
+                throw Error(response.status);
+        })
+        .catch((error) => {
+            if (error.code == 400) {
+                this.setState({ loading: false, errorXlxSnack: true, msgXlxSnack: error.message });
                 setTimeout(() => {
                     this.setState({
                         errorXlxSnack: false
@@ -695,20 +709,26 @@ class SaveTempName extends Component {
                         return;
                     }
                     else if (response.status == 400) {
-                        let errorResponse = response.json();
-                        let errorMsg = errorResponse.message;
-                        if (errorMsg.includes('Your file appears not to be a valid xlsx file'))
-                            throw "Invalid Xlsx File";
-                        else
-                            throw Error(response.status);
+                        return response.json();
                     }
                     else {
                         throw Error(response.status);
                     }
                 }
-            ).catch((error) => {
-                if (error == "Invalid Xlsx File") {
-                    this.setState({ loading: false, errorXlxSnack: true });
+            ).then(result => {
+                let errorResponse = result;
+                let errorMsg = errorResponse.message;
+                if (errorMsg && errorMsg.length > 0) {
+                    let errorResp = new Error(errorMsg);
+                    errorResp.code = 400;
+                    throw errorResp;
+                }
+                else
+                    throw Error(response.status);
+            })
+            .catch((error) => {
+                if (error.code == 400) {
+                    this.setState({ loading: false, errorXlxSnack: true, msgXlxSnack: error.message });
                     setTimeout(() => {
                         this.setState({
                             errorXlxSnack: false
@@ -1098,7 +1118,7 @@ class SaveTempName extends Component {
                         </Button>
                     }
                 </div>
-                {this.state.errorXlxSnack && ReactDOM.createPortal(<ErrorToast message="Invalid XLSX File Uploaded" />, this.el)}}
+                {this.state.errorXlxSnack && ReactDOM.createPortal(<ErrorToast message={this.state.msgXlxSnack} />, this.el)}
                 {this.state.warningPidLenSnack && ReactDOM.createPortal(<WarningToast message="Product Ids cannot be empty" />, this.el)}
                 {this.state.successReviewSnack && ReactDOM.createPortal(<SuccessToast message="Aplus Template is Send for Review" />, this.el)}
                 {this.state.errorReviewSnack && ReactDOM.createPortal(<ErrorToast message="Error in sending for request" />, this.el)}
