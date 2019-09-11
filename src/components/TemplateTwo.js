@@ -1934,16 +1934,14 @@ class TemplateTwo extends Component {
                                                 <ActiveAnotherHeader
                                                     activeanotherHead={this.state.activeanotherHead}
                                                     onClick={this.editAnotherHead}
-                                                    className="feature-heading"
                                                 >
-                                                    <h4 dangerouslySetInnerHTML={{__html: DOMPurify.sanitize(this.state.anotherHeadingvalue)}} />
+                                                    <h4 className="feature-heading" dangerouslySetInnerHTML={{__html: DOMPurify.sanitize(this.state.anotherHeadingvalue)}} />
                                                 </ActiveAnotherHeader>
                                                 <ActiveSubHeader
                                                     activeSubHead={this.state.activeSubHead}
                                                     onClick={this.editSubHead}
-                                                    className="feature-sub-heading"
                                                 >
-                                                    <h4 dangerouslySetInnerHTML={{__html: DOMPurify.sanitize(this.state.subheadingvalue)}} />
+                                                    <h4 className="feature-sub-heading" dangerouslySetInnerHTML={{__html: DOMPurify.sanitize(this.state.subheadingvalue)}} />
                                                 </ActiveSubHeader>
                                                 <ActivePara
                                                     activeParagraph={this.state.activeParagraph}
@@ -1969,18 +1967,16 @@ class TemplateTwo extends Component {
                                                 <ActiveAnotherHeaderTwo
                                                     activeanotherHeadTwo={this.state.activeanotherHeadTwo}
                                                     onClick={this.editAnotherHeadTwo}
-                                                    className="feature-heading"
                                                 >
                                                 
-                                                <h4 dangerouslySetInnerHTML={{__html: DOMPurify.sanitize(this.state.anotherHeadingTwovalue)}} />
+                                                <h4 className="feature-heading" dangerouslySetInnerHTML={{__html: DOMPurify.sanitize(this.state.anotherHeadingTwovalue)}} />
                                                 
                                                 </ActiveAnotherHeaderTwo>
                                                 <ActiveSubHeaderTwo
                                                     activeSubHeadTwo={this.state.activeSubHeadTwo}
                                                     onClick={this.editSubHeadTwo}
-                                                    className="feature-sub-heading"
                                                 >
-                                                    <h4 dangerouslySetInnerHTML={{__html: DOMPurify.sanitize(this.state.subheadingTwovalue)}} />
+                                                    <h4 className="feature-sub-heading" dangerouslySetInnerHTML={{__html: DOMPurify.sanitize(this.state.subheadingTwovalue)}} />
                                                 </ActiveSubHeaderTwo>
                                                 <ActiveParaTwo
                                                     activeParagraphTwo={this.state.activeParagraphTwo}
@@ -2041,10 +2037,9 @@ class TemplateTwo extends Component {
                                                 <ActiveSubHeaderThree
                                                     activeSubHeadThree={this.state.activeSubHeadThree}
                                                     onClick={this.editSubHeadThree}
-                                                    className="feature-sub-heading"
                                                     style={{marginTop: '15px',marginBottom: '10px'}}
                                                 >
-                                                    <h4 dangerouslySetInnerHTML={{__html: DOMPurify.sanitize(this.state.subheadingThreevalue)}} />
+                                                    <h4 className="feature-sub-heading" dangerouslySetInnerHTML={{__html: DOMPurify.sanitize(this.state.subheadingThreevalue)}} />
                                                 </ActiveSubHeaderThree>
                                                 <ActiveParaThree
                                                     activeParagraphThree={this.state.activeParagraphThree}
@@ -2072,10 +2067,9 @@ class TemplateTwo extends Component {
                                                 <ActiveSubHeaderFour
                                                     activeSubHeadFour={this.state.activeSubHeadFour}
                                                     onClick={this.editSubHeadFour}
-                                                    className="feature-sub-heading"
                                                     style={{marginTop: '15px',marginBottom: '10px'}}
                                                 >
-                                                    <h4 dangerouslySetInnerHTML={{__html: DOMPurify.sanitize(this.state.subheadingFourvalue)}} />
+                                                    <h4 className="feature-sub-heading" dangerouslySetInnerHTML={{__html: DOMPurify.sanitize(this.state.subheadingFourvalue)}} />
                                                 </ActiveSubHeaderFour>
                                                 <ActiveParaFour
                                                     activeParagraphFour={this.state.activeParagraphFour}
@@ -2103,10 +2097,9 @@ class TemplateTwo extends Component {
                                                 <ActiveSubHeaderFive
                                                     activeSubHeadFive={this.state.activeSubHeadFive}
                                                     onClick={this.editSubHeadFive}
-                                                    className="feature-sub-heading"
                                                     style={{marginTop: '15px',marginBottom: '10px'}}
                                                 >
-                                                    <h4 dangerouslySetInnerHTML={{__html: DOMPurify.sanitize(this.state.subheadingFivevalue)}} />
+                                                    <h4 className="feature-sub-heading" dangerouslySetInnerHTML={{__html: DOMPurify.sanitize(this.state.subheadingFivevalue)}} />
                                                 </ActiveSubHeaderFive>
                                                 <ActiveParaFive
                                                     activeParagraphFive={this.state.activeParagraphFive}
@@ -2146,10 +2139,9 @@ class TemplateTwo extends Component {
                                                 <ActiveSubHeaderSix
                                                     activeSubHeadSix={this.state.activeSubHeadSix}
                                                     onClick={this.editSubHeadSix}
-                                                    className="feature-sub-heading"
                                                     style={{marginTop: '15px',marginBottom: '10px'}}
                                                 >
-                                                    <h4 dangerouslySetInnerHTML={{__html: DOMPurify.sanitize(this.state.subheadingSixvalue)}} />
+                                                    <h4 className="feature-sub-heading" dangerouslySetInnerHTML={{__html: DOMPurify.sanitize(this.state.subheadingSixvalue)}} />
                                                 </ActiveSubHeaderSix>
                                                 <ActiveParaSix
                                                     activeParagraphSix={this.state.activeParagraphSix}
@@ -2177,10 +2169,9 @@ class TemplateTwo extends Component {
                                                 <ActiveSubHeaderSeven
                                                     activeSubHeadSeven={this.state.activeSubHeadSeven}
                                                     onClick={this.editSubHeadSeven}
-                                                    className="feature-sub-heading"
                                                     style={{marginTop: '15px',marginBottom: '10px'}}
                                                 >
-                                                    <h4 dangerouslySetInnerHTML={{__html: DOMPurify.sanitize(this.state.subheadingSevenvalue)}} />
+                                                    <h4 className="feature-sub-heading" dangerouslySetInnerHTML={{__html: DOMPurify.sanitize(this.state.subheadingSevenvalue)}} />
                                                 </ActiveSubHeaderSeven>
                                                 <ActiveParaSeven
                                                     activeParagraphSeven={this.state.activeParagraphSeven}
@@ -2208,10 +2199,9 @@ class TemplateTwo extends Component {
                                                 <ActiveSubHeaderEight
                                                     activeSubHeadEight={this.state.activeSubHeadEight}
                                                     onClick={this.editSubHeadEight}
-                                                    className="feature-sub-heading"
                                                     style={{marginTop: '15px',marginBottom: '10px'}}
                                                 >
-                                                    <h4 dangerouslySetInnerHTML={{__html: DOMPurify.sanitize(this.state.subheadingEightvalue)}} />
+                                                    <h4 className="feature-sub-heading" dangerouslySetInnerHTML={{__html: DOMPurify.sanitize(this.state.subheadingEightvalue)}} />
                                                 </ActiveSubHeaderEight>
                                                 <ActiveParaEight
                                                     activeParagraphEight={this.state.activeParagraphEight}
