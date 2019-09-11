@@ -268,7 +268,7 @@ class SaveTempNameTwo extends Component {
                         });
                         window.location.replace(this.state.clientHost + grootHost + '/');
                     }, timeout);
-                    return;
+                    throw 200;
                 }
                 else if (response.status == 400) {
                     return response.json();
@@ -297,7 +297,7 @@ class SaveTempNameTwo extends Component {
                     })
                 }, timeout);
             }
-            else {
+            else if(error !== 200) {
                 this.setState({ loading: false, errorReviewSnack: true });
                 setTimeout(() => {
                     this.setState({
@@ -553,7 +553,7 @@ class SaveTempNameTwo extends Component {
                         });
                         window.location.replace(this.state.clientHost + grootHost + '/');
                     }, timeout);
-                    return;
+                    throw 200;
                 }
                 else if (response.status == 400) {
                     return response.json();
@@ -582,11 +582,11 @@ class SaveTempNameTwo extends Component {
                     })
                 }, timeout);
             }
-            else {
-                this.setState({ loading: false, errorReviewSnack: true });
+            else if(error !== 200) {
+                this.setState({ loading: false, errorDraftSnack: true });
                 setTimeout(() => {
                     this.setState({
-                        errorReviewSnack: false
+                        errorDraftSnack: false
                     })
                 }, timeout);
             }
@@ -703,7 +703,7 @@ class SaveTempNameTwo extends Component {
                             });
                             window.location.replace(this.state.clientHost + grootHost + '/');
                         }, timeout);
-                        return;
+                        throw 200;
                     }
                     else if (response.status == 400) {
                         return response.json();
@@ -732,11 +732,11 @@ class SaveTempNameTwo extends Component {
                         })
                     }, timeout);
                 }
-                else {
-                    this.setState({ loading: false, errorReviewSnack: true });
+                else if(error !== 200) {
+                    this.setState({ loading: false, errorSaveSnack: true });
                     setTimeout(() => {
                         this.setState({
-                            errorReviewSnack: false
+                            errorSaveSnack: false
                         })
                     }, timeout);
                 }
