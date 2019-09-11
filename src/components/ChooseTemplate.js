@@ -12,8 +12,8 @@ import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogTitle from '@material-ui/core/DialogTitle';
-import Temp1 from '../assets/images/Temp1.svg';
-import Temp2 from '../assets/images/Temp2.svg';
+import Temp1 from '../assets/images/Temp1.png';
+import Temp2 from '../assets/images/Temp2.png';
 import { Tooltip, Card, Button } from "@material-ui/core";
 import Loader from './Loading';
 import {
