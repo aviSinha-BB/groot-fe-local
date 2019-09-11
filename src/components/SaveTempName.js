@@ -60,6 +60,8 @@ class SaveTempName extends Component {
             successPublishSnack: false,
             errorPublishSnack: false,
             errorDownload: false,
+            errorXlxSnack: false,
+            msgXlxSnack: '',
             pageData: this.props.page_data
         };
         this.el = document.createElement('div');
@@ -264,23 +266,46 @@ class SaveTempName extends Component {
                         this.setState({
                             successReviewSnack: false
                         });
-                        window.location.replace(this.state.clientHost+grootHost+'/');
+                        window.location.replace(this.state.clientHost + grootHost + '/');
                     }, timeout);
                     return;
+                }
+                else if (response.status == 400) {
+                    return response.json();
                 }
                 else {
                     throw Error(response.status);
                 }
             }
-        ).catch((error) => {
-            this.setState({ loading: false, errorReviewSnack: true });
-            setTimeout(() => {
-                this.setState({
-                    errorReviewSnack: false
-                })
-            }, timeout);
-            console.log('Looks like there was a problem in sending for review \n');
-        });
+        ).then(result => {
+            let errorResponse = result;
+            let errorMsg = errorResponse.message;
+            if (errorMsg && errorMsg.length > 0) {
+                let errorResp = new Error(errorMsg);
+                errorResp.code = 400;
+                throw errorResp;
+            }
+            else
+                throw Error(response.status);
+        })
+            .catch((error) => {
+                if (error.code == 400) {
+                    this.setState({ loading: false, errorXlxSnack: true, msgXlxSnack: error.message });
+                    setTimeout(() => {
+                        this.setState({
+                            errorXlxSnack: false
+                        })
+                    }, timeout);
+                }
+                else {
+                    this.setState({ loading: false, errorReviewSnack: true });
+                    setTimeout(() => {
+                        this.setState({
+                            errorReviewSnack: false
+                        })
+                    }, timeout);
+                }
+            });
     }
 
     handleRevision = () => {
@@ -390,7 +415,7 @@ class SaveTempName extends Component {
                             this.setState({
                                 successRevisionSnack: false
                             });
-                            window.location.replace(this.state.clientHost+grootHost+'/');
+                            window.location.replace(this.state.clientHost + grootHost + '/');
                         }, timeout);
                         return;
                     }
@@ -524,28 +549,53 @@ class SaveTempName extends Component {
                         this.setState({
                             successDraftSnack: false
                         });
-                        window.location.replace(this.state.clientHost+grootHost+'/');
+                        window.location.replace(this.state.clientHost + grootHost + '/');
                     }, timeout);
                     return;
+                }
+                else if (response.status == 400) {
+                    return response.json();
                 }
                 else {
                     throw Error(response.status);
                 }
             }
-        ).catch((error) => {
-            this.setState({ loading: false, errorDraftSnack: true });
-            setTimeout(() => {
-                this.setState({
-                    errorDraftSnack: false
-                })
-            }, timeout);
+        )
+        .then(result => {
+            let errorResponse = result;
+            let errorMsg = errorResponse.message;
+            if (errorMsg && errorMsg.length > 0) {
+                let errorResp = new Error(errorMsg);
+                errorResp.code = 400;
+                throw errorResp;
+            }
+            else
+                throw Error(response.status);
+        })
+        .catch((error) => {
+            if (error.code == 400) {
+                this.setState({ loading: false, errorXlxSnack: true, msgXlxSnack: error.message });
+                setTimeout(() => {
+                    this.setState({
+                        errorXlxSnack: false
+                    })
+                }, timeout);
+            }
+            else {
+                this.setState({ loading: false, errorReviewSnack: true });
+                setTimeout(() => {
+                    this.setState({
+                        errorReviewSnack: false
+                    })
+                }, timeout);
+            }
             console.log('Looks like there was a problem in saving template \n');
         });
 
     }
 
     handleSave = () => {
-        
+
         this.handleDeleteSection();
         this.handleDeleteButtons();
         var tempHTML = document.getElementById('template').innerHTML;
@@ -636,40 +686,64 @@ class SaveTempName extends Component {
             },
             "comment": this.state.commentVal
         }));
+
         if (this.handleMaxProductIds(this.state.pids)) {
-        this.setState({ loading: true, successSaveSnack: false, errorSaveSnack: false });
-        apitimeout(pendingTimeout, fetch(this.state.clientHost + templateAPI + "/save/", {
-            method: "POST",
-            headers: {
-                [AuthKey]: localStorage.getItem('token')
-            },
-            body: formData
-        })).then(
-            response => {
-                if (response.status == 200) {
-                    this.setState({ loading: false });
-                    this.setState({ successSaveSnack: true });
+            this.setState({ loading: true, successSaveSnack: false, errorSaveSnack: false });
+            apitimeout(pendingTimeout, fetch(this.state.clientHost + templateAPI + "/save/", {
+                method: "POST",
+                headers: {
+                    [AuthKey]: localStorage.getItem('token')
+                },
+                body: formData
+            })).then(
+                response => {
+                    if (response.status == 200) {
+                        this.setState({ loading: false });
+                        this.setState({ successSaveSnack: true });
+                        setTimeout(() => {
+                            this.setState({
+                                successSaveSnack: false
+                            });
+                            window.location.replace(this.state.clientHost + grootHost + '/');
+                        }, timeout);
+                        return;
+                    }
+                    else if (response.status == 400) {
+                        return response.json();
+                    }
+                    else {
+                        throw Error(response.status);
+                    }
+                }
+            ).then(result => {
+                let errorResponse = result;
+                let errorMsg = errorResponse.message;
+                if (errorMsg && errorMsg.length > 0) {
+                    let errorResp = new Error(errorMsg);
+                    errorResp.code = 400;
+                    throw errorResp;
+                }
+                else
+                    throw Error(response.status);
+            })
+            .catch((error) => {
+                if (error.code == 400) {
+                    this.setState({ loading: false, errorXlxSnack: true, msgXlxSnack: error.message });
                     setTimeout(() => {
                         this.setState({
-                            successSaveSnack: false
-                        });
-                        window.location.replace(this.state.clientHost+grootHost+'/');
+                            errorXlxSnack: false
+                        })
                     }, timeout);
-                    return;
                 }
                 else {
-                    throw Error(response.status);
+                    this.setState({ loading: false, errorReviewSnack: true });
+                    setTimeout(() => {
+                        this.setState({
+                            errorReviewSnack: false
+                        })
+                    }, timeout);
                 }
-            }
-        ).catch((error) => {
-            this.setState({ loading: false, errorSaveSnack: true });
-            setTimeout(() => {
-                this.setState({
-                    errorSaveSnack: false
-                })
-            }, timeout);
-            console.log('Looks like there was a problem in saving template \n');
-        });
+            });
         }
         else {
             this.setState({
@@ -791,7 +865,7 @@ class SaveTempName extends Component {
                             this.setState({
                                 successPublishSnack: false
                             });
-                            window.location.replace(this.state.clientHost+grootHost+'/all');
+                            window.location.replace(this.state.clientHost + grootHost + '/all');
                         }, timeout);
                         return;
                     }
@@ -818,7 +892,7 @@ class SaveTempName extends Component {
                         this.setState({
                             errorPublishSnack: false
                         });
-                        window.location.replace(this.state.clientHost+grootHost+'/all');
+                        window.location.replace(this.state.clientHost + grootHost + '/all');
                     }, timeout);
 
                 }
@@ -1044,6 +1118,7 @@ class SaveTempName extends Component {
                         </Button>
                     }
                 </div>
+                {this.state.errorXlxSnack && ReactDOM.createPortal(<ErrorToast message={this.state.msgXlxSnack} />, this.el)}
                 {this.state.warningPidLenSnack && ReactDOM.createPortal(<WarningToast message="Product Ids cannot be empty" />, this.el)}
                 {this.state.successReviewSnack && ReactDOM.createPortal(<SuccessToast message="Aplus Template is Send for Review" />, this.el)}
                 {this.state.errorReviewSnack && ReactDOM.createPortal(<ErrorToast message="Error in sending for request" />, this.el)}
