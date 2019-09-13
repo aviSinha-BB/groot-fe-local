@@ -32,10 +32,10 @@ app.use(require('webpack-hot-middleware')(compiler));
 
 //static assets
 
-app.use(main_config.preUrl + '/apluscontent', express.static(path.join(__dirname, '../dev')));
+app.use(main_config.grootHost, express.static(path.join(__dirname, '../dev')));
 app.use(cors());
 
-app.get(main_config.preUrl + '/apluscontent/*',
+app.get(main_config.grootHost + '/*',
     function (req, res) {
         res.sendFile(path.join(__dirname, '../dev', 'index.html'));
     });
@@ -44,14 +44,14 @@ app.get(main_config.preUrl + '/apluscontent/*',
 const formUrlEncoded = x =>
     Object.keys(x).reduce((p, c) => p + `&${c}=${encodeURIComponent(x[c])}`, '');
 
-app.post(main_config.preUrl + "/apluscontent/userspermission", (req, res, next) => {
+app.post(main_config.grootHost + "/userspermission", (req, res, next) => {
     const groups = req.body.groups;
     console.log("[Content_Fe_WAPI]: Workflow is calling.. ");
     console.log("[Content_Fe_WAPI]: Requested Group from Workflow: ", req.body.groups);
     const bbSignkey = bbsign.generate_bbsign(main_config.signKey, ['group_name'], [groups]);
     axios({
         method: 'post',
-        url: main_config.getGroupUserUrl,
+        url: main_config.monolithHost + main_config.getGroupUserUrl,
         headers: {
             'Content-Type': 'application/json'
         },
@@ -99,5 +99,5 @@ app.post(main_config.preUrl + "/apluscontent/userspermission", (req, res, next) 
 });
 
 app.listen(main_config.clientPort, function () {
-    console.log("Frontend Server Started on port " + main_config.clientPort + ", url: http://localhost:8080/content-svc/apluscontent/");
+    console.log("Frontend Server Started on port " + main_config.clientPort + ", url: http://localhost:8080" + main_config.grootHost);
 });

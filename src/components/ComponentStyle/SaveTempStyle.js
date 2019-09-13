@@ -76,6 +76,9 @@ export const styles = theme => ({
             width: '300px'
         }
     },
+    uploadInputStyle: {
+        display: 'none'
+    },
     dialogStyle: {
         opacity: '0.5',
         backgroundColor: '#EFEFEF',

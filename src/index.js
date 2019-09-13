@@ -11,6 +11,8 @@ import { apitimeout } from './components/api_timeout';
 import ErrorToast from './components/ErrorToast';
 import Loader from './components/Loading';
 import App from './containers/App';
+import { Provider } from "react-redux";
+import { store } from "./containers/redux/store";
 import './assets/styles/style.css';
 
 class Main extends Component {
@@ -28,6 +30,7 @@ class Main extends Component {
 
   componentDidMount() {
     let url = window.location.href;
+    let host = url.split('/content-svc')[0];
     let paramUrl = url.split("sessionId=")[1];
     let authToken = null;
     let sourceHost = null;
@@ -44,7 +47,7 @@ class Main extends Component {
       }
       
       this.setState({ loading: true });
-      apitimeout(pendingTimeout, fetch(templateAPI + '/permissions', {
+      apitimeout(pendingTimeout, fetch(host + templateAPI + '/permissions', {
         method: "GET",
         headers: {
           'Content-Type': 'application/json',
@@ -63,10 +66,10 @@ class Main extends Component {
               permissionSnack: false
             });
             if (localStorage.getItem('source_host') === 'partner') {
-              window.location.replace(partnerLogoutUrl);
+              window.location.replace(host + partnerLogoutUrl);
             }
             else {
-              window.location.replace(catalogHost);
+              window.location.replace(host + catalogHost);
             }
           }, timeout);
         }
@@ -114,10 +117,10 @@ class Main extends Component {
 
     if (localStorage.getItem('token') === null) {
       if (localStorage.getItem('source_host') === 'partner') {
-        window.location.replace(partnerLogoutUrl);
+        window.location.replace(host+ partnerLogoutUrl);
       }
       else {
-        window.location.replace(catalogHost);
+        window.location.replace(host+ catalogHost);
       }
     }
 
@@ -129,9 +132,12 @@ class Main extends Component {
     return (
       <div>
         {this.state.loading && <Loader />}
-        {this.state.toggleApp && <BrowserRouter>
-          <App togglePerm={this.state.togglePerm} />
-        </BrowserRouter>}
+        {this.state.toggleApp && 
+        <Provider store={store}>
+          <BrowserRouter>
+            <App togglePerm={this.state.togglePerm} />
+          </BrowserRouter>
+        </Provider>}
         {this.state.errorSnack && <ErrorToast message="Error in Processing" />}
         {this.state.errorSnackTwo && <ErrorToast message="Error in Processing" />}
         {this.state.permissionSnack && <ErrorToast message="User is not Authorized!" />}

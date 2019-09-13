@@ -40,13 +40,13 @@ class App extends Component {
                     <Navbar togglePerm={this.props.togglePerm} />
                     <Suspense fallback={Loader}>
                         <Switch>
-                            <Route exact path={preUrl + "/apluscontent/"} render={() => <ManageAplusTemplate />} />
+                            <Route exact path={grootHost + "/"} render={() => <ManageAplusTemplate />} />
 
-                            <Route exact path={preUrl + "/apluscontent/all"} render={() => <ManageAplusTemplate />} />
+                            <Route exact path={grootHost + "/all"} render={() => <ManageAplusTemplate />} />
 
-                            <Route exact path={preUrl + "/apluscontent/choosetemp"} render={(props) => <ChooseTemplate {...props} handleTemplateComponent={this.handleTemplateComponent} />} />
+                            <Route exact path={grootHost + "/choosetemp"} render={(props) => <ChooseTemplate {...props} handleTemplateComponent={this.handleTemplateComponent} />} />
 
-                            <Route exact path={preUrl + "/apluscontent/tempview"} render={() => <TemplateView tempComponent={this.state.tempComponent} />} />
+                            <Route exact path={grootHost + "/tempview"} render={() => <TemplateView tempComponent={this.state.tempComponent} />} />
                         </Switch>
                     </Suspense>
                 </ErrorBoundary>

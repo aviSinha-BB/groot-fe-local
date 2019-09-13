@@ -2,6 +2,8 @@ import React, { Component, Suspense } from 'react';
 import Loader from '../components/Loading';
 import { apitimeout } from '../components/api_timeout';
 import ErrorToast from '../components/ErrorToast';
+import { store } from "./redux/store";
+import { SET_PAGE1_DATA } from "./redux/actions/page1Actions";
 const TemplateOne = React.lazy(() => import(/* webpackChunkName: "TemplateOne" */"../components/TemplateOne"));
 const TemplateTwo = React.lazy(() => import(/* webpackChunkName: "TemplateTwo" */"../components/TemplateTwo"));
 
@@ -12,22 +14,24 @@ class TemplateView extends Component {
             current_props: "",
             loading: false,
             errorSnack: false,
-            errorSnackTwo: false,
+            errorSnackTwo: false
         }
     }
 
-    componentWillMount() {
+    componentDidMount() {
 
         var url = window.location.href;
         var url_get = url.split("tempview?")[1];
+        var host = url.split('/content-svc')[0];
         var url_tid = url_get.split("&")[1];
         var url_sid = url_get.split("&")[2];
         this.setState({ loading: true });
+        let hT = {};
 
         if (url_tid) {
             var getSid = url_sid.split("=")[1];
             var getTid = url_tid.split("=")[1];
-            apitimeout(pendingTimeout, fetch(templateAPI + '/' + getTid + '/' + getSid, {
+            apitimeout(pendingTimeout, fetch(host + templateAPI + '/' + getTid + '/' + getSid, {
                 method: "GET",
                 headers: {
                     "Content-Type": "application/json",
@@ -44,7 +48,89 @@ class TemplateView extends Component {
             })
                 .then(result => {
                     this.setState({ loading: false });
-                    if (result.metaData) {
+                    if (result) {
+                        if (result.metaData.templateTag === "Temp 1") {
+                            hT = {
+                                heading: result.data.hiT.heading,
+                                imageSrc: result.data.hiT.imageSrc,
+                                visible: result.data.hiT.visible
+                            };
+                        }
+                        else {
+                            hT = {
+                                heading: result.data.hvT.heading,
+                                videoStr: result.data.hvT.videoSrc,
+                                visible: result.data.hvT.visible
+                            }
+                        }
+                        store.dispatch({
+                            type: SET_PAGE1_DATA,
+                            page: {
+                                hiT: hT,
+                                hihspM: {
+                                    heading: result.data.hihspM.heading,
+                                    imageSrc: result.data.hihspM.imageSrc,
+                                    anotherHeading: result.data.hihspM.anotherHeading,
+                                    subHeading: result.data.hihspM.subHeading,
+                                    paragraph: result.data.hihspM.paragraph,
+                                    visible: result.data.hihspM.visible
+                                },
+                                hspihB: {
+                                    anotherHeading: result.data.hspihB.anotherHeading,
+                                    subHeading: result.data.hspihB.subHeading,
+                                    paragraph: result.data.hspihB.paragraph,
+                                    imageSrc: result.data.hspihB.imageSrc,
+                                    visible: result.data.hspihB.visible
+                                },
+                                ispLT: {
+                                    heading: result.data.ispLT.heading,
+                                    imageSrc: result.data.ispLT.imageSrc,
+                                    subHeading: result.data.ispLT.subHeading,
+                                    paragraph: result.data.ispLT.paragraph,
+                                    visible: result.data.ispLT.visible
+                                },
+                                ispMT: {
+                                    imageSrc: result.data.ispMT.imageSrc,
+                                    subHeading: result.data.ispMT.subHeading,
+                                    paragraph: result.data.ispMT.paragraph,
+                                    visible: result.data.ispMT.visible
+                                },
+                                ispRT: {
+                                    imageSrc: result.data.ispRT.imageSrc,
+                                    subHeading: result.data.ispRT.subHeading,
+                                    paragraph: result.data.ispRT.paragraph,
+                                    visible: result.data.ispRT.visible
+                                },
+                                ispLB: {
+                                    imageSrc: result.data.ispLB.imageSrc,
+                                    subHeading: result.data.ispLB.subHeading,
+                                    paragraph: result.data.ispLB.paragraph,
+                                    visible: result.data.ispLB.visible
+                                },
+                                ispMB: {
+                                    imageSrc: result.data.ispMB.imageSrc,
+                                    subHeading: result.data.ispMB.subHeading,
+                                    paragraph: result.data.ispMB.paragraph,
+                                    visible: result.data.ispMB.visible
+                                },
+                                ispRB: {
+                                    imageSrc: result.data.ispRB.imageSrc,
+                                    subHeading: result.data.ispRB.subHeading,
+                                    paragraph: result.data.ispRB.paragraph,
+                                    visible: result.data.ispRB.visible
+                                },
+                                metaData: {
+                                    taskId: result.metaData.taskId,
+                                    manufacturer: result.metaData.manufacturer
+                                },
+                                association: {
+                                    products: result.association.products,
+                                    action: result.association.action
+                                },
+                                comment: result.comment
+                            }
+
+                        });
                         this.setState({ current_props: result.metaData.templateTag });
                     }
                     else {
@@ -99,4 +185,4 @@ class TemplateView extends Component {
     }
 }
 
-export default TemplateView;
+export default (TemplateView);
