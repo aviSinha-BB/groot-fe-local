@@ -1798,7 +1798,7 @@ class TemplateOne extends Component {
         const { classes } = this.props;
         return (
             <div className={classes.root} >
-                {this.state.errorSnackThree && <WarningToast message="Section cannot be deleted!" />}
+                {this.state.errorSnackThree && <WarningToast message="Atleast one section is mandatory!" />}
                 {this.state.loading && <Loader />}
                 <Grid container >
                     <Grid item xs={3}>
