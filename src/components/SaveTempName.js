@@ -1006,7 +1006,7 @@ class SaveTempName extends Component {
                 />
                 {this.state.toggleXlsUpload ?
                     <div>
-                        <span style={{ paddingLeft: 10 }} className={classes.labelStyle}>Choose SKU XSL</span><br />
+                        <span style={{ paddingLeft: 10 }} className={classes.labelStyle}>Choose SKU XLSX</span><br />
                         <input
                             type="file"
                             id="uploadXLS"
