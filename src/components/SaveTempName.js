@@ -927,44 +927,6 @@ class SaveTempName extends Component {
         this.setState({ xlsFileName: e.target.files[0].name });
     }
 
-    handleUploadedXLSDownload = (tempid) => {
-        this.setState({ loading: true, errorDownload: false });
-        apitimeout(pendingTimeout, fetch(this.state.clientHost + templateAPI + "/download/" + tempid, {
-            method: "GET",
-            headers: {
-                [AuthKey]: localStorage.getItem('token')
-            }
-        })).
-            then(res => {
-                if (res.status == 200) {
-                    return res.blob();
-                }
-                else {
-                    throw Error(res.statusText);
-                }
-            })
-            .then(result => {
-                const url = window.URL.createObjectURL(new Blob([result]));
-                const link = document.createElement('a');
-                link.href = url;
-                link.setAttribute('download', `uploaded_sku.xlsx`);
-                document.body.appendChild(link);
-                link.click();
-                link.parentNode.removeChild(link);
-                this.setState({ loading: false });
-            })
-            .catch((error) => {
-                this.setState({ loading: false });
-                this.setState({ errorDownload: true });
-                setTimeout(() => {
-                    this.setState({
-                        errorDownload: false
-                    })
-                }, timeout);
-                console.log('Looks like there was a problem in downloading excel file \n');
-            });
-    }
-
     handleChangeComment = commentVal => e => {
         this.setState({ [commentVal]: e.target.value });
     }
