@@ -64,18 +64,6 @@ export const styles = theme => ({
         opacity: 0.9,
         marginRight: theme.spacing.unit
     },
-    formControl: {
-        margin: theme.spacing.unit,
-        [theme.breakpoints.down('sm')]: {
-            width: '217px'
-        },
-        [theme.breakpoints.up('md')]: {
-            width: '230px'
-        },
-        [theme.breakpoints.up('lg')]: {
-            width: '300px'
-        }
-    },
     uploadInputStyle: {
         display: 'none'
     },
@@ -91,11 +79,5 @@ export const styles = theme => ({
     },
     labelStyle: {
         fontFamily: 'ProximaNova-Regular',
-    },
-    inputStyle: {
-        fontFamily: 'ProximaNova-Regular'
-    },
-    inputContainer: {
-        border: 1
     }
 });
