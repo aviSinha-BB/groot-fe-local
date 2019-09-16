@@ -5,10 +5,14 @@ import { styles } from './ComponentStyle/BannerStyle';
 import { apitimeout } from './api_timeout';
 import Loader from './Loading';
 import Button from '@material-ui/core/Button';
+import InfoIcon from '@material-ui/icons/Info';
+import { Tooltip } from "@material-ui/core";
 import ErrorToast from './ErrorToast';
 import WarningToast from './WarningToast';
 
 const modalRoot = document.getElementById('modal-root');
+
+const bannerInfo = `Image must be jpg, png and less than 1MB`;
 
 class Banner extends Component {
   constructor(props) {
@@ -187,9 +191,18 @@ class Banner extends Component {
     let imgDmMsg = this.state.warningMessage;
     return (
       <div className={this.state.loading ? classes.rootTwo : classes.root}>
-        <span className={classes.labelStyle} >Upload Banner:</span><br />
-        {this.state.loading && ReactDOM.createPortal(<Loader />, this.el)}
-        <input type="file" id="uploadBanner" className={classes.UploadStyle} accept="image/*" onChange={this.readURL} /><br />
+        <div className={classes.wrapper}>
+          <div className={classes.upload}>
+            <span className={classes.labelStyle} >Upload Banner:</span>&nbsp;<br />
+            {this.state.loading && ReactDOM.createPortal(<Loader />, this.el)}
+            <input type="file" id="uploadBanner" className={classes.UploadStyle} accept="image/*" onChange={this.readURL} /><br />
+          </div>
+          <div className={classes.info}>
+            <Tooltip title={bannerInfo} placement="right">
+              <InfoIcon className={classes.IconStyle} />
+            </Tooltip>
+          </div>
+        </div>
         {this.state.imgSrc && <img id="yourImg" className={classes.imgStyle} src={this.state.imgSrc} height="150" width="265" draggable="true" onDragStart={this.drag} />}
         <br />
         <Button className={classes.buttonUploadStyle} onClick={this.uploadAction}>Upload</Button>

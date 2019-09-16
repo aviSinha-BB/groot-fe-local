@@ -1784,7 +1784,7 @@ class TemplateTwo extends Component {
         const { classes } = this.props;
         return (
             <div className={classes.root} >
-                {this.state.errorSnackThree && <WarningToast message="Section cannot be deleted!" />}
+                {this.state.errorSnackThree && <WarningToast message="Atleast one section is mandatory" />}
                 {this.state.loading && <Loader />}
                 <Grid container >
                     <Grid item xs={3}>
@@ -1871,7 +1871,7 @@ class TemplateTwo extends Component {
                     <Grid item xs={9} className={classes.gridStyle}>
                         <div id="template">
                             <Paper style={{ margin: '0 auto', maxWidth: '1200px' }}>
-                                <style dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize("\n      * {\n        box-sizing: border-box;\n      }\n      .main-template {\n        line-height: 20px;\n        font-size: 17px;\n      }\n        @font-face {\n      font-display: swap;\n font-family: 'ProximaNova-Regular';\n     src: local('ProximaNova-Regular'), url('/static/fonts/2FFBCA_A_0.woff2') format('woff2');\n      }\n    @font-face {\n      font-display: swap;\n       font-family: 'ProximaNova-Semibold';\n      src: local('ProximaNova-Semibold'), url('/static/fonts/2FFBCA_B_0.woff2') format('woff2'); \n      }\n            .banner-one {\n        padding-right: 20px;\n      }\n        h3,h4 {\nmargin-top: 0px;\n    font-weight: 500;\n    margin-bottom: 0px;\n}\n           .main-video {\n       text-align: center;\n    }\n    .video-style {\n    display: flex;\n    justify-content: center;\n    }\n      img {\n        max-width: 100%;\n        max-height: 100%;\n      }\n           .main-heading {\n        font-family: ProximaNova-Semibold;\n        color: #110f0f;\n        margin: 40px 0 20px;\n      }\n      .feature-heading,\n      .feature-sub-heading,\n      p {\n        margin: 10px 0;\n        line-height: 20px;\n      }\n      .feature-heading {\n        color: #222222;\n        font-size: 18px;\n        font-family: ProximaNova-Semibold;\n      }\n      .feature-sub-heading {\n        font-size: 16px;\n        font-family: ProximaNova-Semibold;\n        color: #444444;\n      }\n      .para-1 {\n        color: #666666;\n        font-size: 14px;\n         font-family: ProximaNova-Regular;\n      }\n\n      .full-view-img,\n      .half-view-img,\n      .small-view-img {\n        display: block;\n      }\n      .full-view-img,\n      .half-view-img {\n        margin: 0 auto;\n      }\n          .flex-block-2 {\n        display: flex;\n        margin: 20px 0;\n        align-items: flex-start;\n        justify-content: space-evenly;\n      }\n      .flex-block-2 div {\n        flex-basis: 50%;\n        flex-grow: 0;\n        flex-shrink: 0;\n      }\n      .flex-block-3 {\n        display: flex;\n        margin: 20px 0;\n        align-items: flex-start;\n        justify-content: space-between;\n      }\n      .flex-block-3 div {\n        flex-basis: 30%;\n      }\n      .flex-block div.mar-20-left {\n        margin-left: 20px;\n      }\n      .flex-block div.mar-20-right {\n        margin-right: 20px;\n      }\n      ul {\n        padding-left: 18px;\n      }\n     @media (max-width: 700px) {\n        .flex-block-2 {\n          display: block;\n        }\n         .banner-one {\n          padding-right: 0px;\n        }\n        .flex-block-3 {\n          display: block;\n        }\n        .reverse {\n          flex-direction: row-reverse;\n        }\n       .main-heading {\n        font-family: ProximaNova-Semibold;\n        color: #110f0f;\n        margin: 40px 0 20px;\n        font-size: 16px;\n      }\n     .feature-heading {\n        color: #222222;\n        font-size: 14px;\n        font-family: ProximaNova-Semibold;\n      }\n      .feature-sub-heading {\n        font-size: 13px;\n        font-family: ProximaNova-Semibold;\n        color: #444444;\n      }\n      .para-1 {\n        color: #666666;\n        font-size: 12px;\n         font-family: ProximaNova-Regular;\n      }\n           .half-view-img {\n          margin: 0 auto;\n        }\n        .flex-block-3 img {\n          margin: 0 auto;\n        }\n        .full-view-img {\n          max-height: 85px;\n        }\n        .half-view-img {\n          margin: 0 auto;\n          max-height: 170px;\n        }\n        .small-view-img {\n          max-width: 100%;\n         height: auto;\n        } \n      }\n    ") }} />
+                                <style dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize("\n      * {\n        box-sizing: border-box;\n      }\n      .main-template {\n        line-height: 20px;\n        font-size: 17px;\n     padding-left: 10px;\n      }\n        @font-face {\n      font-display: swap;\n font-family: 'ProximaNova-Regular';\n     src: local('ProximaNova-Regular'), url('/static/fonts/2FFBCA_A_0.woff2') format('woff2');\n      }\n    @font-face {\n      font-display: swap;\n       font-family: 'ProximaNova-Semibold';\n      src: local('ProximaNova-Semibold'), url('/static/fonts/2FFBCA_B_0.woff2') format('woff2'); \n      }\n            .banner-one {\n        padding-right: 20px;\n      }\n          .small-subheader {\n        margin-top: 15px;\n     margin-bottom: 10px;\n      }\n        h3,h4 {\nmargin-top: 0px;\n    font-weight: 500;\n    margin-bottom: 0px;\n}\n           .main-video {\n       text-align: center;\n    }\n    .video-style {\n    display: flex;\n    justify-content: center;\n    }\n      img {\n        max-width: 100%;\n        max-height: 100%;\n      }\n           .main-heading {\n        font-family: ProximaNova-Semibold;\n        color: #444444;\n        margin: 40px 0 20px;\n      }\n      .feature-heading,\n      .feature-sub-heading,\n      p {\n        margin: 10px 0;\n        line-height: 20px;\n      }\n      .feature-heading {\n        color: #444444;\n        font-size: 18px;\n        font-family: ProximaNova-Semibold;\n      }\n      .feature-sub-heading {\n        font-size: 16px;\n        font-family: ProximaNova-Semibold;\n        color: #444444;\n         margin-bottom: 8px;\n      }\n      .para-1 {\n        color: #666666;\n        font-size: 14px;\n         font-family: ProximaNova-Regular;\n      }\n\n      .full-view-img,\n      .half-view-img,\n      .small-view-img {\n        display: block;\n      }\n      .full-view-img,\n      .half-view-img {\n        margin: 0 auto;\n      }\n          .flex-block-2 {\n        display: flex;\n        margin: 20px 0;\n        align-items: flex-start;\n        justify-content: space-evenly;\n      }\n      .flex-block-2 div {\n        flex-basis: 50%;\n        flex-grow: 0;\n        flex-shrink: 0;\n      }\n      .flex-block-3 {\n        display: flex;\n        margin: 20px 0;\n        align-items: flex-start;\n        justify-content: space-between;\n      }\n      .flex-block-3 div {\n        flex-basis: 30%;\n      }\n      .flex-block div.mar-20-left {\n        margin-left: 20px;\n      }\n      .flex-block div.mar-20-right {\n        margin-right: 20px;\n      }\n      ul {\n        padding-left: 18px;\n      }\n     @media (max-width: 700px) {\n        .main-template {\n        line-height: 20px;\n        font-size: 17px;\n         }\n          .flex-block-2 {\n          display: block;\n        }\n         .banner-one {\n          padding-right: 0px;\n        }\n         .small-subheader {\n        margin-top: 8px;\n     margin-bottom: 0px;\n      }\n        .flex-block-3 {\n          display: block;\n        }\n        .reverse {\n          flex-direction: row-reverse;\n        }\n       .main-heading {\n        font-family: ProximaNova-Semibold;\n        color: #444444;\n        margin: 20px 0 10px;\n        font-size: 16px;\n      }\n     .feature-heading {\n        color: #444444;\n        font-size: 14px;\n        font-family: ProximaNova-Semibold;\n     margin-top: 8px;\n          margin-bottom: 6px;\n      }\n      .feature-sub-heading {\n        font-size: 13px;\n        font-family: ProximaNova-Semibold;\n        color: #444444;\n           margin-bottom: 4px;\n           margin-top: 0px;\n      }\n           p {\n        margin:    0px;\n      }\n      .para-1 {\n        color: #666666;\n        font-size: 12px;\n         font-family: ProximaNova-Regular;\n      }\n           .half-view-img {\n          margin: 0 auto;\n        }\n        .flex-block-3 img {\n          margin: 0 auto;\n        }\n        .full-view-img {\n          max-height: 85px;\n        }\n        .half-view-img {\n          margin: 0 auto;\n          max-height: 170px;\n        }\n        .small-view-img {\n          max-width: 100%;\n         height: auto;\n        } \n      }\n    ") }} />
                                 <div className="main-template">
                                     <div id="delete-button">
                                         <IconButton
@@ -2037,7 +2037,7 @@ class TemplateTwo extends Component {
                                                 <ActiveSubHeaderThree
                                                     activeSubHeadThree={this.state.activeSubHeadThree}
                                                     onClick={this.editSubHeadThree}
-                                                    style={{marginTop: '15px',marginBottom: '10px'}}
+                                                    className="small-subheader"
                                                 >
                                                     <h4 className="feature-sub-heading" dangerouslySetInnerHTML={{__html: DOMPurify.sanitize(this.state.subheadingThreevalue)}} />
                                                 </ActiveSubHeaderThree>
@@ -2067,7 +2067,7 @@ class TemplateTwo extends Component {
                                                 <ActiveSubHeaderFour
                                                     activeSubHeadFour={this.state.activeSubHeadFour}
                                                     onClick={this.editSubHeadFour}
-                                                    style={{marginTop: '15px',marginBottom: '10px'}}
+                                                    className="small-subheader"
                                                 >
                                                     <h4 className="feature-sub-heading" dangerouslySetInnerHTML={{__html: DOMPurify.sanitize(this.state.subheadingFourvalue)}} />
                                                 </ActiveSubHeaderFour>
@@ -2097,7 +2097,7 @@ class TemplateTwo extends Component {
                                                 <ActiveSubHeaderFive
                                                     activeSubHeadFive={this.state.activeSubHeadFive}
                                                     onClick={this.editSubHeadFive}
-                                                    style={{marginTop: '15px',marginBottom: '10px'}}
+                                                    className="small-subheader"
                                                 >
                                                     <h4 className="feature-sub-heading" dangerouslySetInnerHTML={{__html: DOMPurify.sanitize(this.state.subheadingFivevalue)}} />
                                                 </ActiveSubHeaderFive>
@@ -2120,7 +2120,7 @@ class TemplateTwo extends Component {
                                         </IconButton>
                                     </div>
                                     <div id="section-four">
-                                        <div className="flex-block flex-block-3" style={{marginBottom: '40px'}}>
+                                        <div className="flex-block flex-block-3">
                                             <div>
                                                 <ActivePara
                                                     onDrop={this.dropSeven}
@@ -2139,7 +2139,7 @@ class TemplateTwo extends Component {
                                                 <ActiveSubHeaderSix
                                                     activeSubHeadSix={this.state.activeSubHeadSix}
                                                     onClick={this.editSubHeadSix}
-                                                    style={{marginTop: '15px',marginBottom: '10px'}}
+                                                    className="small-subheader"
                                                 >
                                                     <h4 className="feature-sub-heading" dangerouslySetInnerHTML={{__html: DOMPurify.sanitize(this.state.subheadingSixvalue)}} />
                                                 </ActiveSubHeaderSix>
@@ -2169,7 +2169,7 @@ class TemplateTwo extends Component {
                                                 <ActiveSubHeaderSeven
                                                     activeSubHeadSeven={this.state.activeSubHeadSeven}
                                                     onClick={this.editSubHeadSeven}
-                                                    style={{marginTop: '15px',marginBottom: '10px'}}
+                                                    className="small-subheader"
                                                 >
                                                     <h4 className="feature-sub-heading" dangerouslySetInnerHTML={{__html: DOMPurify.sanitize(this.state.subheadingSevenvalue)}} />
                                                 </ActiveSubHeaderSeven>
@@ -2199,7 +2199,7 @@ class TemplateTwo extends Component {
                                                 <ActiveSubHeaderEight
                                                     activeSubHeadEight={this.state.activeSubHeadEight}
                                                     onClick={this.editSubHeadEight}
-                                                    style={{marginTop: '15px',marginBottom: '10px'}}
+                                                    className="small-subheader"
                                                 >
                                                     <h4 className="feature-sub-heading" dangerouslySetInnerHTML={{__html: DOMPurify.sanitize(this.state.subheadingEightvalue)}} />
                                                 </ActiveSubHeaderEight>
