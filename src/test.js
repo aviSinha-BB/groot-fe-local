@@ -5,8 +5,8 @@ const FormData = require('form-data');
 
 const DOMAIN_NAME = "https://qas16.bigbasket.com";
 const TEMPLATE_API = "/content-svc/templates";
-const TEMPLATE_NAME = "test-ys-wf-18-09-2019";
-const TEMPLATE_NAME_FOR_CLONE = "test-ys-clone-18-09-2019";
+const TEMPLATE_NAME = "test-ys-wf-19-09-2019";
+const TEMPLATE_NAME_FOR_CLONE = "test-ys-clone-19-09-2019";
 const AUTH_TOKEN = "RzNoj7X_mlnoEKkNovknSb4x75dTNGvG";
 
 const htmlStream = fs.createReadStream('/home/yash/Downloads/test.html');
@@ -149,9 +149,6 @@ function handlerResponse(resolve, reject, error, body, response) {
         return resolve(-1)
     }
     if (response.statusCode === 200) {
-        if (typeof body === "string") {
-            body = JSON.parse(body);
-        }
         if (body.status === 0) {
             console.log(response.statusCode);
             return resolve(0)
@@ -758,7 +755,7 @@ async function testXslxDownload() {
     return await new Promise((resolve, reject) => {
         let temp = String(temp_id);
         Object.assign(optionsGet,
-            { url: `${urlJoiner(DOMAIN_NAME, TEMPLATE_API, '/download', temp)}` });
+            { url: `${urlJoiner(DOMAIN_NAME, TEMPLATE_API, '/download/', temp)}` });
         request(optionsGet, function (error, response, body) {
             return handlerResponse(resolve, reject, error, body, response)
         });
@@ -800,20 +797,21 @@ async function testXslxUpload() {
     console.log("4. Listing Templates", await testListingTemplates());
     console.log("5. Template Data", await testGetTemplateData());
     console.log("6. Send For Review Template", await testReviewTemplate());
-    console.log("7. All Listing Templates", await testListingTemplates());
+    console.log("7. Listing Templates", await testListingTemplates());
     console.log("8. Template Data", await testGetTemplateData());
     console.log("9. Send For Revision Template", await testRevisionTemplate());
     console.log("10. Listing Templates", await testListingTemplates());
     console.log("11. Template Data", await testGetTemplateData());
     console.log("12. Send For Review Template", await testReviewTemplate());
-    console.log("13. All Listing Templates", await testListingTemplates());
+    console.log("13. Listing Templates", await testListingTemplates());
     console.log("14. Template Data", await testGetTemplateData());
     console.log("15. Save Template", await testSaveTemplate());
     console.log("16. Listing Templates", await testListingTemplates());
     console.log("17. Template Data", await testGetTemplateData());
     console.log("18. Publish Template", await testPublishTemplate());
-    console.log("19. Clone Template", await testCloneTemplate());
-    console.log("20. Image Upload", await testImageUpload());
-    console.log("21. XLSX Download", await testXslxDownload());
-    console.log("22. XLSX Upload", await testXslxUpload());
+    console.log("19. All Listing Templates", await testListingTemplatesAll());
+    console.log("20. Clone Template", await testCloneTemplate());
+    console.log("21. Image Upload", await testImageUpload());
+    console.log("22. XLSX Download", await testXslxDownload());
+    console.log("23. XLSX Upload", await testXslxUpload());
 })();
