@@ -8,6 +8,10 @@ import { apitimeout } from './api_timeout';
 import { connect } from "react-redux";
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
+import InputLabel from '@material-ui/core/InputLabel';
+import MenuItem from '@material-ui/core/MenuItem';
+import FormControl from '@material-ui/core/FormControl';
+import Select from '@material-ui/core/Select';
 import Loader from './Loading';
 import SuccessToast from './SuccessToast';
 import ErrorToast from './ErrorToast';
@@ -966,10 +970,14 @@ class SaveTempNameTwo extends Component {
         this.setState({ [commentVal]: e.target.value });
     }
 
+    handleProductAction = (e) => {
+        this.setState({ productAction: e.target.value });
+    }
+
     render() {
         const { classes } = this.props;
         let allfilled = true;
-        allfilled = this.state.toggleXlsValidation ? this.state.xlsFile && this.state.maunfactName : this.state.maunfactName;
+        allfilled = this.state.toggleXlsValidation ? this.state.xlsFile && this.state.productAction && this.state.maunfactName : this.state.productAction && this.state.maunfactName;
         let toggleManufacturer = false;
         if (localStorage.getItem('userManufacturer') === null) {
             toggleManufacturer = false;
@@ -1043,6 +1051,25 @@ class SaveTempNameTwo extends Component {
                         </a>
                     </span>
                 }
+                <FormControl className={classes.formControl}>
+                    <InputLabel htmlFor="paction-simple" className={classes.labelStyle}>Select Action for Product</InputLabel>
+                    <Select
+                        value={this.state.productAction}
+                        onChange={this.handleProductAction}
+                        required
+                        InputProps={{
+                            name: 'paction',
+                            id: 'paction-simple',
+                            classes: {
+                                root: classes.inputContainer,
+                                input: classes.inputStyle
+                            }
+                        }}
+                    >
+                        <MenuItem value="append">append</MenuItem>
+                        <MenuItem value="override">override</MenuItem>
+                    </Select>
+                </FormControl>
                 <TextField
                     id="comments-multiline"
                     label={<span className={classes.labelStyle}>Comments</span>}
