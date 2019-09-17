@@ -1032,6 +1032,7 @@ class SaveTempName extends Component {
                                 className="productid-multi"
                                 value={this.state.pids}
                                 onChange={this.handleChangeId}
+                                getOptionLabel={(option) => option['displayName']}
                                 isClearable={true}
                                 menuIsOpen={false}
                                 isSearchable={false}
