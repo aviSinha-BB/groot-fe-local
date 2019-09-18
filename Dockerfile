@@ -23,13 +23,10 @@ COPY . /app
 USER bbadmin
 
 #Sourcing the properties file
-RUN source env.properties \
-    && echo "Port: $CLIENT_PORT" > file1.txt
+RUN source dev.properties
 
 #Building the project
 RUN npm run build:prod
-
-RUN cat file1.txt
 
 # Setting Port
 EXPOSE 8080
