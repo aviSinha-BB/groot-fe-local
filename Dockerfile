@@ -23,7 +23,7 @@ COPY . /app
 USER bbadmin
 
 #Sourcing the properties file
-RUN source /tmp/env.properties
+RUN source ../../../../../tmp/env.properties
 
 #Building the project
 RUN npm run build:prod
