@@ -1,8 +1,11 @@
-# Installing node
-FROM node:8.15.1
+# Using Alpine
+FROM alpine:latest
+
+#Installing node and npm
+RUN apk add --update nodejs npm
 
 # Non root user should own the app
-RUN groupadd -r bbadmin && useradd -r -g bbadmin bbadmin 
+RUN addgroup -S bbadmin && adduser -S bbadmin -G bbadmin 
 
 # Creating working directory
 RUN mkdir -p /app/
@@ -19,8 +22,17 @@ COPY . /app
 
 USER bbadmin
 
+#Sourcing the properties file
+RUN source env.properties \
+    && echo "Port: $CLIENT_PORT" > file1.txt
+
+#Building the project
+RUN npm run build:prod
+
+RUN cat file1.txt
+
 # Setting Port
 EXPOSE 8080
 
 # Running the server
-CMD ["npm","run","start:prod"]
+CMD ["npm","run","start"]
