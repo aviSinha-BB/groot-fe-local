@@ -924,6 +924,10 @@ class SaveTempNameTwo extends Component {
         this.setState({ xlsFileName: e.target.files[0].name });
     }
 
+    handleChangeComment = commentVal => e => {
+        this.setState({ [commentVal]: e.target.value });
+    }
+
     handleUploadedXLSDownload = (tempid) => {
         this.setState({ loading: true, errorDownload: false });
         apitimeout(pendingTimeout, fetch(this.state.clientHost + templateAPI + "/download/" + tempid, {
@@ -1025,6 +1029,7 @@ class SaveTempNameTwo extends Component {
                                 className="productid-multi"
                                 value={this.state.pids}
                                 onChange={this.handleChangeId}
+                                getOptionLabel={(option) => option['displayName']}
                                 isClearable={true}
                                 menuIsOpen={false}
                                 isSearchable={false}

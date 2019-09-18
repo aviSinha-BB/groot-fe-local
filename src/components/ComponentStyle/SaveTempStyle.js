@@ -67,6 +67,9 @@ export const styles = theme => ({
     uploadInputStyle: {
         display: 'none'
     },
+    uploadInputStyle: {
+        display: 'none'
+    },
     dialogStyle: {
         opacity: '0.5',
         backgroundColor: '#EFEFEF',
