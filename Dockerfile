@@ -20,13 +20,11 @@ COPY package*.json ./
 RUN npm install
 COPY . /app
 
+#Assigning User
 USER bbadmin
 
-#Sourcing the properties file
-RUN source env.properties
-
-#Building the project
-RUN npm run build:prod
+#Setting env and building source code
+RUN cat env.properties >> ~/.bashrc && source ~/.bashrc && npm run build:prod
 
 # Setting Port
 EXPOSE 8080
