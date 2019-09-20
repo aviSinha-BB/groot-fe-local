@@ -2,6 +2,10 @@ export const styles = theme => ({
     root: {
       marginTop: 10
     },
+    wrapper: {
+      display: 'flex',
+      justifyContent: 'space-between'
+    },
     rootTwo: {
       opacity: '0.5',
       backgroundColor: '#EFEFEF',
@@ -18,6 +22,11 @@ export const styles = theme => ({
     imgStyle: {
       cursor: 'grab',
       paddingLeft: 10
+    },
+    IconStyle: {
+      fontSize: 20,
+      opacity: 0.9,
+      marginRight: 15
     },
     buttonUploadStyle: {
       height: '40px',
