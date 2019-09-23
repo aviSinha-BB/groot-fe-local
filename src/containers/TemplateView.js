@@ -173,14 +173,14 @@ class TemplateView extends Component {
     render() {
 
         return (
-            <div>
+            <React.Fragment>
                 {this.state.loading && <Loader />}
                 <Suspense fallback={Loader}>
                     {this.getBlockComponent(this.state.current_props)}
                 </Suspense>
                 {this.state.errorSnack && <ErrorToast message="Error in Processing" />}
                 {this.state.errorSnackTwo && <ErrorToast message="Error in Processing" />}
-            </div>
+            </React.Fragment>
         );
     }
 }

@@ -35,7 +35,7 @@ class App extends Component {
 
     render() {
         return (
-            <div>
+            <React.Fragment>
                 <ErrorBoundary>
                     <Navbar togglePerm={this.props.togglePerm} />
                     <Suspense fallback={Loader}>
@@ -50,7 +50,7 @@ class App extends Component {
                         </Switch>
                     </Suspense>
                 </ErrorBoundary>
-            </div>
+            </React.Fragment>
         );
     }
 }
