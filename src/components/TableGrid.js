@@ -434,7 +434,7 @@ class TableGrid extends Component {
         let dateObj = new Date();
 
         return (
-            <div>
+            <React.Fragment>
                 {this.state.loading && <Loader />}
                 <MuiThemeProvider theme={theme}>
                     <MaterialTable
@@ -698,7 +698,7 @@ class TableGrid extends Component {
                 {this.state.warningCloneSnackTwo && <WarningToast message="The Name Contains Capital Letters" />}
                 {this.state.warningCloneSnackThree && <WarningToast message="The Name Cannot be Empty" />}
                 {this.state.errorDownload && <ErrorToast message="Error while downloading" />}
-            </div>
+            </React.Fragment>
         );
     }
 }

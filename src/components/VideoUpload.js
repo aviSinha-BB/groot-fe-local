@@ -39,7 +39,7 @@ class VideoUpload extends Component {
     const { classes } = this.props;
 
     return (
-      <form>
+      <React.Fragment>
         <Tooltip title={longText} placement="right">
           <TextField
             id="vidstr-multiline"
@@ -54,7 +54,7 @@ class VideoUpload extends Component {
             required
           />
         </Tooltip>
-      </form>
+      </React.Fragment>
     );
   }
 }
