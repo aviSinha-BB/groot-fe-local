@@ -50,6 +50,7 @@ app.post(main_config.grootHost + "/userspermission", (req, res, next) => {
     if (checkAuth(req.get('Authorization'))) {
         console.log("[Content_Fe_WAPI]: Requested Group from Workflow: ", req.body.groups);
         const bbSignkey = bbsign.generate_bbsign(main_config.signKey, ['group_name'], [groups]);
+        console.log("[Content_Fe_WAPI]: BB SignKey: ", bbSignkey);
         axios({
             method: 'post',
             url: main_config.monolithHost + main_config.getGroupUserUrl,
