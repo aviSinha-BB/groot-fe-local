@@ -65,6 +65,8 @@ class TableGrid extends Component {
         super(props);
         this.state = {
             tableData: [],
+            tablePageNo: 0,
+            tableTotalData: 0,
             open: false,
             successCloneSnack: false,
             errorCloneSnack: false,
@@ -86,6 +88,9 @@ class TableGrid extends Component {
             htmlLocation: '',
             clientHost: null,
             name: '',
+            tableDataUrl: '',
+            pagingOptions: new Map([[1, 0]]),
+            searchFlag: false,
             productAction: 'override',
             excelFile: null,
             loading: false
@@ -99,45 +104,13 @@ class TableGrid extends Component {
         this.setState({ clientHost: host });
         var url_get = url.split("apluscontent/")[1];
         var table_url = '';
-        this.setState({ loading: true, overallErrorFive: false });
 
         if (url_get.includes('all'))
-            table_url = host + templateAPI + "/all";
+            table_url = templateAPI + "/all";
         else
-            table_url = host + templateAPI + "/";
+            table_url = templateAPI + "/";
 
-        apitimeout(pendingTimeout, fetch(table_url, {
-            method: "GET",
-            headers: {
-                "Content-Type": "application/json",
-                "X-Requested-With": "XMLHttpRequest",
-                [AuthKey]: localStorage.getItem('token')
-            }
-        }).then(response => {
-            if (response.status == 200)
-                return response.json();
-            else {
-                throw Error(response.statusText);
-            }
-        }))
-            .then(result => {
-                this.setState({ loading: false });
-                if (result) {
-                    this.setState({ tableData: result.data });
-                }
-                else {
-                    this.setState({ tableData: [] });
-                }
-            })
-            .catch((error) => {
-                this.setState({ overallErrorFive: true, loading: false });
-                setTimeout(() => {
-                    this.setState({
-                        overallErrorFive: false
-                    })
-                }, timeout)
-                console.log('Looks like there was a problem in finding table data \n');
-            });
+        this.setState({ tableDataUrl: table_url });
     };
 
     handleClickOpen = () => {
@@ -196,7 +169,7 @@ class TableGrid extends Component {
                     this.setState({
                         successUnpublishSnack: false
                     });
-                    window.location.replace(this.state.clientHost+grootHost+'/all');
+                    window.location.replace(this.state.clientHost + grootHost + '/all');
                 }, timeout);
             }
             else {
@@ -242,7 +215,7 @@ class TableGrid extends Component {
                             this.setState({
                                 successUpload: false
                             });
-                            window.location.replace(this.state.clientHost+grootHost+'/all');
+                            window.location.replace(this.state.clientHost + grootHost + '/all');
                         }, timeout);
                     }
                     else {
@@ -374,7 +347,7 @@ class TableGrid extends Component {
                                     this.setState({
                                         successCloneSnack: false
                                     });
-                                    window.location.replace(this.state.clientHost+grootHost+'/');
+                                    window.location.replace(this.state.clientHost + grootHost + '/');
                                 }, timeout);
                             }
                             else {
@@ -491,7 +464,7 @@ class TableGrid extends Component {
                                         var permissionArr = localStorage.getItem('userPermission').split(',');
                                         permissionArr.forEach(function (permVal) {
                                             var tempVal = permissionActionMap.get(permVal);
-                                            if(tempVal !== undefined) {
+                                            if (tempVal !== undefined) {
                                                 tempVal.forEach(function (element) {
                                                     permActions.add(element)
                                                 });
@@ -561,11 +534,99 @@ class TableGrid extends Component {
                                 }
                             },
                         ]}
-                        data={this.state.tableData}
+                        data={query =>
+                            query.search ?
+                                new Promise((resolve, reject) => {
+                                    var srch = new RegExp(query.search, "gi");
+                                    var searchVal = [];
+                                    var res = this.state.tableData;
+                                    this.setState({ searchFlag: true });
+                                    Object.keys(res).forEach(function (key) {
+                                        if (res[key].templateName.match(srch)) {
+                                            searchVal.push(res[key]);
+                                        }
+                                    });
+                                    if (searchVal) {
+                                        resolve({
+                                            data: searchVal,
+                                            page: this.state.tablePageNo - 1,
+                                            totalCount: this.state.tableTotalData,
+                                        })
+                                    }
+                                    else {
+                                        reject({
+                                            data: [],
+                                            page: this.state.tablePageNo - 1,
+                                            totalCount: this.state.tableTotalData,
+                                        })
+                                    }
+                                }) :
+                                new Promise((resolve, reject) => {
+                                    let table_url = this.state.tableDataUrl;
+                                    let draftIndex = 0;
+                                    if (this.state.searchFlag) {
+                                        query.page = this.state.tablePageNo - 1;
+                                        this.setState({ searchFlag: false });
+                                    }
+                                    if (this.state.pagingOptions.has(query.page)) {
+                                        draftIndex = this.state.pagingOptions.get(query.page);
+                                    }
+                                    table_url += '?per_page=' + (query.pageSize);
+                                    table_url += '&page=' + (query.page + 1);
+                                    table_url += '&index=' + draftIndex;
+                                    this.setState({ loading: true });
+                                    apitimeout(pendingTimeout, fetch(table_url, {
+                                        method: "GET",
+                                        headers: {
+                                            "Content-Type": "application/json",
+                                            [AuthKey]: localStorage.getItem('token')
+                                        }
+                                    }).then(response => {
+                                        if (response.status == 200)
+                                            return response.json();
+                                        else
+                                            throw Error(response.status);
+                                    }))
+                                        .then(result => {
+                                            if (result) {
+                                                this.setState({ loading: false, tableData: result.data, tablePageNo: result.page, tableTotalData: result.total });
+                                                if (!this.state.pagingOptions.has(query.page + 1) || this.state.pagingOptions.get(query.page + 1) !== result.draft_Index) {
+                                                    this.state.pagingOptions.set(query.page + 1, result.draft_Index)
+                                                }
+                                                resolve({
+                                                    data: result.data,
+                                                    page: result.page - 1,
+                                                    totalCount: result.total,
+                                                })
+                                            }
+                                            else {
+                                                throw Error(response.status);
+                                            }
+                                        }).catch((error) => {
+                                            this.setState({ overallErrorFive: true, loading: false });
+                                            setTimeout(() => {
+                                                this.setState({
+                                                    overallErrorFive: false
+                                                })
+                                            }, timeout);
+                                            reject([]);
+                                        });
+                                })
+                        }
+                        components={{
+                            OverlayLoading: props => (<div></div>)
+                        }}
+                        icons={{
+                            LastPage: props => (<span></span>)
+                        }}
+                        localization={{
+                            pagination: {
+                                lastTooltip: ''
+                            }
+                        }}
                         options={{
-                            pageSize: pageListSize,
-                            search: false,
-                            paging: false,
+                            pageSizeOptions: [10],
+                            pageSize: 10,
                             headerStyle: {
                                 fontFamily: "ProximaNova-Regular"
                             },
