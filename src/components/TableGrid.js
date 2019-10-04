@@ -106,9 +106,9 @@ class TableGrid extends Component {
         var table_url = '';
 
         if (url_get.includes('all'))
-            table_url = templateAPI + "/all";
+            table_url = host + templateAPI + "/all";
         else
-            table_url = templateAPI + "/";
+            table_url = host + templateAPI + "/";
 
         this.setState({ tableDataUrl: table_url });
     };
