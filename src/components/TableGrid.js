@@ -625,8 +625,8 @@ class TableGrid extends Component {
                             }
                         }}
                         options={{
-                            pageSizeOptions: [50],
-                            pageSize: 50,
+                            pageSizeOptions: [20],
+                            pageSize: 20,
                             headerStyle: {
                                 fontFamily: "ProximaNova-Regular"
                             },
