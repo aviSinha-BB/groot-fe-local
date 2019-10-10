@@ -30,8 +30,10 @@ function checkAuth(authStr) {
     else {
         if (authStr.includes("Basic")) {
             var encodedAuthVal = authStr.split("Basic ")[1];
+            console.log("[Content_Fe_WAPI]: Encoded Auth Value: ", encodedAuthVal);
             var decodedAuthVal = base64.decode(encodedAuthVal);
-
+            console.log("[Content_Fe_WAPI]: BasicAuth Value in config: ", main_config.BasicAuthVal);
+            console.log("[Content_Fe_WAPI]: Decoded Auth Value: ", decodedAuthVal);
             if (decodedAuthVal === main_config.BasicAuthVal)
                 return true;
             else
@@ -47,6 +49,7 @@ const formUrlEncoded = x =>
 
 app.post(main_config.grootHost + "/userspermission", (req, res, next) => {
     const groups = req.body.groups;
+    console.log("[Content_Fe_WAPI]: Authorization header received: ", req.get('Authorization'));
     if (checkAuth(req.get('Authorization'))) {
         console.log("[Content_Fe_WAPI]: Requested Group from Workflow: ", req.body.groups);
         const bbSignkey = bbsign.generate_bbsign(main_config.signKey, ['group_name'], [groups]);
