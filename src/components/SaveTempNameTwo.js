@@ -552,7 +552,7 @@ class SaveTempNameTwo extends Component {
 
         this.setState({ loading: true, successDraftSnack: false, errorDraftSnack: false });
         apitimeout(pendingTimeout, fetch(this.state.clientHost + templateAPI + "/draft/", {
-            method: "PUT",
+            method: "POST",
             headers: {
                 [AuthKey]: localStorage.getItem('token'),
                 "X-Requested-With": "XMLHttpRequest"
