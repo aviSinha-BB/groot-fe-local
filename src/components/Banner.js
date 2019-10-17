@@ -86,7 +86,7 @@ class Banner extends Component {
         this.setState({ loading: false });
         if (result.location) {
           this.setState({
-            imgSrc: this.state.clientHost + result.location
+            imgSrc: imageDomain + result.location
           })
         }
         else {

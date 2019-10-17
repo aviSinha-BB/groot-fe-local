@@ -90,7 +90,7 @@ module.exports = {
       "FroalaKey": JSON.stringify(process.env.FROALA_KEY),
       "timeout": JSON.stringify(process.env.TIMEOUT),
       "pendingTimeout": JSON.stringify(process.env.PENDING_TIMEOUT),
-      "pageListSize": JSON.stringify(process.env.PAGE_LIST_SIZE),
+      "imageDomain": JSON.stringify(process.env.IMAGE_DOMAIN),
       "templateAPI": JSON.stringify(process.env.TEMPLATE_API),
       "getGroupUserUrl": JSON.stringify(process.env.GET_GROUP_USER_URL)
     }),
