@@ -203,6 +203,14 @@ class TemplateTwo extends Component {
             imgsrcSevenvalue: placeholderThree,
             imgsrcEightvalue: placeholderThree,
             imgsrcNinevalue: placeholderThree,
+            imgAltTwovalue: null,
+            imgAltThreevalue: null,
+            imgAltFourvalue: null,
+            imgAltFivevalue: null,
+            imgAltSixvalue: null,
+            imgAltSevenvalue: null,
+            imgAltEightvalue: null,
+            imgAltNinevalue: null,
             paravalue: 'This juicy, delicious and mouth-watering fruit comes from Ratnagiri. Alphonso Mango, also known as “King of Mangoes” is a premium qualitymango in terms of sweetness, richness and flavour. It is famous for its unique fragrance. Product image shown is for representation purpose only, the actual product may vary based on season, produce &amp; availability.This juicy, delicious and mouth-watering fruit comes from Ratnagiri. Alphonso Mango, also known as “King of Mangoes” is a premium quality mango in terms of sweetness, richness and flavour. It is famous for its unique fragrance. Product image shown is for representation purpose only, the actual product may vary based on season, produce &amp; availability.',                              //paragraph value
             paraTwovalue: 'This juicy, delicious and mouth-watering fruit comes from Ratnagiri. Alphonso Mango, also known as “King of Mangoes” is a premium qualitymango in terms of sweetness, richness and flavour. It is famous for its unique fragrance. Product image shown is for representation purpose only, the actual product may vary based on season, produce &amp; availability.This juicy, delicious and mouth-watering fruit comes from Ratnagiri. Alphonso Mango, also known as “King of Mangoes” is a premium quality mango in terms of sweetness, richness and flavour. It is famous for its unique fragrance. Product image shown is for representation purpose only, the actual product may vary based on season, produce &amp; availability.',
             paraThreevalue: 'This juicy, delicious and mouth-watering fruit comes from Ratnagiri. Alphonso Mango, also known as “King of Mangoes” is a premium qualitymango in terms of sweetness, richness and flavour. It is famous for its unique fragrance. Product image shown is for representation purpose only, the actual product may vary based on season, produce &amp; availability.This juicy, delicious and mouth-watering fruit comes from Ratnagiri. Alphonso Mango, also known as “King of Mangoes” is a premium quality mango in terms of sweetness, richness and flavour. It is famous for its unique fragrance. Product image shown is for representation purpose only, the actual product may vary based on season, produce &amp; availability.',
@@ -269,63 +277,56 @@ class TemplateTwo extends Component {
                 toggleSectionZero: this.state.pageData.hiT.visible,
                 headingTwovalue: this.state.pageData.hihspM.heading,
                 imgsrcTwovalue: this.state.pageData.hihspM.imageSrc,
+                imgAltTwovalue: this.state.pageData.hihspM.imageAlt,
                 anotherHeadingvalue: this.state.pageData.hihspM.anotherHeading,
                 subheadingvalue: this.state.pageData.hihspM.subHeading,
                 paravalue: this.state.pageData.hihspM.paragraph,
                 toggleSectionOne: this.state.pageData.hihspM.visible,
                 headingThreevalue: this.state.pageData.ispLT.heading,
                 imgsrcThreevalue: this.state.pageData.hspihB.imageSrc,
+                imgAltThreevalue: this.state.pageData.hspihB.imageAlt,
                 anotherHeadingTwovalue: this.state.pageData.hspihB.anotherHeading,
                 subheadingTwovalue: this.state.pageData.hspihB.subHeading,
                 paraTwovalue: this.state.pageData.hspihB.paragraph,
                 toggleSectionTwo: this.state.pageData.hspihB.visible,
                 imgsrcFourvalue: this.state.pageData.ispLT.imageSrc,
+                imgAltFourvalue: this.state.pageData.ispLT.imageAlt,
                 subheadingThreevalue: this.state.pageData.ispLT.subHeading,
                 paraThreevalue: this.state.pageData.ispLT.paragraph,
                 toggleSectionThree: this.state.pageData.ispLT.visible,
                 imgsrcFivevalue: this.state.pageData.ispMT.imageSrc,
+                imgAltFivevalue: this.state.pageData.ispMT.imageAlt,
                 subheadingFourvalue: this.state.pageData.ispMT.subHeading,
                 paraFourvalue: this.state.pageData.ispMT.paragraph,
                 toggleSectionFour: this.state.pageData.ispMT.visible,
                 imgsrcSixvalue: this.state.pageData.ispRT.imageSrc,
+                imgAltSixvalue: this.state.pageData.ispRT.imageAlt,
                 subheadingFivevalue: this.state.pageData.ispRT.subHeading,
                 paraFivevalue: this.state.pageData.ispRT.paragraph,
                 toggleSectionFive: this.state.pageData.ispRT.visible,
                 imgsrcSevenvalue: this.state.pageData.ispLB.imageSrc,
+                imgAltSevenvalue: this.state.pageData.ispLB.imageAlt,
                 subheadingSixvalue: this.state.pageData.ispLB.subHeading,
                 paraSixvalue: this.state.pageData.ispLB.paragraph,
                 toggleSectionSix: this.state.pageData.ispLB.visible,
                 imgsrcEightvalue: this.state.pageData.ispMB.imageSrc,
+                imgAltEightvalue: this.state.pageData.ispMB.imageAlt,
                 subheadingSevenvalue: this.state.pageData.ispMB.subHeading,
                 paraSevenvalue: this.state.pageData.ispMB.paragraph,
                 toggleSectionSeven: this.state.pageData.ispMB.visible,
                 imgsrcNinevalue: this.state.pageData.ispRB.imageSrc,
+                imgAltNinevalue: this.state.pageData.ispRB.imageAlt,
                 subheadingEightvalue: this.state.pageData.ispRB.subHeading,
                 paraEightvalue: this.state.pageData.ispRB.paragraph,
                 toggleSectionEight: this.state.pageData.ispRB.visible,
                 taskId: this.state.pageData.metaData.taskId
             }, () => {
-                this.handlingAltImage("placedImageTwo", this.state.imgsrcTwovalue);
-                this.handlingAltImage("placedImageThree", this.state.imgsrcThreevalue);
-                this.handlingAltImage("placedImageFour", this.state.imgsrcFourvalue);
-                this.handlingAltImage("placedImageFive", this.state.imgsrcFivevalue);
-                this.handlingAltImage("placedImageSix", this.state.imgsrcSixvalue);
-                this.handlingAltImage("placedImageSeven", this.state.imgsrcSevenvalue);
-                this.handlingAltImage("placedImageEight", this.state.imgsrcEightvalue);
-                this.handlingAltImage("placedImageNine", this.state.imgsrcNinevalue);
                 this.handleDeleteSection("initial-mount");
             });
         }
         else {
             this.setState({ loading: false });
         }
-    }
-
-    //setting alt text
-    handlingAltImage = (section, source) => {
-        var imgNameExt = source.split("images/")[1];
-        var imgName = imgNameExt.split(".")[0];
-        document.getElementById(section).alt = imgName;
     }
 
     //setting the value of header
@@ -415,6 +416,39 @@ class TemplateTwo extends Component {
         this.setState({ paraEightvalue: parag });
     }
 
+    //setting the alt value
+    updateAltTwo = (altval) => {
+        this.setState({ imgAltTwovalue: altval });
+    }
+
+    updateAltThree = (altval) => {
+        this.setState({ imgAltThreevalue: altval });
+    }
+
+    updateAltFour = (altval) => {
+        this.setState({ imgAltFourvalue: altval });
+    }
+
+    updateAltFive = (altval) => {
+        this.setState({ imgAltFivevalue: altval });
+    }
+
+    updateAltSix = (altval) => {
+        this.setState({ imgAltSixvalue: altval });
+    }
+
+    updateAltSeven = (altval) => {
+        this.setState({ imgAltSevenvalue: altval });
+    }
+
+    updateAltEight = (altval) => {
+        this.setState({ imgAltEightvalue: altval });
+    }
+
+    updateAltNine = (altval) => {
+        this.setState({ imgAltNinevalue: altval });
+    }
+
     updateBannerTwo = (srcval) => {
         this.setState({ imgsrcTwovalue: srcval });
     }
@@ -464,9 +498,6 @@ class TemplateTwo extends Component {
         e.preventDefault();
         var data = e.dataTransfer.getData("bmd");
         var source = document.getElementById(data).src;
-        var imgNameExt = source.split("images/")[1];
-        var imgName = imgNameExt.split(".")[0];
-        document.getElementById("placedImageTwo").alt = imgName;
         document.getElementById("placedImageTwo").src = source;
 
         this.updateBannerTwo(source);
@@ -476,9 +507,6 @@ class TemplateTwo extends Component {
         e.preventDefault();
         var data = e.dataTransfer.getData("bmd");
         var source = document.getElementById(data).src;
-        var imgNameExt = source.split("images/")[1];
-        var imgName = imgNameExt.split(".")[0];
-        document.getElementById("placedImageThree").alt = imgName;
         document.getElementById("placedImageThree").src = source;
 
         this.updateBannerThree(source);
@@ -488,9 +516,6 @@ class TemplateTwo extends Component {
         e.preventDefault();
         var data = e.dataTransfer.getData("bsm");
         var source = document.getElementById(data).src;
-        var imgNameExt = source.split("images/")[1];
-        var imgName = imgNameExt.split(".")[0];
-        document.getElementById("placedImageFour").alt = imgName;
         document.getElementById("placedImageFour").src = source;
 
         this.updateBannerFour(source);
@@ -500,9 +525,6 @@ class TemplateTwo extends Component {
         e.preventDefault();
         var data = e.dataTransfer.getData("bsm");
         var source = document.getElementById(data).src;
-        var imgNameExt = source.split("images/")[1];
-        var imgName = imgNameExt.split(".")[0];
-        document.getElementById("placedImageFive").alt = imgName;
         document.getElementById("placedImageFive").src = source;
 
         this.updateBannerFive(source);
@@ -512,9 +534,6 @@ class TemplateTwo extends Component {
         e.preventDefault();
         var data = e.dataTransfer.getData("bsm");
         var source = document.getElementById(data).src;
-        var imgNameExt = source.split("images/")[1];
-        var imgName = imgNameExt.split(".")[0];
-        document.getElementById("placedImageSix").alt = imgName;
         document.getElementById("placedImageSix").src = source;
 
         this.updateBannerSix(source);
@@ -524,9 +543,6 @@ class TemplateTwo extends Component {
         e.preventDefault();
         var data = e.dataTransfer.getData("bsm");
         var source = document.getElementById(data).src;
-        var imgNameExt = source.split("images/")[1];
-        var imgName = imgNameExt.split(".")[0];
-        document.getElementById("placedImageSeven").alt = imgName;
         document.getElementById("placedImageSeven").src = source;
 
         this.updateBannerSeven(source);
@@ -536,9 +552,6 @@ class TemplateTwo extends Component {
         e.preventDefault();
         var data = e.dataTransfer.getData("bsm");
         var source = document.getElementById(data).src;
-        var imgNameExt = source.split("images/")[1];
-        var imgName = imgNameExt.split(".")[0];
-        document.getElementById("placedImageEight").alt = imgName;
         document.getElementById("placedImageEight").src = source;
 
         this.updateBannerEight(source);
@@ -548,9 +561,6 @@ class TemplateTwo extends Component {
         e.preventDefault();
         var data = e.dataTransfer.getData("bsm");
         var source = document.getElementById(data).src;
-        var imgNameExt = source.split("images/")[1];
-        var imgName = imgNameExt.split(".")[0];
-        document.getElementById("placedImageNine").alt = imgName;
         document.getElementById("placedImageNine").src = source;
 
         this.updateBannerNine(source);
@@ -1835,22 +1845,22 @@ class TemplateTwo extends Component {
                                     updateParaSeven={this.updateParaSeven}
                                     paraEightvalue={this.state.paraEightvalue}
                                     updateParaEight={this.updateParaEight}
-                                    imgsrcTwovalue={this.state.imgsrcTwovalue}
-                                    updateBannerTwo={this.updateBannerTwo}
-                                    imgsrcThreevalue={this.state.imgsrcThreevalue}
-                                    updateBannerThree={this.updateBannerThree}
-                                    imgsrcFourvalue={this.state.imgsrcFourvalue}
-                                    updateBannerFour={this.updateBannerFour}
-                                    imgsrcFivevalue={this.state.imgsrcFivevalue}
-                                    updateBannerFive={this.updateBannerFive}
-                                    imgsrcSixvalue={this.state.imgsrcSixvalue}
-                                    updateBannerSix={this.updateBannerSix}
-                                    imgsrcSevenvalue={this.state.imgsrcSevenvalue}
-                                    updateBannerSeven={this.updateBannerSeven}
-                                    imgsrcEightvalue={this.state.imgsrcEightvalue}
-                                    updateBannerEight={this.updateBannerEight}
-                                    imgsrcNinevalue={this.state.imgsrcNinevalue}
-                                    updateBannerNine={this.updateBannerNine}
+                                    imgAltTwovalue={this.state.imgAltTwovalue}
+                                    updateAltTwo={this.updateAltTwo}
+                                    imgAltThreevalue={this.state.imgAltThreevalue}
+                                    updateAltThree={this.updateAltThree}
+                                    imgAltFourvalue={this.state.imgAltFourvalue}
+                                    updateAltFour={this.updateAltFour}
+                                    imgAltFivevalue={this.state.imgAltFivevalue}
+                                    updateAltFive={this.updateAltFive}
+                                    imgAltSixvalue={this.state.imgAltSixvalue}
+                                    updateAltSix={this.updateAltSix}
+                                    imgAltSevenvalue={this.state.imgAltSevenvalue}
+                                    updateAltSeven={this.updateAltSeven}
+                                    imgAltEightvalue={this.state.imgAltEightvalue}
+                                    updateAltEight={this.updateAltEight}
+                                    imgAltNinevalue={this.state.imgAltNinevalue}
+                                    updateAltNine={this.updateAltNine}
                                     videoStr={this.state.videoStr}
                                     updateVideo={this.updateVideo}
                                     tempComponent={this.props.tempComponent}
@@ -1926,7 +1936,7 @@ class TemplateTwo extends Component {
                                                     activeBannerTwo={this.state.activeBannerTwo}
                                                     onClick={this.editBannerTwo}
                                                     className="half-view-img"
-                                                    alt
+                                                    alt={this.state.imgAltTwovalue}
                                                 />
                                             </ActivePara>
                                             <div>
@@ -1996,7 +2006,7 @@ class TemplateTwo extends Component {
                                                     activeBannerThree={this.state.activeBannerThree}
                                                     onClick={this.editBannerThree}
                                                     className="half-view-img"
-                                                    alt
+                                                    alt={this.state.imgAltThreevalue}
                                                 />
                                             </ActivePara>
                                         </div>
@@ -2030,7 +2040,7 @@ class TemplateTwo extends Component {
                                                         activeBannerFour={this.state.activeBannerFour}
                                                         onClick={this.editBannerFour}
                                                         className="small-view-img"
-                                                        alt
+                                                        alt={this.state.imgAltFourvalue}
                                                     />
                                                 </ActivePara>
                                                 <ActiveSubHeaderThree
@@ -2060,7 +2070,7 @@ class TemplateTwo extends Component {
                                                         activeBannerFive={this.state.activeBannerFive}
                                                         onClick={this.editBannerFive}
                                                         className="small-view-img"
-                                                        alt
+                                                        alt={this.state.imgAltFivevalue}
                                                     />
                                                 </ActivePara>
                                                 <ActiveSubHeaderFour
@@ -2090,7 +2100,7 @@ class TemplateTwo extends Component {
                                                         activeBannerSix={this.state.activeBannerSix}
                                                         onClick={this.editBannerSix}
                                                         className="small-view-img"
-                                                        alt
+                                                        alt={this.state.imgAltSixvalue}
                                                     />
                                                 </ActivePara>
                                                 <ActiveSubHeaderFive
@@ -2132,7 +2142,7 @@ class TemplateTwo extends Component {
                                                         activeBannerSeven={this.state.activeBannerSeven}
                                                         onClick={this.editBannerSeven}
                                                         className="small-view-img"
-                                                        alt
+                                                        alt={this.state.imgAltSevenvalue}
                                                     />
                                                 </ActivePara>
                                                 <ActiveSubHeaderSix
@@ -2162,7 +2172,7 @@ class TemplateTwo extends Component {
                                                         activeBannerEight={this.state.activeBannerEight}
                                                         onClick={this.editBannerEight}
                                                         className="small-view-img"
-                                                        alt
+                                                        alt={this.state.imgAltEightvalue}
                                                     />
                                                 </ActivePara>
                                                 <ActiveSubHeaderSeven
@@ -2192,7 +2202,7 @@ class TemplateTwo extends Component {
                                                         activeBannerNine={this.state.activeBannerNine}
                                                         onClick={this.editBannerNine}
                                                         className="small-view-img"
-                                                        alt
+                                                        alt={this.state.imgAltNinevalue}
                                                     />
                                                 </ActivePara>
                                                 <ActiveSubHeaderEight

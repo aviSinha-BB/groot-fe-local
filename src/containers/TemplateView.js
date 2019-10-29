@@ -53,6 +53,7 @@ class TemplateView extends Component {
                             hT = {
                                 heading: result.data.hiT.heading,
                                 imageSrc: result.data.hiT.imageSrc,
+                                imageAlt: result.data.hiT.imageAlt,
                                 visible: result.data.hiT.visible
                             };
                         }
@@ -70,6 +71,7 @@ class TemplateView extends Component {
                                 hihspM: {
                                     heading: result.data.hihspM.heading,
                                     imageSrc: result.data.hihspM.imageSrc,
+                                    imageAlt: result.data.hihspM.imageAlt,
                                     anotherHeading: result.data.hihspM.anotherHeading,
                                     subHeading: result.data.hihspM.subHeading,
                                     paragraph: result.data.hihspM.paragraph,
@@ -80,41 +82,48 @@ class TemplateView extends Component {
                                     subHeading: result.data.hspihB.subHeading,
                                     paragraph: result.data.hspihB.paragraph,
                                     imageSrc: result.data.hspihB.imageSrc,
+                                    imageAlt: result.data.hspihB.imageAlt,
                                     visible: result.data.hspihB.visible
                                 },
                                 ispLT: {
                                     heading: result.data.ispLT.heading,
                                     imageSrc: result.data.ispLT.imageSrc,
+                                    imageAlt: result.data.ispLT.imageAlt,
                                     subHeading: result.data.ispLT.subHeading,
                                     paragraph: result.data.ispLT.paragraph,
                                     visible: result.data.ispLT.visible
                                 },
                                 ispMT: {
                                     imageSrc: result.data.ispMT.imageSrc,
+                                    imageAlt: result.data.ispMT.imageAlt,
                                     subHeading: result.data.ispMT.subHeading,
                                     paragraph: result.data.ispMT.paragraph,
                                     visible: result.data.ispMT.visible
                                 },
                                 ispRT: {
                                     imageSrc: result.data.ispRT.imageSrc,
+                                    imageAlt: result.data.ispRT.imageAlt,
                                     subHeading: result.data.ispRT.subHeading,
                                     paragraph: result.data.ispRT.paragraph,
                                     visible: result.data.ispRT.visible
                                 },
                                 ispLB: {
                                     imageSrc: result.data.ispLB.imageSrc,
+                                    imageAlt: result.data.ispLB.imageAlt,
                                     subHeading: result.data.ispLB.subHeading,
                                     paragraph: result.data.ispLB.paragraph,
                                     visible: result.data.ispLB.visible
                                 },
                                 ispMB: {
                                     imageSrc: result.data.ispMB.imageSrc,
+                                    imageAlt: result.data.ispMB.imageAlt,
                                     subHeading: result.data.ispMB.subHeading,
                                     paragraph: result.data.ispMB.paragraph,
                                     visible: result.data.ispMB.visible
                                 },
                                 ispRB: {
                                     imageSrc: result.data.ispRB.imageSrc,
+                                    imageAlt: result.data.ispRB.imageAlt,
                                     subHeading: result.data.ispRB.subHeading,
                                     paragraph: result.data.ispRB.paragraph,
                                     visible: result.data.ispRB.visible

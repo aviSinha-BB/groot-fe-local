@@ -53,6 +53,15 @@ class ToolsPanel extends Component {
                     imgsrcNinevalue={this.props.imgsrcNinevalue}
                     tempComponent={this.props.tempComponent}
                     taskId={this.props.taskId}
+                    imgAltvalue={this.props.imgAltvalue}
+                    imgAltTwovalue={this.props.imgAltTwovalue}
+                    imgAltThreevalue={this.props.imgAltThreevalue}
+                    imgAltFourvalue={this.props.imgAltFourvalue}
+                    imgAltFivevalue={this.props.imgAltFivevalue}
+                    imgAltSixvalue={this.props.imgAltSixvalue}
+                    imgAltSevenvalue={this.props.imgAltSevenvalue}
+                    imgAltEightvalue={this.props.imgAltEightvalue}
+                    imgAltNinevalue={this.props.imgAltNinevalue}
                     toggleSectionZero={this.props.toggleSectionZero}
                     toggleSectionOne={this.props.toggleSectionOne}
                     toggleSectionTwo={this.props.toggleSectionTwo}
@@ -100,6 +109,14 @@ class ToolsPanel extends Component {
                     videoStr={this.props.videoStr}
                     tempComponent={this.props.tempComponent}
                     taskId={this.props.taskId}
+                    imgAltTwovalue={this.props.imgAltTwovalue}
+                    imgAltThreevalue={this.props.imgAltThreevalue}
+                    imgAltFourvalue={this.props.imgAltFourvalue}
+                    imgAltFivevalue={this.props.imgAltFivevalue}
+                    imgAltSixvalue={this.props.imgAltSixvalue}
+                    imgAltSevenvalue={this.props.imgAltSevenvalue}
+                    imgAltEightvalue={this.props.imgAltEightvalue}
+                    imgAltNinevalue={this.props.imgAltNinevalue}
                     toggleSectionZero={this.props.toggleSectionZero}
                     toggleSectionOne={this.props.toggleSectionOne}
                     toggleSectionTwo={this.props.toggleSectionTwo}
@@ -150,72 +167,72 @@ class ToolsPanel extends Component {
             case "banner":
                 formComponent = <Banner aplusname={this.props.aplusname}
                     tempComponent={this.props.tempComponent}
-                    imgsrcvalue={this.props.imgsrcvalue}
-                    updateBanner={this.props.updateBanner}
+                    imgAltvalue={this.props.imgAltvalue}
+                    updateAlt={this.props.updateAlt}
                     bannerType="bannerLg"
                 />;
                 break;
             case "bannerTwo":
                 formComponent = <Banner aplusname={this.props.aplusname}
                     tempComponent={this.props.tempComponent}
-                    imgsrcvalue={this.props.imgsrcTwovalue}
-                    updateBanner={this.props.updateBannerTwo}
+                    imgAltvalue={this.props.imgAltTwovalue}
+                    updateAlt={this.props.updateAltTwo}
                     bannerType="bannerMd"
                 />;
                 break;
             case "bannerThree":
                 formComponent = <Banner aplusname={this.props.aplusname}
                     tempComponent={this.props.tempComponent}
-                    imgsrcvalue={this.props.imgsrcThreevalue}
-                    updateBanner={this.props.updateBannerThree}
+                    imgAltvalue={this.props.imgAltThreevalue}
+                    updateAlt={this.props.updateAltThree}
                     bannerType="bannerMd"
                 />;
                 break;
             case "bannerFour":
                 formComponent = <Banner aplusname={this.props.aplusname}
                     tempComponent={this.props.tempComponent}
-                    imgsrcvalue={this.props.imgsrcFourvalue}
-                    updateBanner={this.props.updateBannerFour}
+                    imgAltvalue={this.props.imgAltFourvalue}
+                    updateAlt={this.props.updateAltFour}
                     bannerType="bannerSm"
                 />;
                 break;
             case "bannerFive":
                 formComponent = <Banner aplusname={this.props.aplusname}
                     tempComponent={this.props.tempComponent}
-                    imgsrcvalue={this.props.imgsrcFivevalue}
-                    updateBanner={this.props.updateBannerFive}
+                    imgAltvalue={this.props.imgAltFivevalue}
+                    updateAlt={this.props.updateAltFive}
                     bannerType="bannerSm"
                 />;
                 break;
             case "bannerSix":
                 formComponent = <Banner aplusname={this.props.aplusname}
                     tempComponent={this.props.tempComponent}
-                    imgsrcvalue={this.props.imgsrcSixvalue}
-                    updateBanner={this.props.updateBannerSix}
+                    imgAltvalue={this.props.imgAltSixvalue}
+                    updateAlt={this.props.updateAltSix}
                     bannerType="bannerSm"
                 />;
                 break;
             case "bannerSeven":
                 formComponent = <Banner aplusname={this.props.aplusname}
                     tempComponent={this.props.tempComponent}
-                    imgsrcvalue={this.props.imgsrcSevenvalue}
-                    updateBanner={this.props.updateBannerSeven}
+                    imgAltvalue={this.props.imgAltSevenvalue}
+                    updateAlt={this.props.updateAltSeven}
                     bannerType="bannerSm"
                 />;
                 break;
             case "bannerEight":
                 formComponent = <Banner aplusname={this.props.aplusname}
                     tempComponent={this.props.tempComponent}
-                    imgsrcvalue={this.props.imgsrcEightvalue}
-                    updateBanner={this.props.updateBannerEight}
+                    imgAltvalue={this.props.imgAltEightvalue}
+                    updateAlt={this.props.updateAltEight}
                     bannerType="bannerSm"
                 />;
                 break;
             case "bannerNine":
                 formComponent = <Banner aplusname={this.props.aplusname}
                     tempComponent={this.props.tempComponent}
-                    imgsrcvalue={this.props.imgsrcNinevalue}
-                    updateBanner={this.props.updateBannerNine}
+                    imgAltvalue={this.props.imgAltNinevalue}
+                    updateAlt={this.props.updateAltNine}
                     bannerType="bannerSm"
                 />;
                 break;

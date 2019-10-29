@@ -3,6 +3,8 @@ import ReactDOM from 'react-dom';
 import { withStyles } from '@material-ui/core/styles';
 import { styles } from './ComponentStyle/BannerStyle';
 import { apitimeout } from './api_timeout';
+import { slugify } from './slugifystring';
+import TextField from '@material-ui/core/TextField';
 import Loader from './Loading';
 import Button from '@material-ui/core/Button';
 import InfoIcon from '@material-ui/icons/Info';
@@ -13,6 +15,8 @@ import WarningToast from './WarningToast';
 const modalRoot = document.getElementById('modal-root');
 
 const bannerInfo = `Image must be jpg, png and less than 1MB`;
+
+const altTextInfo = `Avoid Using Special Characters`;
 
 class Banner extends Component {
   constructor(props) {
@@ -167,6 +171,12 @@ class Banner extends Component {
     }
   }
 
+  handleChangeAltText = (event) => {
+    let altStr = event.target.value;
+    altStr = slugify(altStr);
+    this.props.updateAlt(altStr);
+  }
+
   readURL = (e) => {
     e.preventDefault();
 
@@ -189,6 +199,8 @@ class Banner extends Component {
   render() {
     const { classes } = this.props;
     let imgDmMsg = this.state.warningMessage;
+    let imgAlt = this.props.imgAltvalue ? this.props.imgAltvalue : '';
+
     return (
       <div className={this.state.loading ? classes.rootTwo : classes.root}>
         <div className={classes.wrapper}>
@@ -204,6 +216,32 @@ class Banner extends Component {
           </div>
         </div>
         {this.state.imgSrc && <img id="yourImg" className={classes.imgStyle} src={this.state.imgSrc} height="150" width="265" draggable="true" onDragStart={this.drag} />}
+        <br />
+        <div className={classes.wrapper}>
+          <div className={classes.alt}>
+            <Tooltip title={altTextInfo} placement="right">
+              <TextField
+                id="alt-image-name"
+                label={<span className={classes.labelStyle}>Alt Text for Image</span>}
+                value={imgAlt}
+                className={classes.textField}
+                onChange={this.handleChangeAltText}
+                margin="normal"
+                variant="outlined"
+                autoComplete="off"
+                InputProps={{
+                  classes: {
+                    root: classes.inputContainer,
+                    input: classes.inputStyle
+                  }
+                }}
+                inputProps={{
+                  maxLength: 80
+                }}
+              />
+            </Tooltip>
+          </div>
+        </div>
         <br />
         <Button className={classes.buttonUploadStyle} onClick={this.uploadAction}>Upload</Button>
 
