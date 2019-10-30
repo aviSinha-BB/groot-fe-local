@@ -3,7 +3,6 @@ import ReactDOM from 'react-dom';
 import { withStyles } from '@material-ui/core/styles';
 import { styles } from './ComponentStyle/BannerStyle';
 import { apitimeout } from './api_timeout';
-import { slugify } from './slugifystring';
 import TextField from '@material-ui/core/TextField';
 import Loader from './Loading';
 import Button from '@material-ui/core/Button';
@@ -173,7 +172,6 @@ class Banner extends Component {
 
   handleChangeAltText = (event) => {
     let altStr = event.target.value;
-    altStr = slugify(altStr);
     this.props.updateAlt(altStr);
   }
 
