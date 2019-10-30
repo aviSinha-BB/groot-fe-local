@@ -123,7 +123,7 @@ class Banner extends Component {
       var imgData = new FormData();
       var imageType = this.props.bannerType;
       imgData.append('file', imgfile);
-      fileSize = (imgfile.size) / (imageSize); //filesize will be less than and equal to 1 MB
+      fileSize = imgfile.size;
       fileExtension = fileName.replace(/^.*\./, '');
       imgData.append("metaData", JSON.stringify({
         "templateName": this.props.aplusname,
@@ -131,7 +131,7 @@ class Banner extends Component {
         "action": "draft"
       }));
 
-      if ((fileExtension == 'png' || fileExtension == 'jpg' || fileExtension == 'jpeg') && fileSize <= 1) {
+      if ((fileExtension == 'png' || fileExtension == 'jpg' || fileExtension == 'jpeg') && fileSize <= imageSize) {
         if (imageType == "bannerLg") {
           imgData.append("imageMetaData", JSON.stringify({
             "width": 1200,
