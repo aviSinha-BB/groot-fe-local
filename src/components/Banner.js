@@ -13,7 +13,7 @@ import WarningToast from './WarningToast';
 
 const modalRoot = document.getElementById('modal-root');
 
-const bannerInfo = `Image must be jpg, png and less than 1MB`;
+const bannerInfo = `Image must be jpg, png and less than ` + imageSize/1024 + `KB`;
 
 const altTextInfo = `Avoid Using Special Characters`;
 
@@ -30,6 +30,7 @@ class Banner extends Component {
       warningSnack: false,
       warningSnackTwo: false,
       warningSnackThree: false,
+      warningImageMsg: "Uploaded Image must be jpg,png and less than " + imageSize/1024 + "KB",
       warningMessage: ''
     };
     this.el = document.createElement('div');
@@ -245,7 +246,7 @@ class Banner extends Component {
 
         {this.state.errorSnack && ReactDOM.createPortal(<ErrorToast message="Error in Processing" />, this.el)}
         {this.state.errorSnackTwo && ReactDOM.createPortal(<ErrorToast message="Invalid Image Upload" />, this.el)}
-        {this.state.warningSnack && ReactDOM.createPortal(<WarningToast message="Uploaded Image must be jpg,png and less than 1 MB" />, this.el)}
+        {this.state.warningSnack && ReactDOM.createPortal(<WarningToast message={this.state.warningImageMsg} />, this.el)}
         {this.state.warningSnackTwo && ReactDOM.createPortal(<WarningToast message={imgDmMsg} />, this.el)}
         {this.state.warningSnackThree && ReactDOM.createPortal(<WarningToast message="Please select a image" />, this.el)}
       </div>
