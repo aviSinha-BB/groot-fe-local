@@ -251,7 +251,8 @@ class SaveTempNameTwo extends Component {
         apitimeout(pendingTimeout, fetch(this.state.clientHost + templateAPI + "/change/state/create", {
             method: "POST",
             headers: {
-                [AuthKey]: localStorage.getItem('token')
+                [AuthKey]: localStorage.getItem('token'),
+                "X-Requested-With": "XMLHttpRequest"
             },
             body: formData
         })).then(
@@ -266,6 +267,9 @@ class SaveTempNameTwo extends Component {
                     }, timeout);
                     throw 200;
                 }
+                else if (response.status == 409) {
+                    return response.blob();
+                }
                 else if (response.status == 400) {
                     return response.json();
                 }
@@ -274,35 +278,49 @@ class SaveTempNameTwo extends Component {
                 }
             }
         ).then(result => {
-            let errorResponse = result;
-            let errorMsg = errorResponse.message;
-            if (errorMsg && errorMsg.length > 0) {
-                let errorResp = new Error(errorMsg);
-                errorResp.code = 400;
-                throw errorResp;
-            }
-            else
+            let responseHeader = result.type;
+            if (responseHeader === "application/octet-stream") {
+                const url = window.URL.createObjectURL(new Blob([result]));
+                const link = document.createElement('a');
+                link.href = url;
+                link.setAttribute('download', `wrong_sku.xlsx`);
+                document.body.appendChild(link);
+                link.click();
+                link.parentNode.removeChild(link);
                 throw Error(response.status);
+            }
+            else {
+                let errorResponse = result;
+                let errorMsg = errorResponse.message;
+                if (errorMsg && errorMsg.length > 0) {
+                    let errorResp = new Error(errorMsg);
+                    errorResp.code = 400;
+                    throw errorResp;
+                }
+                else {
+                    throw Error(response.status);
+                }
+            }
         })
-        .catch((error) => {
-            if (error.code == 400) {
-                this.setState({ loading: false, errorXlxSnack: true, msgXlxSnack: error.message });
-                setTimeout(() => {
-                    this.setState({
-                        errorXlxSnack: false
-                    })
-                }, timeout);
-            }
-            else if(error !== 200) {
-                this.setState({ loading: false, errorReviewSnack: true });
-                setTimeout(() => {
-                    this.setState({
-                        errorReviewSnack: false
-                    })
-                }, timeout);
-            }
-            console.log('Looks like there was a problem in sending for review \n');
-        });
+            .catch((error) => {
+                if (error.code == 400) {
+                    this.setState({ loading: false, errorXlxSnack: true, msgXlxSnack: error.message });
+                    setTimeout(() => {
+                        this.setState({
+                            errorXlxSnack: false
+                        })
+                    }, timeout);
+                }
+                else if (error !== 200) {
+                    this.setState({ loading: false, errorReviewSnack: true });
+                    setTimeout(() => {
+                        this.setState({
+                            errorReviewSnack: false
+                        })
+                    }, timeout);
+                }
+                console.log('Looks like there was a problem in sending for review \n');
+            });
     }
 
     handleRevision = () => {
@@ -534,9 +552,10 @@ class SaveTempNameTwo extends Component {
 
         this.setState({ loading: true, successDraftSnack: false, errorDraftSnack: false });
         apitimeout(pendingTimeout, fetch(this.state.clientHost + templateAPI + "/draft/", {
-            method: "PUT",
+            method: "POST",
             headers: {
-                [AuthKey]: localStorage.getItem('token')
+                [AuthKey]: localStorage.getItem('token'),
+                "X-Requested-With": "XMLHttpRequest"
             },
             body: formData
         })).then(
@@ -551,6 +570,9 @@ class SaveTempNameTwo extends Component {
                     }, timeout);
                     throw 200;
                 }
+                else if (response.status == 409) {
+                    return response.blob();
+                }
                 else if (response.status == 400) {
                     return response.json();
                 }
@@ -559,34 +581,48 @@ class SaveTempNameTwo extends Component {
                 }
             }
         ).then(result => {
-            let errorResponse = result;
-            let errorMsg = errorResponse.message;
-            if (errorMsg && errorMsg.length > 0) {
-                let errorResp = new Error(errorMsg);
-                errorResp.code = 400;
-                throw errorResp;
-            }
-            else
+            let responseHeader = result.type;
+            if (responseHeader === "application/octet-stream") {
+                const url = window.URL.createObjectURL(new Blob([result]));
+                const link = document.createElement('a');
+                link.href = url;
+                link.setAttribute('download', `wrong_sku.xlsx`);
+                document.body.appendChild(link);
+                link.click();
+                link.parentNode.removeChild(link);
                 throw Error(response.status);
+            }
+            else {
+                let errorResponse = result;
+                let errorMsg = errorResponse.message;
+                if (errorMsg && errorMsg.length > 0) {
+                    let errorResp = new Error(errorMsg);
+                    errorResp.code = 400;
+                    throw errorResp;
+                }
+                else {
+                    throw Error(response.status);
+                }
+            }
         })
-        .catch((error) => {
-            if (error.code == 400) {
-                this.setState({ loading: false, errorXlxSnack: true, msgXlxSnack: error.message });
-                setTimeout(() => {
-                    this.setState({
-                        errorXlxSnack: false
-                    })
-                }, timeout);
-            }
-            else if(error !== 200) {
-                this.setState({ loading: false, errorDraftSnack: true });
-                setTimeout(() => {
-                    this.setState({
-                        errorDraftSnack: false
-                    })
-                }, timeout);
-            }
-        });
+            .catch((error) => {
+                if (error.code == 400) {
+                    this.setState({ loading: false, errorXlxSnack: true, msgXlxSnack: error.message });
+                    setTimeout(() => {
+                        this.setState({
+                            errorXlxSnack: false
+                        })
+                    }, timeout);
+                }
+                else if (error !== 200) {
+                    this.setState({ loading: false, errorDraftSnack: true });
+                    setTimeout(() => {
+                        this.setState({
+                            errorDraftSnack: false
+                        })
+                    }, timeout);
+                }
+            });
     }
 
     handleSave = () => {
@@ -685,7 +721,8 @@ class SaveTempNameTwo extends Component {
             apitimeout(pendingTimeout, fetch(this.state.clientHost + templateAPI + "/save/", {
                 method: "POST",
                 headers: {
-                    [AuthKey]: localStorage.getItem('token')
+                    [AuthKey]: localStorage.getItem('token'),
+                    "X-Requested-With": "XMLHttpRequest"
                 },
                 body: formData
             })).then(
@@ -701,6 +738,9 @@ class SaveTempNameTwo extends Component {
                         }, timeout);
                         throw 200;
                     }
+                    else if (response.status == 409) {
+                        return response.blob();
+                    }
                     else if (response.status == 400) {
                         return response.json();
                     }
@@ -709,34 +749,48 @@ class SaveTempNameTwo extends Component {
                     }
                 }
             ).then(result => {
-                let errorResponse = result;
-                let errorMsg = errorResponse.message;
-                if (errorMsg && errorMsg.length > 0) {
-                    let errorResp = new Error(errorMsg);
-                    errorResp.code = 400;
-                    throw errorResp;
-                }
-                else
+                let responseHeader = result.type;
+                if (responseHeader === "application/octet-stream") {
+                    const url = window.URL.createObjectURL(new Blob([result]));
+                    const link = document.createElement('a');
+                    link.href = url;
+                    link.setAttribute('download', `wrong_sku.xlsx`);
+                    document.body.appendChild(link);
+                    link.click();
+                    link.parentNode.removeChild(link);
                     throw Error(response.status);
+                }
+                else {
+                    let errorResponse = result;
+                    let errorMsg = errorResponse.message;
+                    if (errorMsg && errorMsg.length > 0) {
+                        let errorResp = new Error(errorMsg);
+                        errorResp.code = 400;
+                        throw errorResp;
+                    }
+                    else {
+                        throw Error(response.status);
+                    }
+                }
             })
-            .catch((error) => {
-                if (error.code == 400) {
-                    this.setState({ loading: false, errorXlxSnack: true, msgXlxSnack: error.message });
-                    setTimeout(() => {
-                        this.setState({
-                            errorXlxSnack: false
-                        })
-                    }, timeout);
-                }
-                else if(error !== 200) {
-                    this.setState({ loading: false, errorSaveSnack: true });
-                    setTimeout(() => {
-                        this.setState({
-                            errorSaveSnack: false
-                        })
-                    }, timeout);
-                }
-            });
+                .catch((error) => {
+                    if (error.code == 400) {
+                        this.setState({ loading: false, errorXlxSnack: true, msgXlxSnack: error.message });
+                        setTimeout(() => {
+                            this.setState({
+                                errorXlxSnack: false
+                            })
+                        }, timeout);
+                    }
+                    else if (error !== 200) {
+                        this.setState({ loading: false, errorSaveSnack: true });
+                        setTimeout(() => {
+                            this.setState({
+                                errorSaveSnack: false
+                            })
+                        }, timeout);
+                    }
+                });
         }
         else {
             this.setState({
