@@ -26,29 +26,20 @@ app.get(main_config.grootHost + '/*',
 
 function checkAuth(authStr) {
     if (!authStr){
-        console.log("[Content_Fe_WAPI]: Authorization Failed");
-        return true;
+        return false;
     }
     else {
         if (authStr.includes("Basic")) {
             var encodedAuthVal = authStr.split("Basic ")[1];
-            console.log("[Content_Fe_WAPI]: Encoded Auth Value: ", encodedAuthVal);
             var decodedAuthVal = base64.decode(encodedAuthVal);
-            console.log("[Content_Fe_WAPI]: BasicAuth Value in config: ", main_config.BasicAuthVal);
-            console.log("[Content_Fe_WAPI]: Decoded Auth Value: ", decodedAuthVal);
-            if (decodedAuthVal === main_config.BasicAuthVal) {
-                console.log("[Content_Fe_WAPI]: Authorization Success");
+            
+            if (decodedAuthVal === main_config.BasicAuthVal)
                 return true;
-            }
-            else {
-                console.log("[Content_Fe_WAPI]: Authorization Failed");
-                return true;
-            }
+            else
+                return false;
         }
-        else{
-            console.log("[Content_Fe_WAPI]: Authorization Failed");
-            return true;
-        }
+        else
+            return false;
     }
 }
 
