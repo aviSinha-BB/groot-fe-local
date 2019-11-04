@@ -25,13 +25,14 @@ app.get(main_config.grootHost + '/*',
     });
 
 function checkAuth(authStr) {
-    if (!authStr)
+    if (!authStr){
         return false;
+    }
     else {
         if (authStr.includes("Basic")) {
             var encodedAuthVal = authStr.split("Basic ")[1];
             var decodedAuthVal = base64.decode(encodedAuthVal);
-
+            
             if (decodedAuthVal === main_config.BasicAuthVal)
                 return true;
             else

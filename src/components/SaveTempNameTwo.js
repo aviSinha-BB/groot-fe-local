@@ -175,6 +175,7 @@ class SaveTempNameTwo extends Component {
                     "tag": "header-image-anotherHeader-subheader-para",
                     "heading": this.props.headingTwovalue,
                     "imageSrc": this.props.imgsrcTwovalue,
+                    "imageAlt": this.props.imgAltTwovalue,
                     "anotherHeading": this.props.anotherHeadingvalue,
                     "subHeading": this.props.subheadingvalue,
                     "paragraph": this.props.paravalue,
@@ -186,12 +187,14 @@ class SaveTempNameTwo extends Component {
                     "subHeading": this.props.subheadingTwovalue,
                     "paragraph": this.props.paraTwovalue,
                     "imageSrc": this.props.imgsrcThreevalue,
+                    "imageAlt": this.props.imgAltThreevalue,
                     "visible": this.props.toggleSectionTwo
                 },
                 "ispLT": {
                     "tag": "image-subheading-para",
                     "heading": this.props.headingThreevalue,
                     "imageSrc": this.props.imgsrcFourvalue,
+                    "imageAlt": this.props.imgAltFourvalue,
                     "subHeading": this.props.subheadingThreevalue,
                     "paragraph": this.props.paraThreevalue,
                     "visible": this.props.toggleSectionThree
@@ -199,6 +202,7 @@ class SaveTempNameTwo extends Component {
                 "ispMT": {
                     "tag": "image-subheading-para",
                     "imageSrc": this.props.imgsrcFivevalue,
+                    "imageAlt": this.props.imgAltFivevalue,
                     "subHeading": this.props.subheadingFourvalue,
                     "paragraph": this.props.paraFourvalue,
                     "visible": this.props.toggleSectionFour
@@ -206,6 +210,7 @@ class SaveTempNameTwo extends Component {
                 "ispRT": {
                     "tag": "image-subheading-para",
                     "imageSrc": this.props.imgsrcSixvalue,
+                    "imageAlt": this.props.imgAltSixvalue,
                     "subHeading": this.props.subheadingFivevalue,
                     "paragraph": this.props.paraFivevalue,
                     "visible": this.props.toggleSectionFive
@@ -213,6 +218,7 @@ class SaveTempNameTwo extends Component {
                 "ispLB": {
                     "tag": "image-subheading-para",
                     "imageSrc": this.props.imgsrcSevenvalue,
+                    "imageAlt": this.props.imgAltSevenvalue,
                     "subHeading": this.props.subheadingSixvalue,
                     "paragraph": this.props.paraSixvalue,
                     "visible": this.props.toggleSectionSix
@@ -220,6 +226,7 @@ class SaveTempNameTwo extends Component {
                 "ispMB": {
                     "tag": "image-subheading-para",
                     "imageSrc": this.props.imgsrcEightvalue,
+                    "imageAlt": this.props.imgAltEightvalue,
                     "subHeading": this.props.subheadingSevenvalue,
                     "paragraph": this.props.paraSevenvalue,
                     "visible": this.props.toggleSectionSeven
@@ -227,6 +234,7 @@ class SaveTempNameTwo extends Component {
                 "ispRB": {
                     "tag": "image-subheading-para",
                     "imageSrc": this.props.imgsrcNinevalue,
+                    "imageAlt": this.props.imgAltNinevalue,
                     "subHeading": this.props.subheadingEightvalue,
                     "paragraph": this.props.paraEightvalue,
                     "visible": this.props.toggleSectionEight
@@ -343,6 +351,7 @@ class SaveTempNameTwo extends Component {
                     "tag": "header-image-anotherHeader-subheader-para",
                     "heading": this.props.headingTwovalue,
                     "imageSrc": this.props.imgsrcTwovalue,
+                    "imageAlt": this.props.imgAltTwovalue,
                     "anotherHeading": this.props.anotherHeadingvalue,
                     "subHeading": this.props.subheadingvalue,
                     "paragraph": this.props.paravalue,
@@ -354,12 +363,14 @@ class SaveTempNameTwo extends Component {
                     "subHeading": this.props.subheadingTwovalue,
                     "paragraph": this.props.paraTwovalue,
                     "imageSrc": this.props.imgsrcThreevalue,
+                    "imageAlt": this.props.imgAltThreevalue,
                     "visible": this.props.toggleSectionTwo
                 },
                 "ispLT": {
                     "tag": "image-subheading-para",
                     "heading": this.props.headingThreevalue,
                     "imageSrc": this.props.imgsrcFourvalue,
+                    "imageAlt": this.props.imgAltFourvalue,
                     "subHeading": this.props.subheadingThreevalue,
                     "paragraph": this.props.paraThreevalue,
                     "visible": this.props.toggleSectionThree
@@ -367,6 +378,7 @@ class SaveTempNameTwo extends Component {
                 "ispMT": {
                     "tag": "image-subheading-para",
                     "imageSrc": this.props.imgsrcFivevalue,
+                    "imageAlt": this.props.imgAltFivevalue,
                     "subHeading": this.props.subheadingFourvalue,
                     "paragraph": this.props.paraFourvalue,
                     "visible": this.props.toggleSectionFour
@@ -374,6 +386,7 @@ class SaveTempNameTwo extends Component {
                 "ispRT": {
                     "tag": "image-subheading-para",
                     "imageSrc": this.props.imgsrcSixvalue,
+                    "imageAlt": this.props.imgAltSixvalue,
                     "subHeading": this.props.subheadingFivevalue,
                     "paragraph": this.props.paraFivevalue,
                     "visible": this.props.toggleSectionFive
@@ -381,6 +394,7 @@ class SaveTempNameTwo extends Component {
                 "ispLB": {
                     "tag": "image-subheading-para",
                     "imageSrc": this.props.imgsrcSevenvalue,
+                    "imageAlt": this.props.imgAltSevenvalue,
                     "subHeading": this.props.subheadingSixvalue,
                     "paragraph": this.props.paraSixvalue,
                     "visible": this.props.toggleSectionSix
@@ -388,6 +402,7 @@ class SaveTempNameTwo extends Component {
                 "ispMB": {
                     "tag": "image-subheading-para",
                     "imageSrc": this.props.imgsrcEightvalue,
+                    "imageAlt": this.props.imgAltEightvalue,
                     "subHeading": this.props.subheadingSevenvalue,
                     "paragraph": this.props.paraSevenvalue,
                     "visible": this.props.toggleSectionSeven
@@ -395,6 +410,7 @@ class SaveTempNameTwo extends Component {
                 "ispRB": {
                     "tag": "image-subheading-para",
                     "imageSrc": this.props.imgsrcNinevalue,
+                    "imageAlt": this.props.imgAltNinevalue,
                     "subHeading": this.props.subheadingEightvalue,
                     "paragraph": this.props.paraEightvalue,
                     "visible": this.props.toggleSectionEight
@@ -480,6 +496,7 @@ class SaveTempNameTwo extends Component {
                     "tag": "header-image-anotherHeader-subheader-para",
                     "heading": this.props.headingTwovalue,
                     "imageSrc": this.props.imgsrcTwovalue,
+                    "imageAlt": this.props.imgAltTwovalue,
                     "anotherHeading": this.props.anotherHeadingvalue,
                     "subHeading": this.props.subheadingvalue,
                     "paragraph": this.props.paravalue,
@@ -491,12 +508,14 @@ class SaveTempNameTwo extends Component {
                     "subHeading": this.props.subheadingTwovalue,
                     "paragraph": this.props.paraTwovalue,
                     "imageSrc": this.props.imgsrcThreevalue,
+                    "imageAlt": this.props.imgAltThreevalue,
                     "visible": this.props.toggleSectionTwo
                 },
                 "ispLT": {
                     "tag": "image-subheading-para",
                     "heading": this.props.headingThreevalue,
                     "imageSrc": this.props.imgsrcFourvalue,
+                    "imageAlt": this.props.imgAltFourvalue,
                     "subHeading": this.props.subheadingThreevalue,
                     "paragraph": this.props.paraThreevalue,
                     "visible": this.props.toggleSectionThree
@@ -504,6 +523,7 @@ class SaveTempNameTwo extends Component {
                 "ispMT": {
                     "tag": "image-subheading-para",
                     "imageSrc": this.props.imgsrcFivevalue,
+                    "imageAlt": this.props.imgAltFivevalue,
                     "subHeading": this.props.subheadingFourvalue,
                     "paragraph": this.props.paraFourvalue,
                     "visible": this.props.toggleSectionFour
@@ -511,6 +531,7 @@ class SaveTempNameTwo extends Component {
                 "ispRT": {
                     "tag": "image-subheading-para",
                     "imageSrc": this.props.imgsrcSixvalue,
+                    "imageAlt": this.props.imgAltSixvalue,
                     "subHeading": this.props.subheadingFivevalue,
                     "paragraph": this.props.paraFivevalue,
                     "visible": this.props.toggleSectionFive
@@ -518,6 +539,7 @@ class SaveTempNameTwo extends Component {
                 "ispLB": {
                     "tag": "image-subheading-para",
                     "imageSrc": this.props.imgsrcSevenvalue,
+                    "imageAlt": this.props.imgAltSevenvalue,
                     "subHeading": this.props.subheadingSixvalue,
                     "paragraph": this.props.paraSixvalue,
                     "visible": this.props.toggleSectionSix
@@ -525,6 +547,7 @@ class SaveTempNameTwo extends Component {
                 "ispMB": {
                     "tag": "image-subheading-para",
                     "imageSrc": this.props.imgsrcEightvalue,
+                    "imageAlt": this.props.imgAltEightvalue,
                     "subHeading": this.props.subheadingSevenvalue,
                     "paragraph": this.props.paraSevenvalue,
                     "visible": this.props.toggleSectionSeven
@@ -532,6 +555,7 @@ class SaveTempNameTwo extends Component {
                 "ispRB": {
                     "tag": "image-subheading-para",
                     "imageSrc": this.props.imgsrcNinevalue,
+                    "imageAlt": this.props.imgAltNinevalue,
                     "subHeading": this.props.subheadingEightvalue,
                     "paragraph": this.props.paraEightvalue,
                     "visible": this.props.toggleSectionEight
@@ -645,6 +669,7 @@ class SaveTempNameTwo extends Component {
                     "tag": "header-image-anotherHeader-subheader-para",
                     "heading": this.props.headingTwovalue,
                     "imageSrc": this.props.imgsrcTwovalue,
+                    "imageAlt": this.props.imgAltTwovalue,
                     "anotherHeading": this.props.anotherHeadingvalue,
                     "subHeading": this.props.subheadingvalue,
                     "paragraph": this.props.paravalue,
@@ -656,12 +681,14 @@ class SaveTempNameTwo extends Component {
                     "subHeading": this.props.subheadingTwovalue,
                     "paragraph": this.props.paraTwovalue,
                     "imageSrc": this.props.imgsrcThreevalue,
+                    "imageAlt": this.props.imgAltThreevalue,
                     "visible": this.props.toggleSectionTwo
                 },
                 "ispLT": {
                     "tag": "image-subheading-para",
                     "heading": this.props.headingThreevalue,
                     "imageSrc": this.props.imgsrcFourvalue,
+                    "imageAlt": this.props.imgAltFourvalue,
                     "subHeading": this.props.subheadingThreevalue,
                     "paragraph": this.props.paraThreevalue,
                     "visible": this.props.toggleSectionThree
@@ -669,6 +696,7 @@ class SaveTempNameTwo extends Component {
                 "ispMT": {
                     "tag": "image-subheading-para",
                     "imageSrc": this.props.imgsrcFivevalue,
+                    "imageAlt": this.props.imgAltFivevalue,
                     "subHeading": this.props.subheadingFourvalue,
                     "paragraph": this.props.paraFourvalue,
                     "visible": this.props.toggleSectionFour
@@ -676,6 +704,7 @@ class SaveTempNameTwo extends Component {
                 "ispRT": {
                     "tag": "image-subheading-para",
                     "imageSrc": this.props.imgsrcSixvalue,
+                    "imageAlt": this.props.imgAltSixvalue,
                     "subHeading": this.props.subheadingFivevalue,
                     "paragraph": this.props.paraFivevalue,
                     "visible": this.props.toggleSectionFive
@@ -683,6 +712,7 @@ class SaveTempNameTwo extends Component {
                 "ispLB": {
                     "tag": "image-subheading-para",
                     "imageSrc": this.props.imgsrcSevenvalue,
+                    "imageAlt": this.props.imgAltSevenvalue,
                     "subHeading": this.props.subheadingSixvalue,
                     "paragraph": this.props.paraSixvalue,
                     "visible": this.props.toggleSectionSix
@@ -690,6 +720,7 @@ class SaveTempNameTwo extends Component {
                 "ispMB": {
                     "tag": "image-subheading-para",
                     "imageSrc": this.props.imgsrcEightvalue,
+                    "imageAlt": this.props.imgAltEightvalue,
                     "subHeading": this.props.subheadingSevenvalue,
                     "paragraph": this.props.paraSevenvalue,
                     "visible": this.props.toggleSectionSeven
@@ -697,6 +728,7 @@ class SaveTempNameTwo extends Component {
                 "ispRB": {
                     "tag": "image-subheading-para",
                     "imageSrc": this.props.imgsrcNinevalue,
+                    "imageAlt": this.props.imgAltNinevalue,
                     "subHeading": this.props.subheadingEightvalue,
                     "paragraph": this.props.paraEightvalue,
                     "visible": this.props.toggleSectionEight
@@ -824,6 +856,7 @@ class SaveTempNameTwo extends Component {
                     "tag": "header-image-anotherHeader-subheader-para",
                     "heading": this.props.headingTwovalue,
                     "imageSrc": this.props.imgsrcTwovalue,
+                    "imageAlt": this.props.imgAltTwovalue,
                     "anotherHeading": this.props.anotherHeadingvalue,
                     "subHeading": this.props.subheadingvalue,
                     "paragraph": this.props.paravalue,
@@ -835,12 +868,14 @@ class SaveTempNameTwo extends Component {
                     "subHeading": this.props.subheadingTwovalue,
                     "paragraph": this.props.paraTwovalue,
                     "imageSrc": this.props.imgsrcThreevalue,
+                    "imageAlt": this.props.imgAltThreevalue,
                     "visible": this.props.toggleSectionTwo
                 },
                 "ispLT": {
                     "tag": "image-subheading-para",
                     "heading": this.props.headingThreevalue,
                     "imageSrc": this.props.imgsrcFourvalue,
+                    "imageAlt": this.props.imgAltFourvalue,
                     "subHeading": this.props.subheadingThreevalue,
                     "paragraph": this.props.paraThreevalue,
                     "visible": this.props.toggleSectionThree
@@ -848,6 +883,7 @@ class SaveTempNameTwo extends Component {
                 "ispMT": {
                     "tag": "image-subheading-para",
                     "imageSrc": this.props.imgsrcFivevalue,
+                    "imageAlt": this.props.imgAltFivevalue,
                     "subHeading": this.props.subheadingFourvalue,
                     "paragraph": this.props.paraFourvalue,
                     "visible": this.props.toggleSectionFour
@@ -855,6 +891,7 @@ class SaveTempNameTwo extends Component {
                 "ispRT": {
                     "tag": "image-subheading-para",
                     "imageSrc": this.props.imgsrcSixvalue,
+                    "imageAlt": this.props.imgAltSixvalue,
                     "subHeading": this.props.subheadingFivevalue,
                     "paragraph": this.props.paraFivevalue,
                     "visible": this.props.toggleSectionFive
@@ -862,6 +899,7 @@ class SaveTempNameTwo extends Component {
                 "ispLB": {
                     "tag": "image-subheading-para",
                     "imageSrc": this.props.imgsrcSevenvalue,
+                    "imageAlt": this.props.imgAltSevenvalue,
                     "subHeading": this.props.subheadingSixvalue,
                     "paragraph": this.props.paraSixvalue,
                     "visible": this.props.toggleSectionSix
@@ -869,6 +907,7 @@ class SaveTempNameTwo extends Component {
                 "ispMB": {
                     "tag": "image-subheading-para",
                     "imageSrc": this.props.imgsrcEightvalue,
+                    "imageAlt": this.props.imgAltEightvalue,
                     "subHeading": this.props.subheadingSevenvalue,
                     "paragraph": this.props.paraSevenvalue,
                     "visible": this.props.toggleSectionSeven
@@ -876,6 +915,7 @@ class SaveTempNameTwo extends Component {
                 "ispRB": {
                     "tag": "image-subheading-para",
                     "imageSrc": this.props.imgsrcNinevalue,
+                    "imageAlt": this.props.imgAltNinevalue,
                     "subHeading": this.props.subheadingEightvalue,
                     "paragraph": this.props.paraEightvalue,
                     "visible": this.props.toggleSectionEight
