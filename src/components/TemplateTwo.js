@@ -321,6 +321,30 @@ class TemplateTwo extends Component {
                 toggleSectionEight: this.state.pageData.ispRB.visible,
                 taskId: this.state.pageData.metaData.taskId
             }, () => {
+                if (this.state.imgAltTwovalue) {
+                    document.getElementById("placedImageTwo").alt = this.state.imgAltTwovalue;
+                }
+                if (this.state.imgAltThreevalue) {
+                    document.getElementById("placedImageThree").alt = this.state.imgAltThreevalue;
+                }
+                if (this.state.imgAltFourvalue) {
+                    document.getElementById("placedImageFour").alt = this.state.imgAltFourvalue;
+                }
+                if (this.state.imgAltFivevalue) {
+                    document.getElementById("placedImageFive").alt = this.state.imgAltFivevalue;
+                }
+                if (this.state.imgAltSixvalue) {
+                    document.getElementById("placedImageSix").alt = this.state.imgAltSixvalue;
+                }
+                if (this.state.imgAltSevenvalue) {
+                    document.getElementById("placedImageSeven").alt = this.state.imgAltSevenvalue;
+                }
+                if (this.state.imgAltEightvalue) {
+                    document.getElementById("placedImageEight").alt = this.state.imgAltEightvalue;
+                }
+                if (this.state.imgAltNinevalue) {
+                    document.getElementById("placedImageNine").alt = this.state.imgAltNinevalue;
+                }
                 this.handleDeleteSection("initial-mount");
             });
         }
@@ -418,34 +442,82 @@ class TemplateTwo extends Component {
 
     //setting the alt value
     updateAltTwo = (altval) => {
+        if(altval) {
+            document.getElementById("placedImageTwo").alt = altval;
+        }
+        else {
+            document.getElementById("placedImageTwo").removeAttribute("alt");
+        }
         this.setState({ imgAltTwovalue: altval });
     }
 
     updateAltThree = (altval) => {
+        if(altval) {
+            document.getElementById("placedImageThree").alt = altval;
+        }
+        else {
+            document.getElementById("placedImageThree").removeAttribute("alt");
+        }
         this.setState({ imgAltThreevalue: altval });
     }
 
     updateAltFour = (altval) => {
+        if(altval) {
+            document.getElementById("placedImageFour").alt = altval;
+        }
+        else {
+            document.getElementById("placedImageFour").removeAttribute("alt");
+        }
         this.setState({ imgAltFourvalue: altval });
     }
 
     updateAltFive = (altval) => {
+        if(altval) {
+            document.getElementById("placedImageFive").alt = altval;
+        }
+        else {
+            document.getElementById("placedImageFive").removeAttribute("alt");
+        }
         this.setState({ imgAltFivevalue: altval });
     }
 
     updateAltSix = (altval) => {
+        if(altval) {
+            document.getElementById("placedImageSix").alt = altval;
+        }
+        else {
+            document.getElementById("placedImageSix").removeAttribute("alt");
+        }
         this.setState({ imgAltSixvalue: altval });
     }
 
     updateAltSeven = (altval) => {
+        if(altval) {
+            document.getElementById("placedImageSeven").alt = altval;
+        }
+        else {
+            document.getElementById("placedImageSeven").removeAttribute("alt");
+        }
         this.setState({ imgAltSevenvalue: altval });
     }
 
     updateAltEight = (altval) => {
+        if(altval) {
+            document.getElementById("placedImageEight").alt = altval;
+        }
+        else {
+            document.getElementById("placedImageEight").removeAttribute("alt");
+        }
         this.setState({ imgAltEightvalue: altval });
     }
 
     updateAltNine = (altval) => {
+        if(altval) {
+            document.getElementById("placedImageNine").alt = altval;
+        }
+        else {
+            document.getElementById("placedImageNine").removeAttribute("alt");
+        }
         this.setState({ imgAltNinevalue: altval });
     }
 
@@ -1944,7 +2016,6 @@ class TemplateTwo extends Component {
                                                     activeBannerTwo={this.state.activeBannerTwo}
                                                     onClick={this.editBannerTwo}
                                                     className="half-view-img"
-                                                    alt={this.state.imgAltTwovalue}
                                                 />
                                             </ActivePara>
                                             <div>
@@ -2014,7 +2085,6 @@ class TemplateTwo extends Component {
                                                     activeBannerThree={this.state.activeBannerThree}
                                                     onClick={this.editBannerThree}
                                                     className="half-view-img"
-                                                    alt={this.state.imgAltThreevalue}
                                                 />
                                             </ActivePara>
                                         </div>
@@ -2048,7 +2118,6 @@ class TemplateTwo extends Component {
                                                         activeBannerFour={this.state.activeBannerFour}
                                                         onClick={this.editBannerFour}
                                                         className="small-view-img"
-                                                        alt={this.state.imgAltFourvalue}
                                                     />
                                                 </ActivePara>
                                                 <ActiveSubHeaderThree
@@ -2078,7 +2147,6 @@ class TemplateTwo extends Component {
                                                         activeBannerFive={this.state.activeBannerFive}
                                                         onClick={this.editBannerFive}
                                                         className="small-view-img"
-                                                        alt={this.state.imgAltFivevalue}
                                                     />
                                                 </ActivePara>
                                                 <ActiveSubHeaderFour
@@ -2108,7 +2176,6 @@ class TemplateTwo extends Component {
                                                         activeBannerSix={this.state.activeBannerSix}
                                                         onClick={this.editBannerSix}
                                                         className="small-view-img"
-                                                        alt={this.state.imgAltSixvalue}
                                                     />
                                                 </ActivePara>
                                                 <ActiveSubHeaderFive
@@ -2150,7 +2217,6 @@ class TemplateTwo extends Component {
                                                         activeBannerSeven={this.state.activeBannerSeven}
                                                         onClick={this.editBannerSeven}
                                                         className="small-view-img"
-                                                        alt={this.state.imgAltSevenvalue}
                                                     />
                                                 </ActivePara>
                                                 <ActiveSubHeaderSix
@@ -2180,7 +2246,6 @@ class TemplateTwo extends Component {
                                                         activeBannerEight={this.state.activeBannerEight}
                                                         onClick={this.editBannerEight}
                                                         className="small-view-img"
-                                                        alt={this.state.imgAltEightvalue}
                                                     />
                                                 </ActivePara>
                                                 <ActiveSubHeaderSeven
@@ -2210,7 +2275,6 @@ class TemplateTwo extends Component {
                                                         activeBannerNine={this.state.activeBannerNine}
                                                         onClick={this.editBannerNine}
                                                         className="small-view-img"
-                                                        alt={this.state.imgAltNinevalue}
                                                     />
                                                 </ActivePara>
                                                 <ActiveSubHeaderEight
