@@ -1861,6 +1861,15 @@ class TemplateOne extends Component {
                                     updateParaSeven={this.updateParaSeven}
                                     paraEightvalue={this.state.paraEightvalue}
                                     updateParaEight={this.updateParaEight}
+                                    imgsrcvalue={this.state.imgsrcvalue}
+                                    imgsrcTwovalue={this.state.imgsrcTwovalue}
+                                    imgsrcThreevalue={this.state.imgsrcThreevalue}
+                                    imgsrcFourvalue={this.state.imgsrcFourvalue}
+                                    imgsrcFivevalue={this.state.imgsrcFivevalue}
+                                    imgsrcSixvalue={this.state.imgsrcSixvalue}
+                                    imgsrcSevenvalue={this.state.imgsrcSevenvalue}
+                                    imgsrcEightvalue={this.state.imgsrcEightvalue}
+                                    imgsrcNinevalue={this.state.imgsrcNinevalue}
                                     imgAltvalue={this.state.imgAltvalue}
                                     updateAlt={this.updateAlt}
                                     imgAltTwovalue={this.state.imgAltTwovalue}
