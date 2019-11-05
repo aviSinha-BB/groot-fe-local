@@ -1845,6 +1845,14 @@ class TemplateTwo extends Component {
                                     updateParaSeven={this.updateParaSeven}
                                     paraEightvalue={this.state.paraEightvalue}
                                     updateParaEight={this.updateParaEight}
+                                    imgsrcTwovalue={this.state.imgsrcTwovalue}
+                                    imgsrcThreevalue={this.state.imgsrcThreevalue}
+                                    imgsrcFourvalue={this.state.imgsrcFourvalue}
+                                    imgsrcFivevalue={this.state.imgsrcFivevalue}
+                                    imgsrcSixvalue={this.state.imgsrcSixvalue}
+                                    imgsrcSevenvalue={this.state.imgsrcSevenvalue}
+                                    imgsrcEightvalue={this.state.imgsrcEightvalue}
+                                    imgsrcNinevalue={this.state.imgsrcNinevalue}
                                     imgAltTwovalue={this.state.imgAltTwovalue}
                                     updateAltTwo={this.updateAltTwo}
                                     imgAltThreevalue={this.state.imgAltThreevalue}
