@@ -260,6 +260,14 @@ class TemplateTwo extends Component {
             toggleSectionSix: true,
             toggleSectionSeven: true,
             toggleSectionEight: true,
+            imgTwoDrop: false,
+            imgThreeDrop: false,
+            imgFourDrop: false,
+            imgFiveDrop: false,
+            imgSixDrop: false,
+            imgSevenDrop: false,
+            imgEightDrop: false,
+            imgNineDrop: false,
             pageData: this.props.page_data
         };
     }
@@ -571,7 +579,7 @@ class TemplateTwo extends Component {
         var data = e.dataTransfer.getData("bmd");
         var source = document.getElementById(data).src;
         document.getElementById("placedImageTwo").src = source;
-
+        this.setState({ imgTwoDrop: true });
         this.updateBannerTwo(source);
     }
 
@@ -580,7 +588,7 @@ class TemplateTwo extends Component {
         var data = e.dataTransfer.getData("bmd");
         var source = document.getElementById(data).src;
         document.getElementById("placedImageThree").src = source;
-
+        this.setState({ imgThreeDrop: true });
         this.updateBannerThree(source);
     }
 
@@ -589,7 +597,7 @@ class TemplateTwo extends Component {
         var data = e.dataTransfer.getData("bsm");
         var source = document.getElementById(data).src;
         document.getElementById("placedImageFour").src = source;
-
+        this.setState({ imgFourDrop: true });
         this.updateBannerFour(source);
     }
 
@@ -598,7 +606,7 @@ class TemplateTwo extends Component {
         var data = e.dataTransfer.getData("bsm");
         var source = document.getElementById(data).src;
         document.getElementById("placedImageFive").src = source;
-
+        this.setState({ imgFiveDrop: true });
         this.updateBannerFive(source);
     }
 
@@ -607,7 +615,7 @@ class TemplateTwo extends Component {
         var data = e.dataTransfer.getData("bsm");
         var source = document.getElementById(data).src;
         document.getElementById("placedImageSix").src = source;
-
+        this.setState({ imgSixDrop: true });
         this.updateBannerSix(source);
     }
 
@@ -616,7 +624,7 @@ class TemplateTwo extends Component {
         var data = e.dataTransfer.getData("bsm");
         var source = document.getElementById(data).src;
         document.getElementById("placedImageSeven").src = source;
-
+        this.setState({ imgSevenDrop: true });
         this.updateBannerSeven(source);
     }
 
@@ -625,7 +633,7 @@ class TemplateTwo extends Component {
         var data = e.dataTransfer.getData("bsm");
         var source = document.getElementById(data).src;
         document.getElementById("placedImageEight").src = source;
-
+        this.setState({ imgEightDrop: true });
         this.updateBannerEight(source);
     }
 
@@ -634,7 +642,7 @@ class TemplateTwo extends Component {
         var data = e.dataTransfer.getData("bsm");
         var source = document.getElementById(data).src;
         document.getElementById("placedImageNine").src = source;
-
+        this.setState({ imgNineDrop: true });
         this.updateBannerNine(source);
     }
 
@@ -1954,6 +1962,14 @@ class TemplateTwo extends Component {
                                     toggleSectionSix={this.state.toggleSectionSix}
                                     toggleSectionSeven={this.state.toggleSectionSeven}
                                     toggleSectionEight={this.state.toggleSectionEight}
+                                    imgTwoDrop={this.state.imgTwoDrop}
+                                    imgThreeDrop={this.state.imgThreeDrop}
+                                    imgFourDrop={this.state.imgFourDrop}
+                                    imgFiveDrop={this.state.imgFiveDrop}
+                                    imgSixDrop={this.state.imgSixDrop}
+                                    imgSevenDrop={this.state.imgSevenDrop}
+                                    imgEightDrop={this.state.imgEightDrop}
+                                    imgNineDrop={this.state.imgNineDrop}
                                 />
                             </Suspense>
                         </Paper>
