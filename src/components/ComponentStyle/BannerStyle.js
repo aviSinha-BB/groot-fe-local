@@ -47,6 +47,11 @@ export const styles = theme => ({
       opacity: 0.9,
       marginRight: 15
     },
+    IconStyleTwo: {
+      fontSize: 20,
+      opacity: 0.9,
+      marginLeft: 10
+    },
     buttonUploadStyle: {
       height: '40px',
       border: '1px solid #ffa726',
