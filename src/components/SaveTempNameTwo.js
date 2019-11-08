@@ -155,9 +155,37 @@ class SaveTempNameTwo extends Component {
         }
     }
 
+    handleAltWithoutImages = () => {
+        if(!this.props.imgTwoDrop) {
+            document.getElementById("placedImageTwo").removeAttribute("alt");
+        }
+        if(!this.props.imgThreeDrop) {
+            document.getElementById("placedImageThree").removeAttribute("alt");
+        }
+        if(!this.props.imgFourDrop) {
+            document.getElementById("placedImageFour").removeAttribute("alt");
+        }
+        if(!this.props.imgFiveDrop) {
+            document.getElementById("placedImageFive").removeAttribute("alt");
+        }
+        if(!this.props.imgSixDrop) {
+            document.getElementById("placedImageSix").removeAttribute("alt");
+        }
+        if(!this.props.imgSevenDrop) {
+            document.getElementById("placedImageSeven").removeAttribute("alt");
+        }
+        if(!this.props.imgEightDrop) {
+            document.getElementById("placedImageEight").removeAttribute("alt");
+        }
+        if(!this.props.imgNineDrop) {
+            document.getElementById("placedImageNine").removeAttribute("alt");
+        }
+    }
+
     handleReview = () => {
         this.handleDeleteSection();
         this.handleDeleteButtons();
+        this.handleAltWithoutImages();
         var tempHTML = document.getElementById('template').innerHTML;
         var tempFile = new File([tempHTML], this.state.name + ".html", { type: "text/html" });
         var formData = new FormData();
@@ -175,7 +203,7 @@ class SaveTempNameTwo extends Component {
                     "tag": "header-image-anotherHeader-subheader-para",
                     "heading": this.props.headingTwovalue,
                     "imageSrc": this.props.imgsrcTwovalue,
-                    "imageAlt": this.props.imgAltTwovalue,
+                    "imageAlt": this.props.imgTwoDrop ? this.props.imgAltTwovalue: null,
                     "anotherHeading": this.props.anotherHeadingvalue,
                     "subHeading": this.props.subheadingvalue,
                     "paragraph": this.props.paravalue,
@@ -187,14 +215,14 @@ class SaveTempNameTwo extends Component {
                     "subHeading": this.props.subheadingTwovalue,
                     "paragraph": this.props.paraTwovalue,
                     "imageSrc": this.props.imgsrcThreevalue,
-                    "imageAlt": this.props.imgAltThreevalue,
+                    "imageAlt": this.props.imgThreeDrop ? this.props.imgAltThreevalue: null,
                     "visible": this.props.toggleSectionTwo
                 },
                 "ispLT": {
                     "tag": "image-subheading-para",
                     "heading": this.props.headingThreevalue,
                     "imageSrc": this.props.imgsrcFourvalue,
-                    "imageAlt": this.props.imgAltFourvalue,
+                    "imageAlt": this.props.imgFourDrop ? this.props.imgAltFourvalue: null,
                     "subHeading": this.props.subheadingThreevalue,
                     "paragraph": this.props.paraThreevalue,
                     "visible": this.props.toggleSectionThree
@@ -202,7 +230,7 @@ class SaveTempNameTwo extends Component {
                 "ispMT": {
                     "tag": "image-subheading-para",
                     "imageSrc": this.props.imgsrcFivevalue,
-                    "imageAlt": this.props.imgAltFivevalue,
+                    "imageAlt": this.props.imgFiveDrop ? this.props.imgAltFivevalue: null,
                     "subHeading": this.props.subheadingFourvalue,
                     "paragraph": this.props.paraFourvalue,
                     "visible": this.props.toggleSectionFour
@@ -210,7 +238,7 @@ class SaveTempNameTwo extends Component {
                 "ispRT": {
                     "tag": "image-subheading-para",
                     "imageSrc": this.props.imgsrcSixvalue,
-                    "imageAlt": this.props.imgAltSixvalue,
+                    "imageAlt": this.props.imgSixDrop ? this.props.imgAltSixvalue: null,
                     "subHeading": this.props.subheadingFivevalue,
                     "paragraph": this.props.paraFivevalue,
                     "visible": this.props.toggleSectionFive
@@ -218,7 +246,7 @@ class SaveTempNameTwo extends Component {
                 "ispLB": {
                     "tag": "image-subheading-para",
                     "imageSrc": this.props.imgsrcSevenvalue,
-                    "imageAlt": this.props.imgAltSevenvalue,
+                    "imageAlt": this.props.imgSevenDrop ? this.props.imgAltSevenvalue: null,
                     "subHeading": this.props.subheadingSixvalue,
                     "paragraph": this.props.paraSixvalue,
                     "visible": this.props.toggleSectionSix
@@ -226,7 +254,7 @@ class SaveTempNameTwo extends Component {
                 "ispMB": {
                     "tag": "image-subheading-para",
                     "imageSrc": this.props.imgsrcEightvalue,
-                    "imageAlt": this.props.imgAltEightvalue,
+                    "imageAlt": this.props.imgEightDrop ? this.props.imgAltEightvalue: null,
                     "subHeading": this.props.subheadingSevenvalue,
                     "paragraph": this.props.paraSevenvalue,
                     "visible": this.props.toggleSectionSeven
@@ -234,7 +262,7 @@ class SaveTempNameTwo extends Component {
                 "ispRB": {
                     "tag": "image-subheading-para",
                     "imageSrc": this.props.imgsrcNinevalue,
-                    "imageAlt": this.props.imgAltNinevalue,
+                    "imageAlt": this.props.imgNineDrop ? this.props.imgAltNinevalue: null,
                     "subHeading": this.props.subheadingEightvalue,
                     "paragraph": this.props.paraEightvalue,
                     "visible": this.props.toggleSectionEight
@@ -334,6 +362,7 @@ class SaveTempNameTwo extends Component {
     handleRevision = () => {
         this.handleDeleteSection();
         this.handleDeleteButtons();
+        this.handleAltWithoutImages();
         var tempHTML = document.getElementById('template').innerHTML;
         var tempFile = new File([tempHTML], this.state.name + ".html", { type: "text/html" });
         var formData = new FormData();
@@ -351,7 +380,7 @@ class SaveTempNameTwo extends Component {
                     "tag": "header-image-anotherHeader-subheader-para",
                     "heading": this.props.headingTwovalue,
                     "imageSrc": this.props.imgsrcTwovalue,
-                    "imageAlt": this.props.imgAltTwovalue,
+                    "imageAlt": this.props.imgTwoDrop ? this.props.imgAltTwovalue: null,
                     "anotherHeading": this.props.anotherHeadingvalue,
                     "subHeading": this.props.subheadingvalue,
                     "paragraph": this.props.paravalue,
@@ -363,14 +392,14 @@ class SaveTempNameTwo extends Component {
                     "subHeading": this.props.subheadingTwovalue,
                     "paragraph": this.props.paraTwovalue,
                     "imageSrc": this.props.imgsrcThreevalue,
-                    "imageAlt": this.props.imgAltThreevalue,
+                    "imageAlt": this.props.imgThreeDrop ? this.props.imgAltThreevalue: null,
                     "visible": this.props.toggleSectionTwo
                 },
                 "ispLT": {
                     "tag": "image-subheading-para",
                     "heading": this.props.headingThreevalue,
                     "imageSrc": this.props.imgsrcFourvalue,
-                    "imageAlt": this.props.imgAltFourvalue,
+                    "imageAlt": this.props.imgFourDrop ? this.props.imgAltFourvalue: null,
                     "subHeading": this.props.subheadingThreevalue,
                     "paragraph": this.props.paraThreevalue,
                     "visible": this.props.toggleSectionThree
@@ -378,7 +407,7 @@ class SaveTempNameTwo extends Component {
                 "ispMT": {
                     "tag": "image-subheading-para",
                     "imageSrc": this.props.imgsrcFivevalue,
-                    "imageAlt": this.props.imgAltFivevalue,
+                    "imageAlt": this.props.imgFiveDrop ? this.props.imgAltFivevalue: null,
                     "subHeading": this.props.subheadingFourvalue,
                     "paragraph": this.props.paraFourvalue,
                     "visible": this.props.toggleSectionFour
@@ -386,7 +415,7 @@ class SaveTempNameTwo extends Component {
                 "ispRT": {
                     "tag": "image-subheading-para",
                     "imageSrc": this.props.imgsrcSixvalue,
-                    "imageAlt": this.props.imgAltSixvalue,
+                    "imageAlt": this.props.imgSixDrop ? this.props.imgAltSixvalue: null,
                     "subHeading": this.props.subheadingFivevalue,
                     "paragraph": this.props.paraFivevalue,
                     "visible": this.props.toggleSectionFive
@@ -394,7 +423,7 @@ class SaveTempNameTwo extends Component {
                 "ispLB": {
                     "tag": "image-subheading-para",
                     "imageSrc": this.props.imgsrcSevenvalue,
-                    "imageAlt": this.props.imgAltSevenvalue,
+                    "imageAlt": this.props.imgSevenDrop ? this.props.imgAltSevenvalue: null,
                     "subHeading": this.props.subheadingSixvalue,
                     "paragraph": this.props.paraSixvalue,
                     "visible": this.props.toggleSectionSix
@@ -402,7 +431,7 @@ class SaveTempNameTwo extends Component {
                 "ispMB": {
                     "tag": "image-subheading-para",
                     "imageSrc": this.props.imgsrcEightvalue,
-                    "imageAlt": this.props.imgAltEightvalue,
+                    "imageAlt": this.props.imgEightDrop ? this.props.imgAltEightvalue: null,
                     "subHeading": this.props.subheadingSevenvalue,
                     "paragraph": this.props.paraSevenvalue,
                     "visible": this.props.toggleSectionSeven
@@ -410,7 +439,7 @@ class SaveTempNameTwo extends Component {
                 "ispRB": {
                     "tag": "image-subheading-para",
                     "imageSrc": this.props.imgsrcNinevalue,
-                    "imageAlt": this.props.imgAltNinevalue,
+                    "imageAlt": this.props.imgNineDrop ? this.props.imgAltNinevalue: null,
                     "subHeading": this.props.subheadingEightvalue,
                     "paragraph": this.props.paraEightvalue,
                     "visible": this.props.toggleSectionEight
@@ -479,6 +508,7 @@ class SaveTempNameTwo extends Component {
     handleDraft = () => {
         this.handleDeleteSection();
         this.handleDeleteButtons();
+        this.handleAltWithoutImages();
         var tempHTML = document.getElementById('template').innerHTML;
         var tempFile = new File([tempHTML], this.state.name + ".html", { type: "text/html" });
         var formData = new FormData();
@@ -496,7 +526,7 @@ class SaveTempNameTwo extends Component {
                     "tag": "header-image-anotherHeader-subheader-para",
                     "heading": this.props.headingTwovalue,
                     "imageSrc": this.props.imgsrcTwovalue,
-                    "imageAlt": this.props.imgAltTwovalue,
+                    "imageAlt": this.props.imgTwoDrop ? this.props.imgAltTwovalue: null,
                     "anotherHeading": this.props.anotherHeadingvalue,
                     "subHeading": this.props.subheadingvalue,
                     "paragraph": this.props.paravalue,
@@ -508,14 +538,14 @@ class SaveTempNameTwo extends Component {
                     "subHeading": this.props.subheadingTwovalue,
                     "paragraph": this.props.paraTwovalue,
                     "imageSrc": this.props.imgsrcThreevalue,
-                    "imageAlt": this.props.imgAltThreevalue,
+                    "imageAlt": this.props.imgThreeDrop ? this.props.imgAltThreevalue: null,
                     "visible": this.props.toggleSectionTwo
                 },
                 "ispLT": {
                     "tag": "image-subheading-para",
                     "heading": this.props.headingThreevalue,
                     "imageSrc": this.props.imgsrcFourvalue,
-                    "imageAlt": this.props.imgAltFourvalue,
+                    "imageAlt": this.props.imgFourDrop ? this.props.imgAltFourvalue: null,
                     "subHeading": this.props.subheadingThreevalue,
                     "paragraph": this.props.paraThreevalue,
                     "visible": this.props.toggleSectionThree
@@ -523,7 +553,7 @@ class SaveTempNameTwo extends Component {
                 "ispMT": {
                     "tag": "image-subheading-para",
                     "imageSrc": this.props.imgsrcFivevalue,
-                    "imageAlt": this.props.imgAltFivevalue,
+                    "imageAlt": this.props.imgFiveDrop ? this.props.imgAltFivevalue: null,
                     "subHeading": this.props.subheadingFourvalue,
                     "paragraph": this.props.paraFourvalue,
                     "visible": this.props.toggleSectionFour
@@ -531,7 +561,7 @@ class SaveTempNameTwo extends Component {
                 "ispRT": {
                     "tag": "image-subheading-para",
                     "imageSrc": this.props.imgsrcSixvalue,
-                    "imageAlt": this.props.imgAltSixvalue,
+                    "imageAlt": this.props.imgSixDrop ? this.props.imgAltSixvalue: null,
                     "subHeading": this.props.subheadingFivevalue,
                     "paragraph": this.props.paraFivevalue,
                     "visible": this.props.toggleSectionFive
@@ -539,7 +569,7 @@ class SaveTempNameTwo extends Component {
                 "ispLB": {
                     "tag": "image-subheading-para",
                     "imageSrc": this.props.imgsrcSevenvalue,
-                    "imageAlt": this.props.imgAltSevenvalue,
+                    "imageAlt": this.props.imgSevenDrop ? this.props.imgAltSevenvalue: null,
                     "subHeading": this.props.subheadingSixvalue,
                     "paragraph": this.props.paraSixvalue,
                     "visible": this.props.toggleSectionSix
@@ -547,7 +577,7 @@ class SaveTempNameTwo extends Component {
                 "ispMB": {
                     "tag": "image-subheading-para",
                     "imageSrc": this.props.imgsrcEightvalue,
-                    "imageAlt": this.props.imgAltEightvalue,
+                    "imageAlt": this.props.imgEightDrop ? this.props.imgAltEightvalue: null,
                     "subHeading": this.props.subheadingSevenvalue,
                     "paragraph": this.props.paraSevenvalue,
                     "visible": this.props.toggleSectionSeven
@@ -555,7 +585,7 @@ class SaveTempNameTwo extends Component {
                 "ispRB": {
                     "tag": "image-subheading-para",
                     "imageSrc": this.props.imgsrcNinevalue,
-                    "imageAlt": this.props.imgAltNinevalue,
+                    "imageAlt": this.props.imgNineDrop ? this.props.imgAltNinevalue: null,
                     "subHeading": this.props.subheadingEightvalue,
                     "paragraph": this.props.paraEightvalue,
                     "visible": this.props.toggleSectionEight
@@ -652,6 +682,7 @@ class SaveTempNameTwo extends Component {
     handleSave = () => {
         this.handleDeleteSection();
         this.handleDeleteButtons();
+        this.handleAltWithoutImages();
         var tempHTML = document.getElementById('template').innerHTML;
         var tempFile = new File([tempHTML], this.state.name + ".html", { type: "text/html" });
         var formData = new FormData();
@@ -669,7 +700,7 @@ class SaveTempNameTwo extends Component {
                     "tag": "header-image-anotherHeader-subheader-para",
                     "heading": this.props.headingTwovalue,
                     "imageSrc": this.props.imgsrcTwovalue,
-                    "imageAlt": this.props.imgAltTwovalue,
+                    "imageAlt": this.props.imgTwoDrop ? this.props.imgAltTwovalue: null,
                     "anotherHeading": this.props.anotherHeadingvalue,
                     "subHeading": this.props.subheadingvalue,
                     "paragraph": this.props.paravalue,
@@ -681,14 +712,14 @@ class SaveTempNameTwo extends Component {
                     "subHeading": this.props.subheadingTwovalue,
                     "paragraph": this.props.paraTwovalue,
                     "imageSrc": this.props.imgsrcThreevalue,
-                    "imageAlt": this.props.imgAltThreevalue,
+                    "imageAlt": this.props.imgThreeDrop ? this.props.imgAltThreevalue: null,
                     "visible": this.props.toggleSectionTwo
                 },
                 "ispLT": {
                     "tag": "image-subheading-para",
                     "heading": this.props.headingThreevalue,
                     "imageSrc": this.props.imgsrcFourvalue,
-                    "imageAlt": this.props.imgAltFourvalue,
+                    "imageAlt": this.props.imgFourDrop ? this.props.imgAltFourvalue: null,
                     "subHeading": this.props.subheadingThreevalue,
                     "paragraph": this.props.paraThreevalue,
                     "visible": this.props.toggleSectionThree
@@ -696,7 +727,7 @@ class SaveTempNameTwo extends Component {
                 "ispMT": {
                     "tag": "image-subheading-para",
                     "imageSrc": this.props.imgsrcFivevalue,
-                    "imageAlt": this.props.imgAltFivevalue,
+                    "imageAlt": this.props.imgFiveDrop ? this.props.imgAltFivevalue: null,
                     "subHeading": this.props.subheadingFourvalue,
                     "paragraph": this.props.paraFourvalue,
                     "visible": this.props.toggleSectionFour
@@ -704,7 +735,7 @@ class SaveTempNameTwo extends Component {
                 "ispRT": {
                     "tag": "image-subheading-para",
                     "imageSrc": this.props.imgsrcSixvalue,
-                    "imageAlt": this.props.imgAltSixvalue,
+                    "imageAlt": this.props.imgSixDrop ? this.props.imgAltSixvalue: null,
                     "subHeading": this.props.subheadingFivevalue,
                     "paragraph": this.props.paraFivevalue,
                     "visible": this.props.toggleSectionFive
@@ -712,7 +743,7 @@ class SaveTempNameTwo extends Component {
                 "ispLB": {
                     "tag": "image-subheading-para",
                     "imageSrc": this.props.imgsrcSevenvalue,
-                    "imageAlt": this.props.imgAltSevenvalue,
+                    "imageAlt": this.props.imgSevenDrop ? this.props.imgAltSevenvalue: null,
                     "subHeading": this.props.subheadingSixvalue,
                     "paragraph": this.props.paraSixvalue,
                     "visible": this.props.toggleSectionSix
@@ -720,7 +751,7 @@ class SaveTempNameTwo extends Component {
                 "ispMB": {
                     "tag": "image-subheading-para",
                     "imageSrc": this.props.imgsrcEightvalue,
-                    "imageAlt": this.props.imgAltEightvalue,
+                    "imageAlt": this.props.imgEightDrop ? this.props.imgAltEightvalue: null,
                     "subHeading": this.props.subheadingSevenvalue,
                     "paragraph": this.props.paraSevenvalue,
                     "visible": this.props.toggleSectionSeven
@@ -728,7 +759,7 @@ class SaveTempNameTwo extends Component {
                 "ispRB": {
                     "tag": "image-subheading-para",
                     "imageSrc": this.props.imgsrcNinevalue,
-                    "imageAlt": this.props.imgAltNinevalue,
+                    "imageAlt": this.props.imgNineDrop ? this.props.imgAltNinevalue: null,
                     "subHeading": this.props.subheadingEightvalue,
                     "paragraph": this.props.paraEightvalue,
                     "visible": this.props.toggleSectionEight
@@ -839,6 +870,7 @@ class SaveTempNameTwo extends Component {
     handlePublish = () => {
         this.handleDeleteSection();
         this.handleDeleteButtons();
+        this.handleAltWithoutImages();
         var tempHTML = document.getElementById('template').innerHTML;
         var tempFile = new File([tempHTML], this.state.name + ".html", { type: "text/html" });
         var formData = new FormData();
@@ -856,7 +888,7 @@ class SaveTempNameTwo extends Component {
                     "tag": "header-image-anotherHeader-subheader-para",
                     "heading": this.props.headingTwovalue,
                     "imageSrc": this.props.imgsrcTwovalue,
-                    "imageAlt": this.props.imgAltTwovalue,
+                    "imageAlt": this.props.imgTwoDrop ? this.props.imgAltTwovalue: null,
                     "anotherHeading": this.props.anotherHeadingvalue,
                     "subHeading": this.props.subheadingvalue,
                     "paragraph": this.props.paravalue,
@@ -868,14 +900,14 @@ class SaveTempNameTwo extends Component {
                     "subHeading": this.props.subheadingTwovalue,
                     "paragraph": this.props.paraTwovalue,
                     "imageSrc": this.props.imgsrcThreevalue,
-                    "imageAlt": this.props.imgAltThreevalue,
+                    "imageAlt": this.props.imgThreeDrop ? this.props.imgAltThreevalue: null,
                     "visible": this.props.toggleSectionTwo
                 },
                 "ispLT": {
                     "tag": "image-subheading-para",
                     "heading": this.props.headingThreevalue,
                     "imageSrc": this.props.imgsrcFourvalue,
-                    "imageAlt": this.props.imgAltFourvalue,
+                    "imageAlt": this.props.imgFourDrop ? this.props.imgAltFourvalue: null,
                     "subHeading": this.props.subheadingThreevalue,
                     "paragraph": this.props.paraThreevalue,
                     "visible": this.props.toggleSectionThree
@@ -883,7 +915,7 @@ class SaveTempNameTwo extends Component {
                 "ispMT": {
                     "tag": "image-subheading-para",
                     "imageSrc": this.props.imgsrcFivevalue,
-                    "imageAlt": this.props.imgAltFivevalue,
+                    "imageAlt": this.props.imgFiveDrop ? this.props.imgAltFivevalue: null,
                     "subHeading": this.props.subheadingFourvalue,
                     "paragraph": this.props.paraFourvalue,
                     "visible": this.props.toggleSectionFour
@@ -891,7 +923,7 @@ class SaveTempNameTwo extends Component {
                 "ispRT": {
                     "tag": "image-subheading-para",
                     "imageSrc": this.props.imgsrcSixvalue,
-                    "imageAlt": this.props.imgAltSixvalue,
+                    "imageAlt": this.props.imgSixDrop ? this.props.imgAltSixvalue: null,
                     "subHeading": this.props.subheadingFivevalue,
                     "paragraph": this.props.paraFivevalue,
                     "visible": this.props.toggleSectionFive
@@ -899,7 +931,7 @@ class SaveTempNameTwo extends Component {
                 "ispLB": {
                     "tag": "image-subheading-para",
                     "imageSrc": this.props.imgsrcSevenvalue,
-                    "imageAlt": this.props.imgAltSevenvalue,
+                    "imageAlt": this.props.imgSevenDrop ? this.props.imgAltSevenvalue: null,
                     "subHeading": this.props.subheadingSixvalue,
                     "paragraph": this.props.paraSixvalue,
                     "visible": this.props.toggleSectionSix
@@ -907,7 +939,7 @@ class SaveTempNameTwo extends Component {
                 "ispMB": {
                     "tag": "image-subheading-para",
                     "imageSrc": this.props.imgsrcEightvalue,
-                    "imageAlt": this.props.imgAltEightvalue,
+                    "imageAlt": this.props.imgEightDrop ? this.props.imgAltEightvalue: null,
                     "subHeading": this.props.subheadingSevenvalue,
                     "paragraph": this.props.paraSevenvalue,
                     "visible": this.props.toggleSectionSeven
@@ -915,7 +947,7 @@ class SaveTempNameTwo extends Component {
                 "ispRB": {
                     "tag": "image-subheading-para",
                     "imageSrc": this.props.imgsrcNinevalue,
-                    "imageAlt": this.props.imgAltNinevalue,
+                    "imageAlt": this.props.imgNineDrop ? this.props.imgAltNinevalue: null,
                     "subHeading": this.props.subheadingEightvalue,
                     "paragraph": this.props.paraEightvalue,
                     "visible": this.props.toggleSectionEight

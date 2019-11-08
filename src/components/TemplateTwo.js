@@ -260,6 +260,14 @@ class TemplateTwo extends Component {
             toggleSectionSix: true,
             toggleSectionSeven: true,
             toggleSectionEight: true,
+            imgTwoDrop: false,
+            imgThreeDrop: false,
+            imgFourDrop: false,
+            imgFiveDrop: false,
+            imgSixDrop: false,
+            imgSevenDrop: false,
+            imgEightDrop: false,
+            imgNineDrop: false,
             pageData: this.props.page_data
         };
     }
@@ -571,7 +579,7 @@ class TemplateTwo extends Component {
         var data = e.dataTransfer.getData("bmd");
         var source = document.getElementById(data).src;
         document.getElementById("placedImageTwo").src = source;
-
+        this.setState({ imgTwoDrop: true });
         this.updateBannerTwo(source);
     }
 
@@ -580,7 +588,7 @@ class TemplateTwo extends Component {
         var data = e.dataTransfer.getData("bmd");
         var source = document.getElementById(data).src;
         document.getElementById("placedImageThree").src = source;
-
+        this.setState({ imgThreeDrop: true });
         this.updateBannerThree(source);
     }
 
@@ -589,7 +597,7 @@ class TemplateTwo extends Component {
         var data = e.dataTransfer.getData("bsm");
         var source = document.getElementById(data).src;
         document.getElementById("placedImageFour").src = source;
-
+        this.setState({ imgFourDrop: true });
         this.updateBannerFour(source);
     }
 
@@ -598,7 +606,7 @@ class TemplateTwo extends Component {
         var data = e.dataTransfer.getData("bsm");
         var source = document.getElementById(data).src;
         document.getElementById("placedImageFive").src = source;
-
+        this.setState({ imgFiveDrop: true });
         this.updateBannerFive(source);
     }
 
@@ -607,7 +615,7 @@ class TemplateTwo extends Component {
         var data = e.dataTransfer.getData("bsm");
         var source = document.getElementById(data).src;
         document.getElementById("placedImageSix").src = source;
-
+        this.setState({ imgSixDrop: true });
         this.updateBannerSix(source);
     }
 
@@ -616,7 +624,7 @@ class TemplateTwo extends Component {
         var data = e.dataTransfer.getData("bsm");
         var source = document.getElementById(data).src;
         document.getElementById("placedImageSeven").src = source;
-
+        this.setState({ imgSevenDrop: true });
         this.updateBannerSeven(source);
     }
 
@@ -625,7 +633,7 @@ class TemplateTwo extends Component {
         var data = e.dataTransfer.getData("bsm");
         var source = document.getElementById(data).src;
         document.getElementById("placedImageEight").src = source;
-
+        this.setState({ imgEightDrop: true });
         this.updateBannerEight(source);
     }
 
@@ -634,7 +642,7 @@ class TemplateTwo extends Component {
         var data = e.dataTransfer.getData("bsm");
         var source = document.getElementById(data).src;
         document.getElementById("placedImageNine").src = source;
-
+        this.setState({ imgNineDrop: true });
         this.updateBannerNine(source);
     }
 
@@ -1954,6 +1962,14 @@ class TemplateTwo extends Component {
                                     toggleSectionSix={this.state.toggleSectionSix}
                                     toggleSectionSeven={this.state.toggleSectionSeven}
                                     toggleSectionEight={this.state.toggleSectionEight}
+                                    imgTwoDrop={this.state.imgTwoDrop}
+                                    imgThreeDrop={this.state.imgThreeDrop}
+                                    imgFourDrop={this.state.imgFourDrop}
+                                    imgFiveDrop={this.state.imgFiveDrop}
+                                    imgSixDrop={this.state.imgSixDrop}
+                                    imgSevenDrop={this.state.imgSevenDrop}
+                                    imgEightDrop={this.state.imgEightDrop}
+                                    imgNineDrop={this.state.imgNineDrop}
                                 />
                             </Suspense>
                         </Paper>
@@ -2034,9 +2050,8 @@ class TemplateTwo extends Component {
                                                 <ActivePara
                                                     activeParagraph={this.state.activeParagraph}
                                                     onClick={this.editPara}
-                                                    className="para-1"
                                                 >
-                                                    <p dangerouslySetInnerHTML={{__html: DOMPurify.sanitize(this.state.paravalue)}} />
+                                                    <p className="para-1" dangerouslySetInnerHTML={{__html: DOMPurify.sanitize(this.state.paravalue)}} />
                                                 </ActivePara>
                                             </div>
                                         </div>
@@ -2069,9 +2084,8 @@ class TemplateTwo extends Component {
                                                 <ActiveParaTwo
                                                     activeParagraphTwo={this.state.activeParagraphTwo}
                                                     onClick={this.editParaTwo}
-                                                    className="para-1"
                                                 >
-                                                    <p dangerouslySetInnerHTML={{__html: DOMPurify.sanitize(this.state.paraTwovalue)}} />
+                                                    <p className="para-1" dangerouslySetInnerHTML={{__html: DOMPurify.sanitize(this.state.paraTwovalue)}} />
                                                 </ActiveParaTwo>
                                             </div>
                                             <ActivePara
@@ -2130,9 +2144,8 @@ class TemplateTwo extends Component {
                                                 <ActiveParaThree
                                                     activeParagraphThree={this.state.activeParagraphThree}
                                                     onClick={this.editParaThree}
-                                                    className="para-1"
                                                 >
-                                                <p dangerouslySetInnerHTML={{__html: DOMPurify.sanitize(this.state.paraThreevalue)}} />
+                                                <p className="para-1" dangerouslySetInnerHTML={{__html: DOMPurify.sanitize(this.state.paraThreevalue)}} />
                                                 </ActiveParaThree>
                                             </div>
                                             <div className="section-pwa">
@@ -2159,9 +2172,8 @@ class TemplateTwo extends Component {
                                                 <ActiveParaFour
                                                     activeParagraphFour={this.state.activeParagraphFour}
                                                     onClick={this.editParaFour}
-                                                    className="para-1"
                                                 >
-                                                <p dangerouslySetInnerHTML={{__html: DOMPurify.sanitize(this.state.paraFourvalue)}} />
+                                                <p className="para-1" dangerouslySetInnerHTML={{__html: DOMPurify.sanitize(this.state.paraFourvalue)}} />
                                                 </ActiveParaFour>
                                             </div>
                                             <div className="section-pwa">
@@ -2188,9 +2200,8 @@ class TemplateTwo extends Component {
                                                 <ActiveParaFive
                                                     activeParagraphFive={this.state.activeParagraphFive}
                                                     onClick={this.editParaFive}
-                                                    className="para-1"
                                                 >
-                                                <p dangerouslySetInnerHTML={{__html: DOMPurify.sanitize(this.state.paraFivevalue)}} />
+                                                <p className="para-1" dangerouslySetInnerHTML={{__html: DOMPurify.sanitize(this.state.paraFivevalue)}} />
                                                 </ActiveParaFive>
                                             </div>
                                         </div>
@@ -2229,9 +2240,8 @@ class TemplateTwo extends Component {
                                                 <ActiveParaSix
                                                     activeParagraphSix={this.state.activeParagraphSix}
                                                     onClick={this.editParaSix}
-                                                    className="para-1"
                                                 >
-                                                <p dangerouslySetInnerHTML={{__html: DOMPurify.sanitize(this.state.paraSixvalue)}} />
+                                                <p className="para-1" dangerouslySetInnerHTML={{__html: DOMPurify.sanitize(this.state.paraSixvalue)}} />
                                                 </ActiveParaSix>
                                             </div>
                                             <div className="section-pwa">
@@ -2258,9 +2268,8 @@ class TemplateTwo extends Component {
                                                 <ActiveParaSeven
                                                     activeParagraphSeven={this.state.activeParagraphSeven}
                                                     onClick={this.editParaSeven}
-                                                    className="para-1"
                                                 >
-                                                <p dangerouslySetInnerHTML={{__html: DOMPurify.sanitize(this.state.paraSevenvalue)}} />
+                                                <p className="para-1" dangerouslySetInnerHTML={{__html: DOMPurify.sanitize(this.state.paraSevenvalue)}} />
                                                 </ActiveParaSeven>
                                             </div>
                                             <div className="section-pwa">
@@ -2287,9 +2296,8 @@ class TemplateTwo extends Component {
                                                 <ActiveParaEight
                                                     activeParagraphEight={this.state.activeParagraphEight}
                                                     onClick={this.editParaEight}
-                                                    className="para-1"
                                                 >
-                                                <p dangerouslySetInnerHTML={{__html: DOMPurify.sanitize(this.state.paraEightvalue)}} />
+                                                <p className="para-1" dangerouslySetInnerHTML={{__html: DOMPurify.sanitize(this.state.paraEightvalue)}} />
                                                 </ActiveParaEight>
                                             </div>
                                         </div>

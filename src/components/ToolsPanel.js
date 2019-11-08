@@ -71,6 +71,15 @@ class ToolsPanel extends Component {
                     toggleSectionSix={this.props.toggleSectionSix}
                     toggleSectionSeven={this.props.toggleSectionSeven}
                     toggleSectionEight={this.props.toggleSectionEight}
+                    imgDrop={this.props.imgDrop}
+                    imgTwoDrop={this.props.imgTwoDrop}
+                    imgThreeDrop={this.props.imgThreeDrop}
+                    imgFourDrop={this.props.imgFourDrop}
+                    imgFiveDrop={this.props.imgFiveDrop}
+                    imgSixDrop={this.props.imgSixDrop}
+                    imgSevenDrop={this.props.imgSevenDrop}
+                    imgEightDrop={this.props.imgEightDrop}
+                    imgNineDrop={this.props.imgNineDrop}
                 />)
 
             case "Temp 2":
@@ -126,6 +135,14 @@ class ToolsPanel extends Component {
                     toggleSectionSix={this.props.toggleSectionSix}
                     toggleSectionSeven={this.props.toggleSectionSeven}
                     toggleSectionEight={this.props.toggleSectionEight}
+                    imgTwoDrop={this.props.imgTwoDrop}
+                    imgThreeDrop={this.props.imgThreeDrop}
+                    imgFourDrop={this.props.imgFourDrop}
+                    imgFiveDrop={this.props.imgFiveDrop}
+                    imgSixDrop={this.props.imgSixDrop}
+                    imgSevenDrop={this.props.imgSevenDrop}
+                    imgEightDrop={this.props.imgEightDrop}
+                    imgNineDrop={this.props.imgNineDrop}
                 />)
 
             default:
