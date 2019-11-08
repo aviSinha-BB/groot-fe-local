@@ -205,6 +205,9 @@ class ChooseTemplate extends Component {
                                             input: classes.inputStyle
                                         }
                                     }}
+                                    inputProps={{
+                                        maxLength: 39
+                                    }}
                                     required
                                 />
                             </Tooltip>
