@@ -2050,6 +2050,7 @@ class TemplateTwo extends Component {
                                                 <ActivePara
                                                     activeParagraph={this.state.activeParagraph}
                                                     onClick={this.editPara}
+                                                    className="para-1"
                                                 >
                                                     <p className="para-1" dangerouslySetInnerHTML={{__html: DOMPurify.sanitize(this.state.paravalue)}} />
                                                 </ActivePara>
@@ -2084,6 +2085,7 @@ class TemplateTwo extends Component {
                                                 <ActiveParaTwo
                                                     activeParagraphTwo={this.state.activeParagraphTwo}
                                                     onClick={this.editParaTwo}
+                                                    className="para-1"
                                                 >
                                                     <p className="para-1" dangerouslySetInnerHTML={{__html: DOMPurify.sanitize(this.state.paraTwovalue)}} />
                                                 </ActiveParaTwo>
@@ -2144,6 +2146,7 @@ class TemplateTwo extends Component {
                                                 <ActiveParaThree
                                                     activeParagraphThree={this.state.activeParagraphThree}
                                                     onClick={this.editParaThree}
+                                                    className="para-1"
                                                 >
                                                 <p className="para-1" dangerouslySetInnerHTML={{__html: DOMPurify.sanitize(this.state.paraThreevalue)}} />
                                                 </ActiveParaThree>
@@ -2172,6 +2175,7 @@ class TemplateTwo extends Component {
                                                 <ActiveParaFour
                                                     activeParagraphFour={this.state.activeParagraphFour}
                                                     onClick={this.editParaFour}
+                                                    className="para-1"
                                                 >
                                                 <p className="para-1" dangerouslySetInnerHTML={{__html: DOMPurify.sanitize(this.state.paraFourvalue)}} />
                                                 </ActiveParaFour>
@@ -2200,6 +2204,7 @@ class TemplateTwo extends Component {
                                                 <ActiveParaFive
                                                     activeParagraphFive={this.state.activeParagraphFive}
                                                     onClick={this.editParaFive}
+                                                    className="para-1"
                                                 >
                                                 <p className="para-1" dangerouslySetInnerHTML={{__html: DOMPurify.sanitize(this.state.paraFivevalue)}} />
                                                 </ActiveParaFive>
@@ -2240,6 +2245,7 @@ class TemplateTwo extends Component {
                                                 <ActiveParaSix
                                                     activeParagraphSix={this.state.activeParagraphSix}
                                                     onClick={this.editParaSix}
+                                                    className="para-1"
                                                 >
                                                 <p className="para-1" dangerouslySetInnerHTML={{__html: DOMPurify.sanitize(this.state.paraSixvalue)}} />
                                                 </ActiveParaSix>
@@ -2268,6 +2274,7 @@ class TemplateTwo extends Component {
                                                 <ActiveParaSeven
                                                     activeParagraphSeven={this.state.activeParagraphSeven}
                                                     onClick={this.editParaSeven}
+                                                    className="para-1"
                                                 >
                                                 <p className="para-1" dangerouslySetInnerHTML={{__html: DOMPurify.sanitize(this.state.paraSevenvalue)}} />
                                                 </ActiveParaSeven>
@@ -2296,6 +2303,7 @@ class TemplateTwo extends Component {
                                                 <ActiveParaEight
                                                     activeParagraphEight={this.state.activeParagraphEight}
                                                     onClick={this.editParaEight}
+                                                    className="para-1"
                                                 >
                                                 <p className="para-1" dangerouslySetInnerHTML={{__html: DOMPurify.sanitize(this.state.paraEightvalue)}} />
                                                 </ActiveParaEight>
