@@ -155,31 +155,31 @@ class SaveTempName extends Component {
     }
 
     handleAltWithoutImages = () => {
-        if(!this.props.imgDrop) {
+        if(!this.props.imgDrop && document.getElementById("placedImage")) {
             document.getElementById("placedImage").removeAttribute("alt");
         }
-        if(!this.props.imgTwoDrop) {
+        if(!this.props.imgTwoDrop && document.getElementById("placedImageTwo")) {
             document.getElementById("placedImageTwo").removeAttribute("alt");
         }
-        if(!this.props.imgThreeDrop) {
+        if(!this.props.imgThreeDrop && document.getElementById("placedImageThree")) {
             document.getElementById("placedImageThree").removeAttribute("alt");
         }
-        if(!this.props.imgFourDrop) {
+        if(!this.props.imgFourDrop && document.getElementById("placedImageFour")) {
             document.getElementById("placedImageFour").removeAttribute("alt");
         }
-        if(!this.props.imgFiveDrop) {
+        if(!this.props.imgFiveDrop && document.getElementById("placedImageFive")) {
             document.getElementById("placedImageFive").removeAttribute("alt");
         }
-        if(!this.props.imgSixDrop) {
+        if(!this.props.imgSixDrop && document.getElementById("placedImageSix")) {
             document.getElementById("placedImageSix").removeAttribute("alt");
         }
-        if(!this.props.imgSevenDrop) {
+        if(!this.props.imgSevenDrop && document.getElementById("placedImageSeven")) {
             document.getElementById("placedImageSeven").removeAttribute("alt");
         }
-        if(!this.props.imgEightDrop) {
+        if(!this.props.imgEightDrop && document.getElementById("placedImageEight")) {
             document.getElementById("placedImageEight").removeAttribute("alt");
         }
-        if(!this.props.imgNineDrop) {
+        if(!this.props.imgNineDrop && document.getElementById("placedImageNine")) {
             document.getElementById("placedImageNine").removeAttribute("alt");
         }
     }
