@@ -15,8 +15,6 @@ const modalRoot = document.getElementById('modal-root');
 
 const bannerInfo = `Image must be jpg, png and less than ` + imageSize/1024 + `KB`;
 
-const altTextInfo = `Avoid Using Special Characters`;
-
 class Banner extends Component {
   constructor(props) {
     super(props);
@@ -218,8 +216,13 @@ class Banner extends Component {
         <br />
         <div className={classes.wrapper}>
           <div className={classes.alt}>
-            <Tooltip title={altTextInfo} placement="right">
-              <TextField
+            <Tooltip 
+              title={<span>On the rare occasions that images do not load completely (during slow internet speeds) this text will be shown while the image is being downloaded. Also has SEO advantages.<br/>Avoid using special characters such as quotes, html tags in alt text.</span>} 
+              placement="right"
+            >
+              <InfoIcon className={classes.IconStyleTwo} />
+            </Tooltip>
+            <TextField
                 id="alt-image-name"
                 label={<span className={classes.labelStyle}>Alt Text for Image</span>}
                 value={imgAlt}
@@ -237,8 +240,7 @@ class Banner extends Component {
                 inputProps={{
                   maxLength: 80
                 }}
-              />
-            </Tooltip>
+            />
           </div>
         </div>
         <br />
