@@ -203,6 +203,14 @@ class TemplateTwo extends Component {
             imgsrcSevenvalue: placeholderThree,
             imgsrcEightvalue: placeholderThree,
             imgsrcNinevalue: placeholderThree,
+            imgAltTwovalue: null,
+            imgAltThreevalue: null,
+            imgAltFourvalue: null,
+            imgAltFivevalue: null,
+            imgAltSixvalue: null,
+            imgAltSevenvalue: null,
+            imgAltEightvalue: null,
+            imgAltNinevalue: null,
             paravalue: 'This juicy, delicious and mouth-watering fruit comes from Ratnagiri. Alphonso Mango, also known as “King of Mangoes” is a premium qualitymango in terms of sweetness, richness and flavour. It is famous for its unique fragrance. Product image shown is for representation purpose only, the actual product may vary based on season, produce &amp; availability.This juicy, delicious and mouth-watering fruit comes from Ratnagiri. Alphonso Mango, also known as “King of Mangoes” is a premium quality mango in terms of sweetness, richness and flavour. It is famous for its unique fragrance. Product image shown is for representation purpose only, the actual product may vary based on season, produce &amp; availability.',                              //paragraph value
             paraTwovalue: 'This juicy, delicious and mouth-watering fruit comes from Ratnagiri. Alphonso Mango, also known as “King of Mangoes” is a premium qualitymango in terms of sweetness, richness and flavour. It is famous for its unique fragrance. Product image shown is for representation purpose only, the actual product may vary based on season, produce &amp; availability.This juicy, delicious and mouth-watering fruit comes from Ratnagiri. Alphonso Mango, also known as “King of Mangoes” is a premium quality mango in terms of sweetness, richness and flavour. It is famous for its unique fragrance. Product image shown is for representation purpose only, the actual product may vary based on season, produce &amp; availability.',
             paraThreevalue: 'This juicy, delicious and mouth-watering fruit comes from Ratnagiri. Alphonso Mango, also known as “King of Mangoes” is a premium qualitymango in terms of sweetness, richness and flavour. It is famous for its unique fragrance. Product image shown is for representation purpose only, the actual product may vary based on season, produce &amp; availability.This juicy, delicious and mouth-watering fruit comes from Ratnagiri. Alphonso Mango, also known as “King of Mangoes” is a premium quality mango in terms of sweetness, richness and flavour. It is famous for its unique fragrance. Product image shown is for representation purpose only, the actual product may vary based on season, produce &amp; availability.',
@@ -252,6 +260,14 @@ class TemplateTwo extends Component {
             toggleSectionSix: true,
             toggleSectionSeven: true,
             toggleSectionEight: true,
+            imgTwoDrop: false,
+            imgThreeDrop: false,
+            imgFourDrop: false,
+            imgFiveDrop: false,
+            imgSixDrop: false,
+            imgSevenDrop: false,
+            imgEightDrop: false,
+            imgNineDrop: false,
             pageData: this.props.page_data
         };
     }
@@ -269,63 +285,80 @@ class TemplateTwo extends Component {
                 toggleSectionZero: this.state.pageData.hiT.visible,
                 headingTwovalue: this.state.pageData.hihspM.heading,
                 imgsrcTwovalue: this.state.pageData.hihspM.imageSrc,
+                imgAltTwovalue: this.state.pageData.hihspM.imageAlt,
                 anotherHeadingvalue: this.state.pageData.hihspM.anotherHeading,
                 subheadingvalue: this.state.pageData.hihspM.subHeading,
                 paravalue: this.state.pageData.hihspM.paragraph,
                 toggleSectionOne: this.state.pageData.hihspM.visible,
                 headingThreevalue: this.state.pageData.ispLT.heading,
                 imgsrcThreevalue: this.state.pageData.hspihB.imageSrc,
+                imgAltThreevalue: this.state.pageData.hspihB.imageAlt,
                 anotherHeadingTwovalue: this.state.pageData.hspihB.anotherHeading,
                 subheadingTwovalue: this.state.pageData.hspihB.subHeading,
                 paraTwovalue: this.state.pageData.hspihB.paragraph,
                 toggleSectionTwo: this.state.pageData.hspihB.visible,
                 imgsrcFourvalue: this.state.pageData.ispLT.imageSrc,
+                imgAltFourvalue: this.state.pageData.ispLT.imageAlt,
                 subheadingThreevalue: this.state.pageData.ispLT.subHeading,
                 paraThreevalue: this.state.pageData.ispLT.paragraph,
                 toggleSectionThree: this.state.pageData.ispLT.visible,
                 imgsrcFivevalue: this.state.pageData.ispMT.imageSrc,
+                imgAltFivevalue: this.state.pageData.ispMT.imageAlt,
                 subheadingFourvalue: this.state.pageData.ispMT.subHeading,
                 paraFourvalue: this.state.pageData.ispMT.paragraph,
                 toggleSectionFour: this.state.pageData.ispMT.visible,
                 imgsrcSixvalue: this.state.pageData.ispRT.imageSrc,
+                imgAltSixvalue: this.state.pageData.ispRT.imageAlt,
                 subheadingFivevalue: this.state.pageData.ispRT.subHeading,
                 paraFivevalue: this.state.pageData.ispRT.paragraph,
                 toggleSectionFive: this.state.pageData.ispRT.visible,
                 imgsrcSevenvalue: this.state.pageData.ispLB.imageSrc,
+                imgAltSevenvalue: this.state.pageData.ispLB.imageAlt,
                 subheadingSixvalue: this.state.pageData.ispLB.subHeading,
                 paraSixvalue: this.state.pageData.ispLB.paragraph,
                 toggleSectionSix: this.state.pageData.ispLB.visible,
                 imgsrcEightvalue: this.state.pageData.ispMB.imageSrc,
+                imgAltEightvalue: this.state.pageData.ispMB.imageAlt,
                 subheadingSevenvalue: this.state.pageData.ispMB.subHeading,
                 paraSevenvalue: this.state.pageData.ispMB.paragraph,
                 toggleSectionSeven: this.state.pageData.ispMB.visible,
                 imgsrcNinevalue: this.state.pageData.ispRB.imageSrc,
+                imgAltNinevalue: this.state.pageData.ispRB.imageAlt,
                 subheadingEightvalue: this.state.pageData.ispRB.subHeading,
                 paraEightvalue: this.state.pageData.ispRB.paragraph,
                 toggleSectionEight: this.state.pageData.ispRB.visible,
                 taskId: this.state.pageData.metaData.taskId
             }, () => {
-                this.handlingAltImage("placedImageTwo", this.state.imgsrcTwovalue);
-                this.handlingAltImage("placedImageThree", this.state.imgsrcThreevalue);
-                this.handlingAltImage("placedImageFour", this.state.imgsrcFourvalue);
-                this.handlingAltImage("placedImageFive", this.state.imgsrcFivevalue);
-                this.handlingAltImage("placedImageSix", this.state.imgsrcSixvalue);
-                this.handlingAltImage("placedImageSeven", this.state.imgsrcSevenvalue);
-                this.handlingAltImage("placedImageEight", this.state.imgsrcEightvalue);
-                this.handlingAltImage("placedImageNine", this.state.imgsrcNinevalue);
+                if (this.state.imgAltTwovalue) {
+                    document.getElementById("placedImageTwo").alt = this.state.imgAltTwovalue;
+                }
+                if (this.state.imgAltThreevalue) {
+                    document.getElementById("placedImageThree").alt = this.state.imgAltThreevalue;
+                }
+                if (this.state.imgAltFourvalue) {
+                    document.getElementById("placedImageFour").alt = this.state.imgAltFourvalue;
+                }
+                if (this.state.imgAltFivevalue) {
+                    document.getElementById("placedImageFive").alt = this.state.imgAltFivevalue;
+                }
+                if (this.state.imgAltSixvalue) {
+                    document.getElementById("placedImageSix").alt = this.state.imgAltSixvalue;
+                }
+                if (this.state.imgAltSevenvalue) {
+                    document.getElementById("placedImageSeven").alt = this.state.imgAltSevenvalue;
+                }
+                if (this.state.imgAltEightvalue) {
+                    document.getElementById("placedImageEight").alt = this.state.imgAltEightvalue;
+                }
+                if (this.state.imgAltNinevalue) {
+                    document.getElementById("placedImageNine").alt = this.state.imgAltNinevalue;
+                }
                 this.handleDeleteSection("initial-mount");
             });
         }
         else {
             this.setState({ loading: false });
         }
-    }
-
-    //setting alt text
-    handlingAltImage = (section, source) => {
-        var imgNameExt = source.split("images/")[1];
-        var imgName = imgNameExt.split(".")[0];
-        document.getElementById(section).alt = imgName;
     }
 
     //setting the value of header
@@ -415,6 +448,87 @@ class TemplateTwo extends Component {
         this.setState({ paraEightvalue: parag });
     }
 
+    //setting the alt value
+    updateAltTwo = (altval) => {
+        if(altval) {
+            document.getElementById("placedImageTwo").alt = altval;
+        }
+        else {
+            document.getElementById("placedImageTwo").removeAttribute("alt");
+        }
+        this.setState({ imgAltTwovalue: altval });
+    }
+
+    updateAltThree = (altval) => {
+        if(altval) {
+            document.getElementById("placedImageThree").alt = altval;
+        }
+        else {
+            document.getElementById("placedImageThree").removeAttribute("alt");
+        }
+        this.setState({ imgAltThreevalue: altval });
+    }
+
+    updateAltFour = (altval) => {
+        if(altval) {
+            document.getElementById("placedImageFour").alt = altval;
+        }
+        else {
+            document.getElementById("placedImageFour").removeAttribute("alt");
+        }
+        this.setState({ imgAltFourvalue: altval });
+    }
+
+    updateAltFive = (altval) => {
+        if(altval) {
+            document.getElementById("placedImageFive").alt = altval;
+        }
+        else {
+            document.getElementById("placedImageFive").removeAttribute("alt");
+        }
+        this.setState({ imgAltFivevalue: altval });
+    }
+
+    updateAltSix = (altval) => {
+        if(altval) {
+            document.getElementById("placedImageSix").alt = altval;
+        }
+        else {
+            document.getElementById("placedImageSix").removeAttribute("alt");
+        }
+        this.setState({ imgAltSixvalue: altval });
+    }
+
+    updateAltSeven = (altval) => {
+        if(altval) {
+            document.getElementById("placedImageSeven").alt = altval;
+        }
+        else {
+            document.getElementById("placedImageSeven").removeAttribute("alt");
+        }
+        this.setState({ imgAltSevenvalue: altval });
+    }
+
+    updateAltEight = (altval) => {
+        if(altval) {
+            document.getElementById("placedImageEight").alt = altval;
+        }
+        else {
+            document.getElementById("placedImageEight").removeAttribute("alt");
+        }
+        this.setState({ imgAltEightvalue: altval });
+    }
+
+    updateAltNine = (altval) => {
+        if(altval) {
+            document.getElementById("placedImageNine").alt = altval;
+        }
+        else {
+            document.getElementById("placedImageNine").removeAttribute("alt");
+        }
+        this.setState({ imgAltNinevalue: altval });
+    }
+
     updateBannerTwo = (srcval) => {
         this.setState({ imgsrcTwovalue: srcval });
     }
@@ -464,11 +578,8 @@ class TemplateTwo extends Component {
         e.preventDefault();
         var data = e.dataTransfer.getData("bmd");
         var source = document.getElementById(data).src;
-        var imgNameExt = source.split("images/")[1];
-        var imgName = imgNameExt.split(".")[0];
-        document.getElementById("placedImageTwo").alt = imgName;
         document.getElementById("placedImageTwo").src = source;
-
+        this.setState({ imgTwoDrop: true });
         this.updateBannerTwo(source);
     }
 
@@ -476,11 +587,8 @@ class TemplateTwo extends Component {
         e.preventDefault();
         var data = e.dataTransfer.getData("bmd");
         var source = document.getElementById(data).src;
-        var imgNameExt = source.split("images/")[1];
-        var imgName = imgNameExt.split(".")[0];
-        document.getElementById("placedImageThree").alt = imgName;
         document.getElementById("placedImageThree").src = source;
-
+        this.setState({ imgThreeDrop: true });
         this.updateBannerThree(source);
     }
 
@@ -488,11 +596,8 @@ class TemplateTwo extends Component {
         e.preventDefault();
         var data = e.dataTransfer.getData("bsm");
         var source = document.getElementById(data).src;
-        var imgNameExt = source.split("images/")[1];
-        var imgName = imgNameExt.split(".")[0];
-        document.getElementById("placedImageFour").alt = imgName;
         document.getElementById("placedImageFour").src = source;
-
+        this.setState({ imgFourDrop: true });
         this.updateBannerFour(source);
     }
 
@@ -500,11 +605,8 @@ class TemplateTwo extends Component {
         e.preventDefault();
         var data = e.dataTransfer.getData("bsm");
         var source = document.getElementById(data).src;
-        var imgNameExt = source.split("images/")[1];
-        var imgName = imgNameExt.split(".")[0];
-        document.getElementById("placedImageFive").alt = imgName;
         document.getElementById("placedImageFive").src = source;
-
+        this.setState({ imgFiveDrop: true });
         this.updateBannerFive(source);
     }
 
@@ -512,11 +614,8 @@ class TemplateTwo extends Component {
         e.preventDefault();
         var data = e.dataTransfer.getData("bsm");
         var source = document.getElementById(data).src;
-        var imgNameExt = source.split("images/")[1];
-        var imgName = imgNameExt.split(".")[0];
-        document.getElementById("placedImageSix").alt = imgName;
         document.getElementById("placedImageSix").src = source;
-
+        this.setState({ imgSixDrop: true });
         this.updateBannerSix(source);
     }
 
@@ -524,11 +623,8 @@ class TemplateTwo extends Component {
         e.preventDefault();
         var data = e.dataTransfer.getData("bsm");
         var source = document.getElementById(data).src;
-        var imgNameExt = source.split("images/")[1];
-        var imgName = imgNameExt.split(".")[0];
-        document.getElementById("placedImageSeven").alt = imgName;
         document.getElementById("placedImageSeven").src = source;
-
+        this.setState({ imgSevenDrop: true });
         this.updateBannerSeven(source);
     }
 
@@ -536,11 +632,8 @@ class TemplateTwo extends Component {
         e.preventDefault();
         var data = e.dataTransfer.getData("bsm");
         var source = document.getElementById(data).src;
-        var imgNameExt = source.split("images/")[1];
-        var imgName = imgNameExt.split(".")[0];
-        document.getElementById("placedImageEight").alt = imgName;
         document.getElementById("placedImageEight").src = source;
-
+        this.setState({ imgEightDrop: true });
         this.updateBannerEight(source);
     }
 
@@ -548,11 +641,8 @@ class TemplateTwo extends Component {
         e.preventDefault();
         var data = e.dataTransfer.getData("bsm");
         var source = document.getElementById(data).src;
-        var imgNameExt = source.split("images/")[1];
-        var imgName = imgNameExt.split(".")[0];
-        document.getElementById("placedImageNine").alt = imgName;
         document.getElementById("placedImageNine").src = source;
-
+        this.setState({ imgNineDrop: true });
         this.updateBannerNine(source);
     }
 
@@ -1836,21 +1926,29 @@ class TemplateTwo extends Component {
                                     paraEightvalue={this.state.paraEightvalue}
                                     updateParaEight={this.updateParaEight}
                                     imgsrcTwovalue={this.state.imgsrcTwovalue}
-                                    updateBannerTwo={this.updateBannerTwo}
                                     imgsrcThreevalue={this.state.imgsrcThreevalue}
-                                    updateBannerThree={this.updateBannerThree}
                                     imgsrcFourvalue={this.state.imgsrcFourvalue}
-                                    updateBannerFour={this.updateBannerFour}
                                     imgsrcFivevalue={this.state.imgsrcFivevalue}
-                                    updateBannerFive={this.updateBannerFive}
                                     imgsrcSixvalue={this.state.imgsrcSixvalue}
-                                    updateBannerSix={this.updateBannerSix}
                                     imgsrcSevenvalue={this.state.imgsrcSevenvalue}
-                                    updateBannerSeven={this.updateBannerSeven}
                                     imgsrcEightvalue={this.state.imgsrcEightvalue}
-                                    updateBannerEight={this.updateBannerEight}
                                     imgsrcNinevalue={this.state.imgsrcNinevalue}
-                                    updateBannerNine={this.updateBannerNine}
+                                    imgAltTwovalue={this.state.imgAltTwovalue}
+                                    updateAltTwo={this.updateAltTwo}
+                                    imgAltThreevalue={this.state.imgAltThreevalue}
+                                    updateAltThree={this.updateAltThree}
+                                    imgAltFourvalue={this.state.imgAltFourvalue}
+                                    updateAltFour={this.updateAltFour}
+                                    imgAltFivevalue={this.state.imgAltFivevalue}
+                                    updateAltFive={this.updateAltFive}
+                                    imgAltSixvalue={this.state.imgAltSixvalue}
+                                    updateAltSix={this.updateAltSix}
+                                    imgAltSevenvalue={this.state.imgAltSevenvalue}
+                                    updateAltSeven={this.updateAltSeven}
+                                    imgAltEightvalue={this.state.imgAltEightvalue}
+                                    updateAltEight={this.updateAltEight}
+                                    imgAltNinevalue={this.state.imgAltNinevalue}
+                                    updateAltNine={this.updateAltNine}
                                     videoStr={this.state.videoStr}
                                     updateVideo={this.updateVideo}
                                     tempComponent={this.props.tempComponent}
@@ -1864,6 +1962,14 @@ class TemplateTwo extends Component {
                                     toggleSectionSix={this.state.toggleSectionSix}
                                     toggleSectionSeven={this.state.toggleSectionSeven}
                                     toggleSectionEight={this.state.toggleSectionEight}
+                                    imgTwoDrop={this.state.imgTwoDrop}
+                                    imgThreeDrop={this.state.imgThreeDrop}
+                                    imgFourDrop={this.state.imgFourDrop}
+                                    imgFiveDrop={this.state.imgFiveDrop}
+                                    imgSixDrop={this.state.imgSixDrop}
+                                    imgSevenDrop={this.state.imgSevenDrop}
+                                    imgEightDrop={this.state.imgEightDrop}
+                                    imgNineDrop={this.state.imgNineDrop}
                                 />
                             </Suspense>
                         </Paper>
@@ -1926,7 +2032,6 @@ class TemplateTwo extends Component {
                                                     activeBannerTwo={this.state.activeBannerTwo}
                                                     onClick={this.editBannerTwo}
                                                     className="half-view-img"
-                                                    alt
                                                 />
                                             </ActivePara>
                                             <div>
@@ -1947,7 +2052,7 @@ class TemplateTwo extends Component {
                                                     onClick={this.editPara}
                                                     className="para-1"
                                                 >
-                                                    <p dangerouslySetInnerHTML={{__html: DOMPurify.sanitize(this.state.paravalue)}} />
+                                                    <p className="para-1" dangerouslySetInnerHTML={{__html: DOMPurify.sanitize(this.state.paravalue)}} />
                                                 </ActivePara>
                                             </div>
                                         </div>
@@ -1982,7 +2087,7 @@ class TemplateTwo extends Component {
                                                     onClick={this.editParaTwo}
                                                     className="para-1"
                                                 >
-                                                    <p dangerouslySetInnerHTML={{__html: DOMPurify.sanitize(this.state.paraTwovalue)}} />
+                                                    <p className="para-1" dangerouslySetInnerHTML={{__html: DOMPurify.sanitize(this.state.paraTwovalue)}} />
                                                 </ActiveParaTwo>
                                             </div>
                                             <ActivePara
@@ -1996,7 +2101,6 @@ class TemplateTwo extends Component {
                                                     activeBannerThree={this.state.activeBannerThree}
                                                     onClick={this.editBannerThree}
                                                     className="half-view-img"
-                                                    alt
                                                 />
                                             </ActivePara>
                                         </div>
@@ -2030,7 +2134,6 @@ class TemplateTwo extends Component {
                                                         activeBannerFour={this.state.activeBannerFour}
                                                         onClick={this.editBannerFour}
                                                         className="small-view-img"
-                                                        alt
                                                     />
                                                 </ActivePara>
                                                 <ActiveSubHeaderThree
@@ -2045,7 +2148,7 @@ class TemplateTwo extends Component {
                                                     onClick={this.editParaThree}
                                                     className="para-1"
                                                 >
-                                                <p dangerouslySetInnerHTML={{__html: DOMPurify.sanitize(this.state.paraThreevalue)}} />
+                                                <p className="para-1" dangerouslySetInnerHTML={{__html: DOMPurify.sanitize(this.state.paraThreevalue)}} />
                                                 </ActiveParaThree>
                                             </div>
                                             <div className="section-pwa">
@@ -2060,7 +2163,6 @@ class TemplateTwo extends Component {
                                                         activeBannerFive={this.state.activeBannerFive}
                                                         onClick={this.editBannerFive}
                                                         className="small-view-img"
-                                                        alt
                                                     />
                                                 </ActivePara>
                                                 <ActiveSubHeaderFour
@@ -2075,7 +2177,7 @@ class TemplateTwo extends Component {
                                                     onClick={this.editParaFour}
                                                     className="para-1"
                                                 >
-                                                <p dangerouslySetInnerHTML={{__html: DOMPurify.sanitize(this.state.paraFourvalue)}} />
+                                                <p className="para-1" dangerouslySetInnerHTML={{__html: DOMPurify.sanitize(this.state.paraFourvalue)}} />
                                                 </ActiveParaFour>
                                             </div>
                                             <div className="section-pwa">
@@ -2090,7 +2192,6 @@ class TemplateTwo extends Component {
                                                         activeBannerSix={this.state.activeBannerSix}
                                                         onClick={this.editBannerSix}
                                                         className="small-view-img"
-                                                        alt
                                                     />
                                                 </ActivePara>
                                                 <ActiveSubHeaderFive
@@ -2105,7 +2206,7 @@ class TemplateTwo extends Component {
                                                     onClick={this.editParaFive}
                                                     className="para-1"
                                                 >
-                                                <p dangerouslySetInnerHTML={{__html: DOMPurify.sanitize(this.state.paraFivevalue)}} />
+                                                <p className="para-1" dangerouslySetInnerHTML={{__html: DOMPurify.sanitize(this.state.paraFivevalue)}} />
                                                 </ActiveParaFive>
                                             </div>
                                         </div>
@@ -2132,7 +2233,6 @@ class TemplateTwo extends Component {
                                                         activeBannerSeven={this.state.activeBannerSeven}
                                                         onClick={this.editBannerSeven}
                                                         className="small-view-img"
-                                                        alt
                                                     />
                                                 </ActivePara>
                                                 <ActiveSubHeaderSix
@@ -2147,7 +2247,7 @@ class TemplateTwo extends Component {
                                                     onClick={this.editParaSix}
                                                     className="para-1"
                                                 >
-                                                <p dangerouslySetInnerHTML={{__html: DOMPurify.sanitize(this.state.paraSixvalue)}} />
+                                                <p className="para-1" dangerouslySetInnerHTML={{__html: DOMPurify.sanitize(this.state.paraSixvalue)}} />
                                                 </ActiveParaSix>
                                             </div>
                                             <div className="section-pwa">
@@ -2162,7 +2262,6 @@ class TemplateTwo extends Component {
                                                         activeBannerEight={this.state.activeBannerEight}
                                                         onClick={this.editBannerEight}
                                                         className="small-view-img"
-                                                        alt
                                                     />
                                                 </ActivePara>
                                                 <ActiveSubHeaderSeven
@@ -2177,7 +2276,7 @@ class TemplateTwo extends Component {
                                                     onClick={this.editParaSeven}
                                                     className="para-1"
                                                 >
-                                                <p dangerouslySetInnerHTML={{__html: DOMPurify.sanitize(this.state.paraSevenvalue)}} />
+                                                <p className="para-1" dangerouslySetInnerHTML={{__html: DOMPurify.sanitize(this.state.paraSevenvalue)}} />
                                                 </ActiveParaSeven>
                                             </div>
                                             <div className="section-pwa">
@@ -2192,7 +2291,6 @@ class TemplateTwo extends Component {
                                                         activeBannerNine={this.state.activeBannerNine}
                                                         onClick={this.editBannerNine}
                                                         className="small-view-img"
-                                                        alt
                                                     />
                                                 </ActivePara>
                                                 <ActiveSubHeaderEight
@@ -2207,7 +2305,7 @@ class TemplateTwo extends Component {
                                                     onClick={this.editParaEight}
                                                     className="para-1"
                                                 >
-                                                <p dangerouslySetInnerHTML={{__html: DOMPurify.sanitize(this.state.paraEightvalue)}} />
+                                                <p className="para-1" dangerouslySetInnerHTML={{__html: DOMPurify.sanitize(this.state.paraEightvalue)}} />
                                                 </ActiveParaEight>
                                             </div>
                                         </div>

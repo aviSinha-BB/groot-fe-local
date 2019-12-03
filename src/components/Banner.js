@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom';
 import { withStyles } from '@material-ui/core/styles';
 import { styles } from './ComponentStyle/BannerStyle';
 import { apitimeout } from './api_timeout';
+import TextField from '@material-ui/core/TextField';
 import Loader from './Loading';
 import Button from '@material-ui/core/Button';
 import InfoIcon from '@material-ui/icons/Info';
@@ -12,7 +13,7 @@ import WarningToast from './WarningToast';
 
 const modalRoot = document.getElementById('modal-root');
 
-const bannerInfo = `Image must be jpg, png and less than 1MB`;
+const bannerInfo = `Image must be jpg, png and less than ` + imageSize/1024 + `KB`;
 
 class Banner extends Component {
   constructor(props) {
@@ -27,6 +28,7 @@ class Banner extends Component {
       warningSnack: false,
       warningSnackTwo: false,
       warningSnackThree: false,
+      warningImageMsg: "Uploaded Image must be jpg,png and less than " + imageSize/1024 + "KB",
       warningMessage: ''
     };
     this.el = document.createElement('div');
@@ -119,7 +121,7 @@ class Banner extends Component {
       var imgData = new FormData();
       var imageType = this.props.bannerType;
       imgData.append('file', imgfile);
-      fileSize = (imgfile.size) / (imageSize); //filesize will be less than and equal to 1 MB
+      fileSize = imgfile.size;
       fileExtension = fileName.replace(/^.*\./, '');
       imgData.append("metaData", JSON.stringify({
         "templateName": this.props.aplusname,
@@ -127,7 +129,7 @@ class Banner extends Component {
         "action": "draft"
       }));
 
-      if ((fileExtension == 'png' || fileExtension == 'jpg' || fileExtension == 'jpeg') && fileSize <= 1) {
+      if ((fileExtension == 'png' || fileExtension == 'jpg' || fileExtension == 'jpeg') && fileSize <= imageSize) {
         if (imageType == "bannerLg") {
           imgData.append("imageMetaData", JSON.stringify({
             "width": 1200,
@@ -167,6 +169,11 @@ class Banner extends Component {
     }
   }
 
+  handleChangeAltText = (event) => {
+    let altStr = event.target.value;
+    this.props.updateAlt(altStr);
+  }
+
   readURL = (e) => {
     e.preventDefault();
 
@@ -189,6 +196,8 @@ class Banner extends Component {
   render() {
     const { classes } = this.props;
     let imgDmMsg = this.state.warningMessage;
+    let imgAlt = this.props.imgAltvalue ? this.props.imgAltvalue : '';
+
     return (
       <div className={this.state.loading ? classes.rootTwo : classes.root}>
         <div className={classes.wrapper}>
@@ -205,11 +214,41 @@ class Banner extends Component {
         </div>
         {this.state.imgSrc && <img id="yourImg" className={classes.imgStyle} src={this.state.imgSrc} height="150" width="265" draggable="true" onDragStart={this.drag} />}
         <br />
+        <div className={classes.wrapper}>
+          <div className={classes.alt}>
+            <Tooltip 
+              title={<span>On the rare occasions that images do not load completely (during slow internet speeds) this text will be shown while the image is being downloaded. Also has SEO advantages.<br/>Avoid using special characters such as quotes, html tags in alt text.</span>} 
+              placement="right"
+            >
+              <InfoIcon className={classes.IconStyleTwo} />
+            </Tooltip>
+            <TextField
+                id="alt-image-name"
+                label={<span className={classes.labelStyle}>Alt Text for Image</span>}
+                value={imgAlt}
+                className={classes.textField}
+                onChange={this.handleChangeAltText}
+                margin="normal"
+                variant="outlined"
+                autoComplete="off"
+                InputProps={{
+                  classes: {
+                    root: classes.inputContainer,
+                    input: classes.inputStyle
+                  }
+                }}
+                inputProps={{
+                  maxLength: 80
+                }}
+            />
+          </div>
+        </div>
+        <br />
         <Button className={classes.buttonUploadStyle} onClick={this.uploadAction}>Upload</Button>
 
         {this.state.errorSnack && ReactDOM.createPortal(<ErrorToast message="Error in Processing" />, this.el)}
         {this.state.errorSnackTwo && ReactDOM.createPortal(<ErrorToast message="Invalid Image Upload" />, this.el)}
-        {this.state.warningSnack && ReactDOM.createPortal(<WarningToast message="Uploaded Image must be jpg,png and less than 1 MB" />, this.el)}
+        {this.state.warningSnack && ReactDOM.createPortal(<WarningToast message={this.state.warningImageMsg} />, this.el)}
         {this.state.warningSnackTwo && ReactDOM.createPortal(<WarningToast message={imgDmMsg} />, this.el)}
         {this.state.warningSnackThree && ReactDOM.createPortal(<WarningToast message="Please select a image" />, this.el)}
       </div>
