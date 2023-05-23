@@ -77,7 +77,7 @@ class BannerDetails extends Component {
     fetch(url, {
       method: "PUT",
       headers: {
-        authorization: "LMEUoIznXkQMJhutbEbVx6t3MGBCWgLo",
+        [AuthKey]: localStorage.getItem('token'),
         "x-tracker": "manish-testing",
         "x-project": "mm-canary",
         Accept: "application/json",
@@ -119,7 +119,7 @@ class BannerDetails extends Component {
         'sec-ch-ua-mobile': '?0',
         'sec-ch-ua-platform': '"Linux"',
         'x-project': 'mm-canary',
-        'authorization': 'LMEUoIznXkQMJhutbEbVx6t3MGBCWgLo'
+        [AuthKey]: localStorage.getItem('token'),
       },
       body: formdata,
     }
@@ -157,7 +157,7 @@ handleApprove=()=>{
         'sec-ch-ua-mobile': '?0',
         'sec-ch-ua-platform': '"Linux"',
         'x-project': 'mm-canary',
-        'authorization': 'LMEUoIznXkQMJhutbEbVx6t3MGBCWgLo'
+        [AuthKey]: localStorage.getItem('token'),
       },
     }
   ).then(()=>{
@@ -187,7 +187,7 @@ handleApprove=()=>{
         method:'GET',
         headers:{
             "x-project": "mm-canary",
-            "authorization": "LMEUoIznXkQMJhutbEbVx6t3MGBCWgLo"
+            [AuthKey]: localStorage.getItem('token'),
         }
     }).then(response=>response.json())
     .then(response=>{
