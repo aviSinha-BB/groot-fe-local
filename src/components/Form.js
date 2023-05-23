@@ -177,7 +177,7 @@ const menuItems = bannerTypes.map((bannerType) => {
 
 const handleget = () => {
   Axios.get(
-    `http://hqasvc-alb.bigbasket.com/config_svc/internal/v1/ec-group-type/?ec-group-type-slug=cart-v2`,
+    clientHost+`'/config_svc/internal/v1/ec-group-type/?ec-group-type-slug=cart-v2`,
     {
       headers: {
         "X-Caller": "local",
@@ -218,6 +218,7 @@ class OldComponent extends Component {
       imageSize: "",
       ecNames: "",
       errorMessage: "",
+      clientHost:"",
     };
 
     this.handleImageChange = this.handleImageChange.bind(this);
@@ -237,14 +238,16 @@ class OldComponent extends Component {
     const par = url.split("form/");
     const id = parseInt(par[1]);
     this.state.id= id;
+    var host = window.location.origin;
+    this.setState({ clientHost: host });
     if (id) {
       fetch(
-        "https://qas16.bigbasket.com/content-svc/static-banner/get/"+id,
+        clientHost+"/content-svc/static-banner/get/"+id,
         {
           method: "GET",
           headers: {
             "x-project": "mm-canary",
-            [AuthKey]: localStorage.getItem('token')
+            authorization: "LMEUoIznXkQMJhutbEbVx6t3MGBCWgLo",
           },
         }
       )
@@ -387,7 +390,7 @@ class OldComponent extends Component {
         // Create a new FormData object from the form
 
         const response = await fetch(
-          "https://qas16.bigbasket.com/content-svc/static-banner/update/"+this.state.id,
+          clientHost+"/content-svc/static-banner/update/"+this.state.id,
           {
             method: "PUT",
             headers: {
@@ -407,7 +410,7 @@ class OldComponent extends Component {
               'sec-ch-ua-mobile': '?0',
               'sec-ch-ua-platform': '"Linux"',
               'x-project': 'mm-canary',
-              [AuthKey]: localStorage.getItem('token')
+              authorization: "LMEUoIznXkQMJhutbEbVx6t3MGBCWgLo",
             },
             body: excelData, // Set the request body to the FormData object
           }
@@ -457,12 +460,12 @@ class OldComponent extends Component {
         // Create a new FormData object from the form
 
         const response = await fetch(
-          "https://qas16.bigbasket.com/content-svc/static-banner/save",
+          clientHost+"/content-svc/static-banner/save",
           {
             method: "POST",
             headers: {
               "x-project": "mm-canary",
-              [AuthKey]: localStorage.getItem('token')
+              authorization: "LMEUoIznXkQMJhutbEbVx6t3MGBCWgLo",
             },
             body: excelData, // Set the request body to the FormData object
           }
