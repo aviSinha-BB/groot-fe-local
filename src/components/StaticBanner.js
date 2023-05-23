@@ -84,7 +84,7 @@ class StaticBanner extends Component {
             method:'GET',
             headers:{
                 "x-project": "mm-canary",
-                "authorization": "LMEUoIznXkQMJhutbEbVx6t3MGBCWgLo"
+                [AuthKey]: localStorage.getItem('token'),
             }
         }).then(response=>response.json()).then(response=>response.banners)
         .then(response=>{
@@ -131,7 +131,7 @@ class StaticBanner extends Component {
             method:'GET',
             headers:{
                 "x-project": "mm-canary",
-                "authorization": "LMEUoIznXkQMJhutbEbVx6t3MGBCWgLo"
+                [AuthKey]: localStorage.getItem('token'),
             }
         }).then(response=>response.json()).then(response=>response.banners)
         .then(response=>{
