@@ -119,7 +119,7 @@ class BannerDetails extends Component {
         'sec-ch-ua-mobile': '?0',
         'sec-ch-ua-platform': '"Linux"',
         'x-project': 'mm-canary',
-        [AuthKey]: localStorage.getItem('token'),
+        [AuthKey]: localStorage.getItem('token')
       },
       body: formdata,
     }
@@ -157,7 +157,7 @@ handleApprove=()=>{
         'sec-ch-ua-mobile': '?0',
         'sec-ch-ua-platform': '"Linux"',
         'x-project': 'mm-canary',
-        [AuthKey]: localStorage.getItem('token'),
+        [AuthKey]: localStorage.getItem('token')
       },
     }
   ).then(()=>{
@@ -187,7 +187,7 @@ handleApprove=()=>{
         method:'GET',
         headers:{
             "x-project": "mm-canary",
-            [AuthKey]: localStorage.getItem('token'),
+            [AuthKey]: localStorage.getItem('token')
         }
     }).then(response=>response.json())
     .then(response=>{

@@ -247,7 +247,7 @@ class OldComponent extends Component {
           method: "GET",
           headers: {
             "x-project": "mm-canary",
-            [AuthKey]: localStorage.getItem('token'),
+            [AuthKey]: localStorage.getItem('token')
           },
         }
       )
@@ -410,7 +410,7 @@ class OldComponent extends Component {
               'sec-ch-ua-mobile': '?0',
               'sec-ch-ua-platform': '"Linux"',
               'x-project': 'mm-canary',
-              [AuthKey]: localStorage.getItem('token'),
+              [AuthKey]: localStorage.getItem('token')
             },
             body: excelData, // Set the request body to the FormData object
           }
@@ -465,7 +465,7 @@ class OldComponent extends Component {
             method: "POST",
             headers: {
               "x-project": "mm-canary",
-              [AuthKey]: localStorage.getItem('token'),
+              [AuthKey]: localStorage.getItem('token')
             },
             body: excelData, // Set the request body to the FormData object
           }
