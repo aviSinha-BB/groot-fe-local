@@ -35,6 +35,10 @@ class Main extends Component {
     let authToken = null;
     let sourceHost = null;
 
+    if (window.location.href.includes('/file-upload')) {
+      this.setState({toggleApp: true})
+    } else {
+
     if (typeof paramUrl !== "undefined") {
       authToken = paramUrl.split("&source=")[0];
       sourceHost = paramUrl.split("&source=")[1];
@@ -126,6 +130,7 @@ class Main extends Component {
 
     if (localStorage.getItem('userPermission') && localStorage.getItem('token'))
       this.setState({ toggleApp: true });
+  }
   }
 
   render() {

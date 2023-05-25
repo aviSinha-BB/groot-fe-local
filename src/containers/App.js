@@ -10,8 +10,7 @@ import Navbar from "../components/Navbar";
 import Loader from '../components/Loading';
 import StaticBanner from "../components/StaticBanner";
 import BannerDetails from "../components/BannerDetails";
-
-
+import FileUpload from "../components/FileUpload";
 
 class App extends Component {
     constructor(props) {
@@ -59,6 +58,8 @@ class App extends Component {
 
                             <Route exact path={grootHost + "/choosetemp"} render={(props) => <ChooseTemplate {...props} handleTemplateComponent={this.handleTemplateComponent} />} />
 
+                            <Route exact path={grootHost + "/file-upload"} render={() => <FileUpload />} />
+                            
                             <Route exact path={grootHost + "/tempview"} render={() => <TemplateView tempComponent={this.state.tempComponent} />} />
                         </Switch>
                     </Suspense>
