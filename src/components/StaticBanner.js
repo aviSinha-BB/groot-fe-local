@@ -8,6 +8,8 @@ import MaterialTable from 'material-table';
 import IconButton from '@material-ui/core/IconButton';
 import AddIcon from '@material-ui/icons/Add';
 import '../assets/styles/staticbanner.css';
+import { Link } from 'react-router-dom';
+import Button from "@material-ui/core/Button";
 
 
 function TabContainer(props) {
@@ -56,6 +58,7 @@ class StaticBanner extends Component {
 			      isLoading: true,
             fieldValue:"",
             clientHost:"",
+            count:1,
         }
     }
 
@@ -80,17 +83,22 @@ class StaticBanner extends Component {
         this.handleBannerList();
     }
     handleBannerList=()=>{
-        let url=this.state.clientHost+'/content-svc/static-banner/get/banners-list?page=1';
+        let url='https://qas16.bigbasket.com/content-svc/static-banner/get/banners-list?page='+this.state.count;
+        console.log(url);
         fetch(url,{
             method:'GET',
             headers:{
                 "x-project": "mm-canary",
-                [AuthKey]: localStorage.getItem('token')
+                "authorization":"lnJ-JSicpflFGk7SgfKANReoP4z8d1jl"
             }
         }).then(response=>response.json()).then(response=>response.banners)
         .then(response=>{
             for(var i = 0; i < response.length; i++) {
-                response[i]['bannerType']=<a href={grootHost +'/bannerdetails/'+response[i]['id']}>{response[i]['bannerType']}</a>
+                response[i]['bannerType'] = (
+                  <Link to={grootHost + '/bannerdetails/' + response[i]['id']}>
+                    {response[i]['bannerType']}
+                  </Link>
+                );
                 delete response[i]['id'];
                 delete response[i]['contentType'];
                 delete response[i]['createdById'];
@@ -126,12 +134,12 @@ class StaticBanner extends Component {
     handleFilterApi=(columnValue)=>{
         this.setState({isLoading:true})
         const v=columnValue;
-        const url = this.state.clientHost+'/content-svc/static-banner/filter?filters='+v;
+        const url = 'https://qas16.bigbasket.com/content-svc/static-banner/filter?filters='+v;
         fetch(url,{
             method:'GET',
             headers:{
                 "x-project": "mm-canary",
-                [AuthKey]: localStorage.getItem('token')
+                "authorization":"lnJ-JSicpflFGk7SgfKANReoP4z8d1jl"
             }
         }).then(response=>response.json()).then(response=>response.banners)
         .then(response=>{
@@ -230,10 +238,39 @@ class StaticBanner extends Component {
         filtering: false,
         search:false,
         pageSize: 20,
+        paging:false,
       }}    
 	  isLoading={this.state.isLoading}
     />
 </div>
+<span>{this.state.count>1 && (
+          <div>
+           <Button 
+  onClick={(e)=>{
+    const temp = this.state.count-1;
+    this.setState({count:temp},()=>{
+      this.handleBannerList();
+    });
+}}
+// style={{display: flex,justify-content: space-between}}
+>previous</Button>
+          </div>
+        )}</span>
+<span>
+<Button
+onClick={(e)=>{
+  const temp = this.state.count+1;
+  // this.state.fieldValue="";
+  this.setState({count:temp},()=>{
+    this.handleBannerList();
+
+  });
+}}
+>next</Button>
+</span>
+
+
+
 
             </div>
         );

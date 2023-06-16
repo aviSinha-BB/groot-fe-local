@@ -59,11 +59,16 @@ class BannerDetails extends Component {
       isReviewPending: false,
       reviewComment: "",
       clientHost:"",
+      g_id:null,
+      errorMessage:"",
     };
   }
 
   componentDidMount = () => {
     const { id } = this.props.match.params;
+    this.setState({g_id:id});
+    console.log('the id coming from the static banners')
+    console.log(id);
     this.handleBannerDetails(id);
     var host = window.location.origin;
     this.setState({ clientHost: host });
@@ -95,65 +100,55 @@ class BannerDetails extends Component {
     const {id}=this.props.match.params;
    let url=this.state.clientHost+'/content-svc/static-banner/reject/'+id;
    var formdata = new FormData();
-   formdata.append("reviewComment", this.state.reviewComment);
-   fetch(
-    url,
-    {
-      method: "PUT",
-      headers: {
-        'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7',
-        'Accept-Language': 'en-US,en;q=0.9,hi;q=0.8',
-        'Cache-Control': 'no-cache',
-        'Connection': 'keep-alive',
-        'DNT': '1',
-        'Pragma': 'no-cache',
-        'Sec-Fetch-Dest': 'document',
-        'Sec-Fetch-Mode': 'navigate',
-        'Sec-Fetch-Site': 'none',
-        'Sec-Fetch-User': '?1',
-        'Upgrade-Insecure-Requests': '1',
-        'User-Agent': 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/110.0.0.0 Safari/537.36',
-        'sec-ch-ua': '"Chromium";v="110", "Not A(Brand";v="24", "Google Chrome";v="110"',
-        'sec-ch-ua-mobile': '?0',
-        'sec-ch-ua-platform': '"Linux"',
-        'x-project': 'mm-canary',
-        [AuthKey]: localStorage.getItem('token')
-      },
-      body: formdata,
-    }
-  ).then(()=>{
-    this.props.history.push(grootHost + '/staticbanners'); 
-  })
-  .catch((error) => {
-    // Handle error if needed
-    console.error(error);
-  });
+   if (this.state.reviewComment==""){
+    this.setState({errorMessage:"No review comment given"});
+   }else{
+    formdata.append("reviewComment", this.state.reviewComment);
+    fetch(
+     url,
+     {
+       method: "PUT",
+       headers: {
+         'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7',
+         'Accept-Language': 'en-US,en;q=0.9,hi;q=0.8',
+         'Cache-Control': 'no-cache',
+         'Connection': 'keep-alive',
+         'DNT': '1',
+         'Pragma': 'no-cache',
+         'Sec-Fetch-Dest': 'document',
+         'Sec-Fetch-Mode': 'navigate',
+         'Sec-Fetch-Site': 'none',
+         'Sec-Fetch-User': '?1',
+         'Upgrade-Insecure-Requests': '1',
+         'User-Agent': 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/110.0.0.0 Safari/537.36',
+         'sec-ch-ua': '"Chromium";v="110", "Not A(Brand";v="24", "Google Chrome";v="110"',
+         'sec-ch-ua-mobile': '?0',
+         'sec-ch-ua-platform': '"Linux"',
+         'x-project': 'mm-canary',
+         [AuthKey]: localStorage.getItem('token')
+       },
+       body: formdata,
+     }
+   ).then(()=>{
+     this.props.history.push(grootHost + '/staticbanners'); 
+   })
+   .catch((error) => {
+     // Handle error if needed
+     console.error(error);
+   });
+   }
+   
    
 }
 handleApprove=()=>{
-    const {id}=this.props.match.params;
+  const {id}=this.props.match.params;
    let url=this.state.clientHost+'/content-svc/static-banner/approve/'+id;
    fetch(
     url,
     {
       method: "PUT",
       headers: {
-        'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7',
-        'Accept-Language': 'en-US,en;q=0.9,hi;q=0.8',
-        'Cache-Control': 'no-cache',
-        'Connection': 'keep-alive',
-        'DNT': '1',
-        'Pragma': 'no-cache',
-        'Sec-Fetch-Dest': 'document',
-        'Sec-Fetch-Mode': 'navigate',
-        'Sec-Fetch-Site': 'none',
-        'Sec-Fetch-User': '?1',
-        'Upgrade-Insecure-Requests': '1',
-        'User-Agent': 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/110.0.0.0 Safari/537.36',
-        'sec-ch-ua': '"Chromium";v="110", "Not A(Brand";v="24", "Google Chrome";v="110"',
-        'sec-ch-ua-mobile': '?0',
-        'sec-ch-ua-platform': '"Linux"',
-        'x-project': 'mm-canary',
+        "x-project": "mm-canary",
         [AuthKey]: localStorage.getItem('token')
       },
     }
@@ -168,13 +163,13 @@ handleApprove=()=>{
 }
 
 
-  handleUpdateClick = () => {
-    const { id } = this.props.match.params;
-    var url = window.location.href;
-    var host = url.split("apluscontent/");
-    var table_url = host[0] + "apluscontent/form/" + id;
-    window.location.href = table_url;
-  };
+  // handleUpdateClick = () => {
+  //   const { id } = this.props.match.params;
+  //   var url = window.location.href;
+  //   var host = url.split("apluscontent/");
+  //   var table_url = host[0] + "apluscontent/form/" + id;
+  //   // window.location.href = table_url;
+  // };
 
   handleBannerDetails = (id) => {
     let url=this.state.clientHost+'/content-svc/static-banner/get/'+id;
@@ -200,6 +195,7 @@ handleApprove=()=>{
   render() {
     const { classes } = this.props;
     console.log(this.state.responseObject);
+    console.log("testing the deployment");
     return (
       <div className={classes.root}>
         <p>Banner :</p>
@@ -280,9 +276,12 @@ handleApprove=()=>{
           }}
         />
 
-        <Button variant="contained" onClick={this.handleUpdateClick} style={{margin:'10px',backgroundColor:'#0277bd'}}>
+        {/* <Button variant="contained" onClick={this.handleUpdateClick} style={{margin:'10px',backgroundColor:'#0277bd'}}>
           Update
-        </Button>
+        </Button> */}
+        <div>
+           <Link to={grootHost+'/update/'+this.state.g_id} > Update </Link>
+        </div>
         {this.state.isDraft && (
           <div>
             <Button variant="contained" onClick={this.handleDraft} style={{margin:'10px',backgroundColor:'#aa00ff'}}>
@@ -305,6 +304,9 @@ handleApprove=()=>{
               value={this.state.reviewComment}
               onChange={(e) => this.setState({ reviewComment: e.target.value })}
             />
+             {this.state.errorMessage && (
+          <p>{this.state.errorMessage}</p>
+        )}
           </div>
         )}
       </div>

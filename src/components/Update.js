@@ -20,7 +20,6 @@ import { json } from "body-parser";
 import Axios from "axios";
 import "../assets/styles/form.css";
 
-
 const styles = (theme) => ({
   root: {
     backgroundColor: "#F6F6F6",
@@ -43,163 +42,141 @@ const styles = (theme) => ({
   },
 });
 const bannerTypes = [
-  {
-    "test-banner-type": "100X100",
-    height: "100",
-    width: "100",
-  },
-  {
-    "app-pwa": "1360",
-    height: "900",
-    width: "1360",
-  },
-  {
-    "test-banner-3": "153",
-    height: "202",
-    width: "153",
-  },
-  {
-    "no-margin-banner-8": "153",
-    height: "281",
-    width: "153",
-  },
-  {
-    "no-margin-banner-7": "256",
-    height: "256",
-    width: "256",
-  },
-  {
-    "Banner Type 12": "1360",
-    height: "250",
-    width: "1360",
-  },
-  {
-    "no-margin-banner-5": "680",
-    height: "680",
-    width: "680",
-  },
-  {
-    "horizontal-carousel-background-banner": "1440",
-    height: "744",
-    width: "1440",
-  },
-  {
-    "l1-grid-448x240": "448",
-    height: "240",
-    width: "448",
-  },
-  {
-    bbstar_banner: "1125",
-    height: "222",
-    width: "1125",
-  },
-  {
-    "bbstar-1360x350": "1360",
-    height: "350",
-    width: "1360",
-  },
-  {
-    "bbstar-680x540": "680",
-    height: "540",
-    width: "680",
-  },
-  {
-    "Banner Type 5": "1440",
-    height: "892",
-    width: "1440",
-  },
-  {
-    "mobile-speciality-categories-1": "680",
-    height: "600",
-    width: "680",
-  },
-  {
-    "Square Banner Category Page": "1360",
-    height: "1360",
-    width: "1360",
-  },
-  {
-    "L1 Grid": "680",
-    height: "600",
-    width: "680",
-  },
-  {
-    "Store front top banner": "1360",
-    height: "640",
-    width: "1360",
-  },
-  {
-    "BB Category Promotions-8 (Mobile)": "1400",
-    height: "450",
-    width: "1400",
-  },
-  {
-    "Mobile Square Marketing (Six)": "511",
-    height: "661",
-    width: "511",
-  },
-  {
-    "bbplus-top-banner": "1600",
-    height: "460",
-    width: "1600",
-  },
-  {
-    "Mobile BB Express": "1360",
-    height: "600",
-    width: "1360",
-  },
-  {
-    "Member Referral Banner - Web": "700",
-    height: "225",
-    width: "700",
-  },
-  {
-    "Category Navigation Square": "220",
-    height: "220",
-    width: "220",
-  },
-  {
-    "Customizable home page Section 1 Full Banner": "1600",
-    height: "460",
-    width: "1600",
-  },
-];
-const menuItems = bannerTypes.map((bannerType) => {
-  const height = bannerType.height;
-  const width = bannerType.width;
-  const value = `${width}x${height}`;
-
-  return (
-    <MenuItem key={value} value={value}>
-      {value}
-    </MenuItem>
-  );
-});
-
-const handleget = () => {
-  Axios.get(
-    this.state.clientHost+`'/config_svc/internal/v1/ec-group-type/?ec-group-type-slug=cart-v2`,
     {
-      headers: {
-        "X-Caller": "local",
-        "X-Timestamp": "2021-09-01 10:10:00",
-        "X-Tracker": "06973e47-df9d-42ce-80d9-8428020866ef",
-      },
-    }
-  )
-    .then((response) => response.json())
-    .then((response) => {
-      // Save the response to state
-      this.setState({ responseData: response });
-      console.log("This is running");
-    })
-    .catch((error) => {
-      // Save the error to state
-      this.setState({ error: error.message });
-    });
-};
+      "test-banner-type": "100X100",
+      height: "100",
+      width: "100",
+    },
+    {
+      "app-pwa": "1360",
+      height: "900",
+      width: "1360",
+    },
+    {
+      "test-banner-3": "153",
+      height: "202",
+      width: "153",
+    },
+    {
+      "no-margin-banner-8": "153",
+      height: "281",
+      width: "153",
+    },
+    {
+      "no-margin-banner-7": "256",
+      height: "256",
+      width: "256",
+    },
+    {
+      "Banner Type 12": "1360",
+      height: "250",
+      width: "1360",
+    },
+    {
+      "no-margin-banner-5": "680",
+      height: "680",
+      width: "680",
+    },
+    {
+      "horizontal-carousel-background-banner": "1440",
+      height: "744",
+      width: "1440",
+    },
+    {
+      "l1-grid-448x240": "448",
+      height: "240",
+      width: "448",
+    },
+    {
+      bbstar_banner: "1125",
+      height: "222",
+      width: "1125",
+    },
+    {
+      "bbstar-1360x350": "1360",
+      height: "350",
+      width: "1360",
+    },
+    {
+      "bbstar-680x540": "680",
+      height: "540",
+      width: "680",
+    },
+    {
+      "Banner Type 5": "1440",
+      height: "892",
+      width: "1440",
+    },
+    {
+      "mobile-speciality-categories-1": "680",
+      height: "600",
+      width: "680",
+    },
+    {
+      "Square Banner Category Page": "1360",
+      height: "1360",
+      width: "1360",
+    },
+    {
+      "L1 Grid": "680",
+      height: "600",
+      width: "680",
+    },
+    {
+      "Store front top banner": "1360",
+      height: "640",
+      width: "1360",
+    },
+    {
+      "BB Category Promotions-8 (Mobile)": "1400",
+      height: "450",
+      width: "1400",
+    },
+    {
+      "Mobile Square Marketing (Six)": "511",
+      height: "661",
+      width: "511",
+    },
+    {
+      "bbplus-top-banner": "1600",
+      height: "460",
+      width: "1600",
+    },
+    {
+      "Mobile BB Express": "1360",
+      height: "600",
+      width: "1360",
+    },
+    {
+      "Member Referral Banner - Web": "700",
+      height: "225",
+      width: "700",
+    },
+    {
+      "Category Navigation Square": "220",
+      height: "220",
+      width: "220",
+    },
+    {
+      "Customizable home page Section 1 Full Banner": "1600",
+      height: "460",
+      width: "1600",
+    },
+  ];
 
-class OldComponent extends Component {
+const menuItems = bannerTypes.map((bannerType) => {
+    const height = bannerType.height;
+    const width = bannerType.width;
+    const value = `${width}x${height}`;
+  
+    return (
+      <MenuItem key={value} value={value}>
+        {value}
+      </MenuItem>
+    );
+  });
+
+class Update extends Component {
   constructor(props) {
     super(props);
 
@@ -236,7 +213,7 @@ class OldComponent extends Component {
 
   componentDidMount() {
     const url = window.location.href;
-    const par = url.split("form/");
+    const par = url.split("update/");
     const id = parseInt(par[1]);
     this.state.id= id;
     var host = window.location.origin;
@@ -258,29 +235,102 @@ class OldComponent extends Component {
           this.setState({ecNames:response.ecGroupNames[0],selectedRadio:response.deviceType,checkboxChecked:response.isActive,inputValue:response.displayName,multiline1Value:response.description,imageSize:response.bannerType});
       })
     }
-    fetch(
-      "http://hqasvc-alb.bigbasket.com/config_svc/internal/v1/ec-group-type/?ec-group-type-slug=cart-v2",
-      {
-        method: "GET",
-        headers: {
-          "X-Caller": "local",
-          "X-Timestamp": "2021-09-01 10:10:00",
-          "X-Tracker": "06973e47-df9d-42ce-80d9-8428020866ef",
-        },
-      }
-    )
-      .then((response) => response.json())
-      .then((data) => {
-        // Save the response to state
-        this.setState({ responseData: data });
-        console.log("This is running");
-      })
-      .catch((error) => {
-        // Save the error to state
-        this.setState({ error: error.message });
-      });
+    
   }
 
+  
+
+  
+
+  async handleSubmit(event) {
+    
+    if (this.state.id) {
+      event.preventDefault();
+      const { imageFile, imageSize } = this.state;
+      const sizeError = await this.validateSize(imageFile, imageSize);
+      if (sizeError) {
+        this.setState({ errorMessage: sizeError });
+        return;
+      }
+
+      try {
+        var excelData = new FormData();
+        var arr = [];
+        arr.push(this.state.ecNames);
+        excelData.append("file", imageFile);
+        excelData.append(
+          "data",
+          JSON.stringify({
+            ecGroupNames: arr,
+            deviceType: this.state.selectedRadio,
+            isActive: this.state.checkboxChecked == true ? 1 : 0,
+            displayName: this.state.inputValue,
+            description: this.state.multiline1Value,
+            contentType: "Banner",
+            bannerType: this.state.imageSize,
+          })
+        );
+        // Create a new FormData object from the form
+
+        const response = await fetch(
+          this.state.clientHost+"/content-svc/static-banner/update/"+this.state.id,
+          {
+            method: "PUT",
+            headers: {
+              'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7',
+              'Accept-Language': 'en-US,en;q=0.9,hi;q=0.8',
+              'Cache-Control': 'no-cache',
+              'Connection': 'keep-alive',
+              'DNT': '1',
+              'Pragma': 'no-cache',
+              'Sec-Fetch-Dest': 'document',
+              'Sec-Fetch-Mode': 'navigate',
+              'Sec-Fetch-Site': 'none',
+              'Sec-Fetch-User': '?1',
+              'Upgrade-Insecure-Requests': '1',
+              'User-Agent': 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/110.0.0.0 Safari/537.36',
+              'sec-ch-ua': '"Chromium";v="110", "Not A(Brand";v="24", "Google Chrome";v="110"',
+              'sec-ch-ua-mobile': '?0',
+              'sec-ch-ua-platform': '"Linux"',
+              'x-project': 'mm-canary',
+              [AuthKey]: localStorage.getItem('token')
+            },
+            body: excelData, // Set the request body to the FormData object
+          }
+        );
+
+        if (!response.ok) {
+          console.log(response.body);
+          throw new Error("Failed to update the data");
+        }
+
+        const data = await response.json(); // Parse the response JSON data
+        console.log(data); // Log the response data to the console
+        var url = window.location.href;
+        var host = url.split("apluscontent/");
+        var table_url = host[0] + "apluscontent/staticbanners";
+        window.location.href = table_url;
+      } catch (error) {
+        console.error(error); // Log any errors to the console
+      }
+
+    } 
+
+    // Upload image logic
+  }
+
+  async validateSize(file, size) {
+    const image = await this.getImage(file);
+    const { width, height } = image;
+    const [expectedWidth, expectedHeight] = size.split("X");
+    if (
+      width !== parseInt(expectedWidth) ||
+      height !== parseInt(expectedHeight)
+    ) {
+      return `Image size should be ${size}px`;
+    }
+    return "";
+  }
   handleImageChange(event) {
     const file = event.target.files[0];
     const reader = new FileReader();
@@ -359,151 +409,6 @@ class OldComponent extends Component {
       this.setState({ image: file, imageError: false });
     }
   }
-
-  async handleSubmit(event) {
-    
-    if (this.state.id) {
-      event.preventDefault();
-      const { imageFile, imageSize } = this.state;
-      const sizeError = await this.validateSize(imageFile, imageSize);
-      if (sizeError) {
-        this.setState({ errorMessage: sizeError });
-        return;
-      }
-
-      try {
-        var excelData = new FormData();
-        var arr = [];
-        arr.push(this.state.ecNames);
-        excelData.append("file", imageFile);
-        excelData.append(
-          "data",
-          JSON.stringify({
-            ecGroupNames: arr,
-            deviceType: this.state.selectedRadio,
-            isActive: this.state.checkboxChecked == true ? 1 : 0,
-            displayName: this.state.inputValue,
-            description: this.state.multiline1Value,
-            contentType: "Banner",
-            bannerType: this.state.imageSize,
-          })
-        );
-        // Create a new FormData object from the form
-
-        const response = await fetch(
-          this.state.clientHost+"/content-svc/static-banner/update/"+this.state.id,
-          {
-            method: "PUT",
-            headers: {
-              'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7',
-              'Accept-Language': 'en-US,en;q=0.9,hi;q=0.8',
-              'Cache-Control': 'no-cache',
-              'Connection': 'keep-alive',
-              'DNT': '1',
-              'Pragma': 'no-cache',
-              'Sec-Fetch-Dest': 'document',
-              'Sec-Fetch-Mode': 'navigate',
-              'Sec-Fetch-Site': 'none',
-              'Sec-Fetch-User': '?1',
-              'Upgrade-Insecure-Requests': '1',
-              'User-Agent': 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/110.0.0.0 Safari/537.36',
-              'sec-ch-ua': '"Chromium";v="110", "Not A(Brand";v="24", "Google Chrome";v="110"',
-              'sec-ch-ua-mobile': '?0',
-              'sec-ch-ua-platform': '"Linux"',
-              'x-project': 'mm-canary',
-              [AuthKey]: localStorage.getItem('token')
-            },
-            body: excelData, // Set the request body to the FormData object
-          }
-        );
-
-        if (!response.ok) {
-          console.log(response.body);
-          throw new Error("Failed to update the data");
-        }
-
-        const data = await response.json(); // Parse the response JSON data
-        console.log(data); // Log the response data to the console
-        var url = window.location.href;
-        var host = url.split("apluscontent/");
-        var table_url = host[0] + "apluscontent/staticbanners";
-        window.location.href = table_url;
-      } catch (error) {
-        console.error(error); // Log any errors to the console
-      }
-
-    } else {
-      event.preventDefault();
-      const { imageFile, imageSize } = this.state;
-      const sizeError = await this.validateSize(imageFile, imageSize);
-      if (sizeError) {
-        this.setState({ errorMessage: sizeError });
-        return;
-      }
-
-      try {
-        var excelData = new FormData();
-        var arr = [];
-        arr.push(this.state.ecNames);
-        excelData.append("file", imageFile);
-        excelData.append(
-          "data",
-          JSON.stringify({
-            ecGroupNames: arr,
-            deviceType: this.state.selectedRadio,
-            isActive: this.state.checkboxChecked == true ? 1 : 0,
-            displayName: this.state.inputValue,
-            description: this.state.multiline1Value,
-            contentType: "Banner",
-            bannerType: this.state.imageSize,
-          })
-        );
-        // Create a new FormData object from the form
-
-        const response = await fetch(
-          this.state.clientHost+"/content-svc/static-banner/save",
-          {
-            method: "POST",
-            headers: {
-              "x-project": "mm-canary",
-              [AuthKey]: localStorage.getItem('token')
-            },
-            body: excelData, // Set the request body to the FormData object
-          }
-        );
-
-        if (!response.ok) {
-          console.log(response.body);
-          throw new Error("Failed to save the data");
-        }
-
-        const data = await response.json(); // Parse the response JSON data
-        console.log(data); // Log the response data to the console
-        var url = window.location.href;
-        var host = url.split("apluscontent/");
-        var table_url = host[0] + "apluscontent/staticbanners";
-        window.location.href = table_url;
-      } catch (error) {
-        console.error(error); // Log any errors to the console
-      }
-    }
-
-    // Upload image logic
-  }
-
-  async validateSize(file, size) {
-    const image = await this.getImage(file);
-    const { width, height } = image;
-    const [expectedWidth, expectedHeight] = size.split("x");
-    if (
-      width !== parseInt(expectedWidth) ||
-      height !== parseInt(expectedHeight)
-    ) {
-      return `Image size should be ${size}px`;
-    }
-    return "";
-  }
-
   getImage(file) {
     return new Promise((resolve, reject) => {
       const reader = new FileReader();
@@ -681,7 +586,7 @@ class OldComponent extends Component {
         </div>
         <div className="formItem">
           <button className="button" onClick={this.handleSubmit} style={{backgroundColor:'#1565c0'}}>
-          {this.state.id ? 'Update' : 'Save'}
+          Update
           </button>
         </div>
         {this.state.errorMessage && (
@@ -692,4 +597,4 @@ class OldComponent extends Component {
   }
 }
 
-export default OldComponent;
+export default Update;

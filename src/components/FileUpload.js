@@ -11,22 +11,40 @@ class FileUpload extends Component {
     super(props);
     this.state = {
       successUploadMessage: "",
-      uploadType: "",
+      uploadType: "excel",
       s3Path: "",
       excelFile: null,
       error: "",
       options: [],
+      clientHost:"",
+      fileType:[],
+      notSuccess:"",
+      isOk:false,
     };
   }
   readExcel = (e) => {
+    this.setState({isOk:false});
+    this.setState({error:""});
+    this.setState({successUploadMessage:""});
     e.preventDefault();
     this.setState({ excelFile: e.target.files[0] });
   };
 
   componentDidMount() {
     // TODO: change host
-    fetch("http://localhost:3001/file-upload/config", {
+    var host = window.location.origin;
+    this.setState({ clientHost: host });
+    fetch("http://qa-svc.bigbasket.com:8082/content-svc/excel/uploadType",{
       method: "GET",
+    }).then(response=>response.json())
+      .then ((response)=>{
+        this.setState({fileType:response})
+      })
+    fetch("http://localhost:8081/file-upload/config", {
+      method: "GET",
+      headers: {
+        Accept: 'text/event-stream'
+      }
     })
       .then((response) => {
         if (response.ok) {
@@ -66,27 +84,27 @@ class FileUpload extends Component {
         })
       );
 
-      fetch(this.state.clientHost + "/excel/file-upload", {
+      fetch("http://qa-svc.bigbasket.com:8082/content-svc/excel/file-upload", {
         method: "POST",
         body: excelData,
       })
         .then((response) => {
-          if (response.ok) {
-            return response.json();
-          } else if (response.status === 400) {
-            this.setState({ error: JSON.stringify(response) });
-          } else if (response.status === 500) {
-            throw new Error("Internal Server Error");
-          } else {
-            throw new Error("Unknown Error");
+          if (response.status==200) {
+            this.setState({isOk:true});
+            // console.log(response);
+            
+          }
+          return response.text();
+        }).then((data) => {
+          // Handle the server message in the response
+          if (this.state.isOk){
+            this.setState({successUploadMessage:data})
+          }else{
+            this.setState({error:data});
           }
         })
-        .then(() => {
-          this.setState({
-            successUploadMessage: "Excel sheet uploaded successfully",
-          });
-        })
         .catch((error) => {
+          console.log(error);
           this.setState({ error: JSON.stringify(error) });
         });
     }
@@ -127,9 +145,9 @@ class FileUpload extends Component {
             value={uploadType}
             onChange={this.handleFileTypeChange}
           >
-            {options.map((option) => (
-              <option key={option.value} value={option.value}>
-                {option.label}
+            {this.state.fileType.map((option) => (
+              <option key={option} value={option}>
+                {option}
               </option>
             ))}
           </select>
@@ -158,7 +176,7 @@ class FileUpload extends Component {
             {this.state.successUploadMessage}
           </div>
         )}
-        {this.state.error && (
+        {this.state.error != "" && (
           <div className={classes.error}>{this.state.error}</div>
         )}
       </div>

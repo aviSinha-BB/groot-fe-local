@@ -17,6 +17,7 @@
     "ReactJS"
   ],
   "author": "Yash Sangai",
+  "proxy": "http://localhost:8080",
   "license": "ISC",
   "devDependencies": {
     "@babel/core": "7.3.4",

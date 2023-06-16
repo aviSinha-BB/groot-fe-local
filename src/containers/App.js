@@ -11,6 +11,7 @@ import Loader from '../components/Loading';
 import StaticBanner from "../components/StaticBanner";
 import BannerDetails from "../components/BannerDetails";
 import FileUpload from "../components/FileUpload";
+import Update from "../components/Update";
 
 class App extends Component {
     constructor(props) {
@@ -54,11 +55,19 @@ class App extends Component {
 
                             <Route exact path={grootHost + "/staticbanners"} render={() => <StaticBanner />} />
                             
+                            {/* <Route exact path={grootHost + "/bannerdetails/82"} render={() => <BannerDetails />} /> */}
+                            <Route exact path={grootHost + "/bannerdetails3/:id"} render={() => <BannerDetails />} />
                             <Route exact path={grootHost + "/bannerdetails/:id"} render={() => <BannerDetails />} />
+                            <Route exact path={grootHost + "/bannerdetails4/:id"}>
+                            <BannerDetails />
+                            </Route>
+                            <Route exact path={grootHost + "/bannerdetails1/:id"} render={<BannerDetails />} />
+                            <Route exact path={grootHost + "/bannerdetails2/:id"} component={<BannerDetails />} />
 
                             <Route exact path={grootHost + "/choosetemp"} render={(props) => <ChooseTemplate {...props} handleTemplateComponent={this.handleTemplateComponent} />} />
 
                             <Route exact path={grootHost + "/file-upload"} render={() => <FileUpload />} />
+                            <Route exact path={grootHost + "/update/:id"} render={() => <Update/>} />
                             
                             <Route exact path={grootHost + "/tempview"} render={() => <TemplateView tempComponent={this.state.tempComponent} />} />
                         </Switch>
